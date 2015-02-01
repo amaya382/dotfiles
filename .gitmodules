@@ -1,0 +1,18 @@
+[submodule ".zsh/auto-fu.zsh"]
+	path = .zsh/auto-fu.zsh
+	url = git://github.com/hchbaw/auto-fu.zsh.git
+[submodule ".zsh/zaw"]
+	path = .zsh/zaw
+	url = git@github.com:zsh-users/zaw.git
+[submodule ".zsh/zsh-syntax-highlighting"]
+	path = .zsh/zsh-syntax-highlighting
+	url = git@github.com:zsh-users/zsh-syntax-highlighting.git
+[submodule ".tmux/tmux-resurrect"]
+	path = .tmux/tmux-resurrect
+	url = git@github.com:tmux-plugins/tmux-resurrect.git
+[submodule ".tmux/tmux-sidebar"]
+	path = .tmux/tmux-sidebar
+	url = git@github.com:tmux-plugins/tmux-sidebar.git
+[submodule ".tmux/tmux-powerline"]
+	path = .tmux/tmux-powerline
+	url = git@github.com:erikw/tmux-powerline.git
