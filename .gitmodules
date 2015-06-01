@@ -7,12 +7,6 @@
 [submodule ".zsh/zsh-syntax-highlighting"]
 	path = .zsh/zsh-syntax-highlighting
 	url = git@github.com:zsh-users/zsh-syntax-highlighting.git
-[submodule ".tmux/tmux-resurrect"]
-	path = .tmux/tmux-resurrect
-	url = git@github.com:tmux-plugins/tmux-resurrect.git
-[submodule ".tmux/tmux-sidebar"]
-	path = .tmux/tmux-sidebar
-	url = git@github.com:tmux-plugins/tmux-sidebar.git
 [submodule ".tmux/tmux-powerline"]
 	path = .tmux/tmux-powerline
 	url = git@github.com:amaya-382/tmux-powerline.git
