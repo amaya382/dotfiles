@@ -4,6 +4,7 @@
 
 
 * tmux
+    * tmux-sensible
     * tmux-powerline
     * tmux-resurrect
     * tmux-sidebar
@@ -12,6 +13,11 @@
     * zaw
     * zsh-syntax-highlighting
     * ~~auto-fu.zsh~~
+
+* vim
+    * incsearch
+    * neocomplcache
+    * scala
 
 * git
 
