@@ -17,6 +17,8 @@
 * vim
     * incsearch
     * neocomplcache
+    * Unite
+    * VimFiler
     * scala
 
 * git
