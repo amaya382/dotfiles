@@ -18,9 +18,9 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'haya14busa/incsearch.vim'
 NeoBundle 'Shougo/neocomplcache'
-" NeoBundle 'Shougo/unite.vim'
-" NeoBundle 'Shougo/neomru.vim'
-" NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/vimproc'
 NeoBundle 'derekwyatt/vim-scala'
 
 " My Bundles here:
@@ -36,7 +36,53 @@ filetype plugin indent on
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" syntax highlight
+syntax on
+
+" 行番号 
 set number
+
+" 行列強調
+set cursorline
+set cursorcolumn
+highlight CursorColumn cterm=none ctermbg=black ctermfg=white
+
+" 文字幅
+set ambiwidth=double
+
+" 行間移動
+set whichwrap+=h,l,<,>,[,],b,s
+
+"バックスペースキーで行頭を削除する
+set backspace=indent,eol,start
+
+" コマンド補完
+set wildmode=list,full
+
+" 不可視文字
+set list
+set listchars=tab:▸\ ,eol:↲,extends:❯,precedes:❮
+
+" ステータス
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+set laststatus=2
+
+" clipboard(tmux.confも調整したけど動かない)
+" set clipboard=unnamed
+
+"大文字小文字を区別しない
+set ignorecase
+
+"矢印キーでは表示行単位で行移動する
+nmap <UP> gk
+nmap <DOWN> gj
+vmap <UP> gk
+vmap <DOWN> gj
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 """"""""""""""""""""""""""""""
 " incsearch
@@ -45,34 +91,6 @@ map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 """""""""""""""""""""""""""""""
-
-""""""""""""""""""""""""""""""
-" Unit
-"""""""""""""""""""""""""""""""
-"	" 入力モードで開始する
-"	let g:unite_enable_start_insert=1
-"	" バッファ一覧
-"	noremap <C-P> :Unite buffer<CR>
-"	" ファイル一覧
-"	noremap <C-N> :Unite -buffer-name=file file<CR>
-"	" 最近使ったファイルの一覧
-"	noremap <C-Z> :Unite file_mru<CR>
-"	" sourcesを「今開いているファイルのディレクトリ」とする
-"	noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
-"	" ウィンドウを分割して開く
-"	au FileType unite nnoremap <silent> <buffer> <expr> <C-J>
-"	" unite#do_action('split')
-"	au FileType unite inoremap <silent> <buffer> <expr> <C-J>
-"	" unite#do_action('split')
-"	" ウィンドウを縦に分割して開く
-"	au FileType unite nnoremap <silent> <buffer> <expr> <C-K>
-"	" unite#do_action('vsplit')
-"	au FileType unite inoremap <silent> <buffer> <expr> <C-K>
-"	" unite#do_action('vsplit')
-"	" ESCキーを2回押すと終了する
-"	au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-"	au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-" """""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
 " neocomplcache
@@ -141,3 +159,17 @@ let g:neocomplcache_dictionary_filetype_lists = {
           inoremap <expr><C-y>  neocomplcache#close_popup()
           inoremap <expr><C-e>  neocomplcache#cancel_popup()
 """"""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""
+" Unite / VimFiler
+"""""""""""""""""""""""""""""
+"autocmd VimEnter * VimFiler -split -simple -winwidth=30 -no-quit
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default=0
+map <C-e> :VimFiler -split -simple -winwidth=35 -no-quit<CR>
+map <C-a> :UniteBookmarkAdd<CR>
+map <C-z> :Unite bookmark<CR>
+call unite#custom#default_action('directory' , 'vimfiler')
+"""""""""""""""""""""""""""""
+
+
