@@ -1,4 +1,7 @@
 #!/bin/bash
+git submodule init
+git submodule update
+
 ln -s $(pwd)/.tmux.conf ~/.tmux.conf
 ln -s $(pwd)/.tmux ~/.tmux
 ln -s $(pwd)/.zshrc ~/.zshrc
