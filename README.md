@@ -27,7 +27,7 @@
 ## Usage
 
 ```shell
-git clone git@github.com:amaya-382/dotfiles.git
+git clone git@github.com:amaya-382/dotfiles.git dotfiles
 cd dotfiles
 ./init.sh
 ```
