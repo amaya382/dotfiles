@@ -29,6 +29,5 @@
 ```shell
 git clone git@github.com:amaya-382/dotfiles.git
 cd dotfiles
-git submodule init
-git submodule update
+./init.sh
 ```
