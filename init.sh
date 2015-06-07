@@ -1,8 +1,9 @@
 #!/bin/bash
-ln -s .tmux ~/.tmux
-ln -s .tmux.conf ~/.tmux.conf
-ln -s .zshrc ~/.zshrc
-ln -s .zsh ~/.zsh
-ln -s .vimrc ~/.vimrc
-ln -s .gitconfig ~/.gitconfig
-ln -s .gitignore_global ~/.gitignore_global
+ln -s $(pwd)/.tmux.conf ~/.tmux.conf
+ln -s $(pwd)/.tmux ~/.tmux
+ln -s $(pwd)/.zshrc ~/.zshrc
+ln -s $(pwd)/.zsh ~/.zsh
+ln -s $(pwd)/.vimrc ~/.vimrc
+ln -s $(pwd)/.vim ~/.vim
+ln -s $(pwd)/.gitconfig ~/.gitconfig
+ln -s $(pwd)/.gitignore_global ~/.gitignore_global
