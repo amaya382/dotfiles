@@ -1,12 +1,9 @@
-[submodule ".zsh/auto-fu.zsh"]
-	path = .zsh/auto-fu.zsh
-	url = git://github.com/hchbaw/auto-fu.zsh.git
 [submodule ".zsh/zaw"]
 	path = .zsh/zaw
 	url = git@github.com:zsh-users/zaw.git
 [submodule ".zsh/zsh-syntax-highlighting"]
 	path = .zsh/zsh-syntax-highlighting
 	url = git@github.com:zsh-users/zsh-syntax-highlighting.git
-[submodule ".tmux/tmux-powerline"]
-	path = .tmux/tmux-powerline
-	url = git@github.com:amaya-382/tmux-powerline.git
+[submodule "fonts"]
+	path = fonts
+	url = git@github.com:powerline/fonts.git
