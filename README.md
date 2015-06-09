@@ -4,22 +4,23 @@
 
 
 * tmux
-    * tmux-sensible
-    * tmux-resurrect
-    * tmux-sidebar
+    * [tmux-sensible](https://github.com/tmux-plugins/tmux-sensible)
+    * [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)
+    * [tmux-sidebar](https://github.com/tmux-plugins/tmux-sidebar)
 
 * zsh
-    * zaw
-    * zsh-syntax-highlighting
+    * [zaw](https://github.com/zsh-users/zaw)
+    * [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 
 * vim
-    * incsearch
-    * neocomplcache
-    * Unite
-    * VimFiler
-    * scala
+    * [neobundle](https://github.com/Shougo/neobundle.vim)
+    * [incsearch](https://github.com/haya14busa/incsearch.vim)
+    * [neocomplcache](https://github.com/Shougo/neocomplcache.vim)
+    * [unite](https://github.com/Shougo/unite.vim)
+    * [vimfiler](https://github.com/Shougo/vimfiler.vim)
+    * [vim-scala](https://github.com/derekwyatt/vim-scala)
 
-* powerline
+* [powerline](https://github.com/powerline/powerline)
 
 * git
 
