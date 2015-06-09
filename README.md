@@ -5,14 +5,12 @@
 
 * tmux
     * tmux-sensible
-    * tmux-powerline
     * tmux-resurrect
     * tmux-sidebar
 
 * zsh
     * zaw
     * zsh-syntax-highlighting
-    * ~~auto-fu.zsh~~
 
 * vim
     * incsearch
@@ -20,6 +18,8 @@
     * Unite
     * VimFiler
     * scala
+
+* powerline
 
 * git
 
