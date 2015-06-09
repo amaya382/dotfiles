@@ -1,4 +1,4 @@
-### General ###
+### general ###
 setopt no_beep           # ビープ音を鳴らさないようにする
 setopt auto_cd           # ディレクトリ名の入力のみで移動する
 setopt auto_pushd        # cd時にディレクトリスタックにpushdする
@@ -20,7 +20,7 @@ bindkey '^R' zaw-cdr
 bindkey '^T' zaw-tmux
 bindkey '^P' zaw-process
 
-### History ###
+### history ###
 HISTFILE=~/.zsh_history
 HISTSIZE=5000
 SAVEHIST=5000
@@ -33,15 +33,15 @@ setopt hist_ignore_all_dups
 setopt hist_expand
 bindkey '^H' zaw-history
 
-### Command syntax highlighting ###
+### command syntax highlighting ###
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-### Prompt ###
+### prompt ###
 PROMPT='%F{red}(๑╹◡╹)  %f'
 RPROMPT='%F{green}[%50<..<%~/]%f'
 SPROMPT="%F{red}(/ω・＼)ﾁﾗｯ%f %F{magenta}もしかして%f %F{white}%B%r%b%f %F{magenta}？ [y/n]%f:${reset_color} "
 
-### Complement ###
+### complement ###
 autoload -Uz compinit; compinit # 補完機能を有効にする
 setopt auto_list                # 補完候補を一覧で表示する(d)
 setopt auto_menu                # 補完キー連打で補完候補を順に表示する(d)
@@ -50,34 +50,12 @@ setopt list_types               # 補完候補にファイルの種類も表示�
 bindkey "^[[Z" reverse-menu-complete  # Shift-Tabで補完候補を逆順する("\e[Z"でも動作する)
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # 補完時に大文字小文字を区別しない
 
-### auto-fu ###
-#source ~/.zsh/auto-fu.zsh/auto-fu.zsh
-#function zle-line-init () {
-#    auto-fu-init
-#}
-#zle -N zle-line-init
-#zle -N zle-keymap-select auto-fu-zle-keymap-select
-#zstyle ':completion:*' completer _oldlist _complete
-# 「-azfu-」を表示させない
-#zstyle ':auto-fu:var' postdisplay $''
-
-### Color ###
+### color ###
 export LSCOLORS=Exfxcxdxbxegedabagacad
 export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 export ZLS_COLORS=$LS_COLORS
 export CLICOLOR=true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-
-### empha root ###
-if [ ${UID} -eq 0 ]; then
-  tmp_prompt="%B%U${tmp_prompt}%u%b"
-  tmp_prompt2="%B%U${tmp_prompt2}%u%b"
-  tmp_rprompt="%B%U${tmp_rprompt}%u%b"
-  tmp_sprompt="%B%U${tmp_sprompt}%u%b"
-fi
-
-### PowerLine ###
-PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 
 ### ls after cd ###
 function cd() {
@@ -111,9 +89,14 @@ function mkcd() {
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export ANDROID_HOME=/usr/local/opt/android-sdk
 export PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:/opt/local/bin:/opt/local/sbin:$PATH
+export EDITOR=/usr/local/bin/mvim
+
+### locale ###
+export LC_ALL=ja_JP.UTF-8
+export LANG=ja_JP.UTF-8
 
 ### alias ###
-alias v='vim'
+alias v='reattach-to-user-namespace mvim -v'
 alias ls='ls -a'
 alias lsl='ls -al'
 alias psp='open -a "Adobe Photoshop CS6"'

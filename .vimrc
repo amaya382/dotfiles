@@ -66,21 +66,36 @@ set wildmode=list,full
 set list
 set listchars=tab:▸\ ,eol:↲,extends:❯,precedes:❮
 
-" ステータス
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
-set laststatus=2
-
-" clipboard(tmux.confも調整したけど動かない)
-" set clipboard=unnamed
+" clipboard
+set clipboard=unnamed
 
 "大文字小文字を区別しない
 set ignorecase
+
+"カーソルを常に画面の中央に表示させる
+set scrolloff=999
+
+"ターミナル接続を高速にする
+set ttyfast
+
+"ターミナルで256色表示を使う
+set t_Co=256
 
 "矢印キーでは表示行単位で行移動する
 nmap <UP> gk
 nmap <DOWN> gj
 vmap <UP> gk
 vmap <DOWN> gj
+
+"""""""""""""
+""powerline""
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
+
+set laststatus=2 " Always display the statusline in all windows
+set showtabline=2 " Always display the tabline, even if there is only one tab
+set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
