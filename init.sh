@@ -16,4 +16,4 @@ ln -s $(pwd)/.gitignore_global ~/.gitignore_global
 
 brew install tmux zsh macvim python reattach-to-user-namespace tree
 easy_install pip
-pip install powerline-status psutil
+pip install powerline-status psutil netifaces
