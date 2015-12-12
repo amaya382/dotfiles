@@ -3,6 +3,7 @@
 	email = git@sapphire.in.net
 [core]
 	excludesfile = ~/.gitignore_global
+	ignorecase = false
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
