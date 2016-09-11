@@ -8,10 +8,16 @@ ln -s $home/.tmux ~/.tmux
 ln -s $home/.config ~/.config
 ln -s $home/.zshrc ~/.zshrc
 ln -s $home/.zsh ~/.zsh
-ln -s $home/.vimrc ~/.vimrc
-ln -s $home/.vim ~/.vim
+#ln -s $home/.vimrc ~/.vimrc
+#ln -s $home/.vim ~/.vim
 ln -s $home/.gitconfig ~/.gitconfig
 ln -s $home/.gitignore_global ~/.gitignore_global
+
+if [ `which sudo` ]; then
+  prefix='sudo'
+else
+  prefix=''
+fi
 
 case ${OSTYPE} in
   darwin*)
@@ -21,9 +27,9 @@ case ${OSTYPE} in
   ;;
   linux*)
     if [ `which apt-get` ]; then
-      sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install -y tmux zsh python3 python3-pip tree vim
+      $prefix apt-get update && $prefix apt-get upgrade -y && $prefix apt-get install -y tmux zsh python3 python3-dev python3-pip tree vim
     elif [ `which dnf` ]; then
-      sudo dnf update -y && sudo dnf install -y tmux zsh python3 python3-pip tree vim
+      $prefix dnf update -y && $prefix dnf install -y tmux zsh python3 python3-devel python3-pip tree vim redhat-rpm-config
     fi
   ;;
 esac
