@@ -2,18 +2,29 @@
 git submodule init
 git submodule update
 
-ln -s $(pwd)/.tmux.conf ~/.tmux.conf
-ln -s $(pwd)/.tmux ~/.tmux
-ln -s $(pwd)/.zshrc ~/.zshrc
-ln -s $(pwd)/.zsh ~/.zsh
-ln -s $(pwd)/.vimrc ~/.vimrc
-ln -s $(pwd)/.vim ~/.vim
-ln -s $(pwd)/.config ~/.config
-ln -s $(pwd)/.gitconfig ~/.gitconfig
-ln -s $(pwd)/.gitignore_global ~/.gitignore_global
+home=$(pwd)
+ln -s $home/.tmux.conf ~/.tmux.conf
+ln -s $home/.tmux ~/.tmux
+ln -s $home/.zshrc ~/.zshrc
+ln -s $home/.zsh ~/.zsh
+ln -s $home/.vimrc ~/.vimrc
+ln -s $home/.vim ~/.vim
+ln -s $home/.gitconfig ~/.gitconfig
+ln -s $home/.gitignore_global ~/.gitignore_global
 
-./fonts/install.sh
+case ${OSTYPE} in
+  darwin*)
+    ./fonts/install.sh
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew update && brew upgrade -y && brew install -y tmux zsh python3 macvim reattach-to-user-namespace
+  ;;
+  linux*)
+    if [ `which apt-get` ]; then
+      sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install -y tmux zsh python3 python3-pip tree vim
+    elif [ `which dnf` ]; then
+      sudo dnf update -y && sudo dnf install -y tmux zsh python3 python3-pip tree vim
+    fi
+  ;;
+esac
 
-brew install tmux zsh macvim python reattach-to-user-namespace tree
-easy_install pip
-pip install powerline-status psutil netifaces
+pip3 install powerline-status psutil netifaces
