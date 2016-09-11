@@ -5,6 +5,7 @@ git submodule update
 home=$(pwd)
 ln -s $home/.tmux.conf ~/.tmux.conf
 ln -s $home/.tmux ~/.tmux
+ln -s $home/.config ~/.config
 ln -s $home/.zshrc ~/.zshrc
 ln -s $home/.zsh ~/.zsh
 ln -s $home/.vimrc ~/.vimrc
