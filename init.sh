@@ -6,13 +6,13 @@ git submodule init
 git submodule update
 
 [ ! -e ~/dotfiles_saved ] && mkdir ~/dotfiles_saved
-[ $# -e 1 ] && copy_mode=1
+[ $# -eq 1 ] && copy_mode=1
 
 apply () {
   from=$1
   [ $# -eq 1 ] && to=$1 || to=$2
   [ -e ~/$to ] && mv ~/$to ~/dotfiles_saved/$to
-  if [ $copy_mode -e 1 ]; then
+  if [ $copy_mode -eq 1 ]; then
     cp -r $dotfiles/$from ~/$to
   else
     ln -s $dotfiles/$from ~/$to
