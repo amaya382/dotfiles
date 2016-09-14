@@ -11,8 +11,10 @@ setopt notify
 setopt equals
 
 # locale
-export LC_ALL=ja_JP.UTF-8
-export LANG=ja_JP.UTF-8
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+# export LC_ALL=ja_JP.UTF-8
+# export LANG=ja_JP.UTF-8
 
 # history
 HISTFILE=~/.zsh_history
@@ -48,22 +50,6 @@ export ZLS_COLORS=$LS_COLORS
 export CLICOLOR=true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
-# plugins
-## zaw
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
-zstyle ':chpwd:*' recent-dirs-max 500
-zstyle ':chpwd:*' recent-dirs-default yes
-zstyle ':completion:*' recent-dirs-insert both
-source ~/.zsh/zaw/zaw.zsh
-zstyle ':filter-select' case-insensitive yes
-bindkey '^R' zaw-cdr
-bindkey '^T' zaw-tmux
-bindkey '^P' zaw-process
-
-## zsh-syntax-highlighting
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # custom commands
 ## cd and then ls
 function cd() {
@@ -97,8 +83,26 @@ function ext() {
 alias ll='ls -al'
 alias did='docker ps -l -q'
 
+# plugins
+if [ -e ~/.zsh ]; then
+  ## zaw
+  autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+  add-zsh-hook chpwd chpwd_recent_dirs
+  zstyle ':chpwd:*' recent-dirs-max 500
+  zstyle ':chpwd:*' recent-dirs-default yes
+  zstyle ':completion:*' recent-dirs-insert both
+  source ~/.zsh/zaw/zaw.zsh
+  zstyle ':filter-select' case-insensitive yes
+  bindkey '^R' zaw-cdr
+  bindkey '^T' zaw-tmux
+  bindkey '^P' zaw-process
+
+  ## zsh-syntax-highlighting
+  source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
 # os-specific conf
-. .zshrc.additional
+[ -f ~/.zshrc.additional ] && . ~/.zshrc.additional
 
 # local conf if exists
 [ -f ~/.zshrc.local ] && . ~/.zshrc.local
