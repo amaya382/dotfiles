@@ -5,3 +5,4 @@
   excludesfile = ~/.gitignore_global
   ignorecase = false
   autocrlf = false
+  filemode = false
