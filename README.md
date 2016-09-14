@@ -1,7 +1,6 @@
-## dotfiles
+# dotfiles
 
-*各地からコピペの嵐*
-
+## Contents
 
 * tmux
     * [tmux-sensible](https://github.com/tmux-plugins/tmux-sensible)
@@ -25,10 +24,25 @@
 * git
 
 
+## Compatibility
+
+* linux
+    * apt
+    * dnf
+    * yum
+* osx
+    * brew
+
+
 ## Usage
 
+### Prerequirements
+
+* `which`
+* `git`
+
 ```shell
-git clone git@github.com:amaya-382/dotfiles.git dotfiles
+git clone https://github.com/amaya382/dotfiles.git
 cd dotfiles
 ./init.sh
 ```
