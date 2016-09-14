@@ -1,6 +1,6 @@
 #!/bin/bash
 dotfiles=$(pwd)
-[ ! $dotfiles =~ dotfiles$ ] && echo 'execute in dotfiles directory' && exit 1
+[[ ! $dotfiles =~ dotfiles$ ]] && echo 'execute in dotfiles directory' && exit 1
 
 git submodule init
 git submodule update
