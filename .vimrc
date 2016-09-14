@@ -42,46 +42,33 @@ NeoBundleCheck
 " syntax highlight
 syntax on
 
-" 行番号 
 set number
 
-" 行列強調
 set cursorline
 set cursorcolumn
 highlight CursorColumn cterm=none ctermbg=black ctermfg=white
 
-" 文字幅
 set ambiwidth=double
 
-" 行間移動
 set whichwrap+=h,l,<,>,[,],b,s
 
-"バックスペースキーで行頭を削除する
 set backspace=indent,eol,start
 
-" コマンド補完
 set wildmode=list,full
 
-" 不可視文字
 set list
 set listchars=tab:▸\ ,eol:↲,extends:❯,precedes:❮
 
-" clipboard
 set clipboard=unnamed
 
-"大文字小文字を区別しない
 set ignorecase
 
-"カーソルを常に画面の中央に表示させる
 set scrolloff=999
 
-"ターミナル接続を高速にする
 set ttyfast
 
-"ターミナルで256色表示を使う
 set t_Co=256
 
-"矢印キーでは表示行単位で行移動する
 nmap <UP> gk
 nmap <DOWN> gj
 vmap <UP> gk
@@ -186,5 +173,3 @@ map <C-a> :UniteBookmarkAdd<CR>
 map <C-z> :Unite bookmark<CR>
 call unite#custom#default_action('directory' , 'vimfiler')
 """""""""""""""""""""""""""""
-
-

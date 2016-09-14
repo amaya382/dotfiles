@@ -1,68 +1,67 @@
-### general ###
-setopt no_beep           # ビープ音を鳴らさないようにする
-setopt auto_cd           # ディレクトリ名の入力のみで移動する
-setopt auto_pushd        # cd時にディレクトリスタックにpushdする
-setopt correct           # コマンドのスペルを訂正する
-setopt magic_equal_subst # =以降も補完する(--prefix=/usrなど)
-setopt prompt_subst      # プロンプト定義内で変数置換やコマンド置換を扱う
-setopt notify            # バックグラウンドジョブの状態変化を即時報告する
-setopt equals            # =commandを`which command`と同じ処理にする
+### .zshrc for all ###
 
-### zaw ###
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
-zstyle ':chpwd:*' recent-dirs-max 500
-zstyle ':chpwd:*' recent-dirs-default yes
-zstyle ':completion:*' recent-dirs-insert both
-source ~/.zsh/zaw/zaw.zsh
-zstyle ':filter-select' case-insensitive yes
-bindkey '^R' zaw-cdr
-bindkey '^T' zaw-tmux
-bindkey '^P' zaw-process
+# general
+setopt no_beep
+setopt auto_cd
+setopt auto_pushd
+setopt correct
+setopt magic_equal_subst
+setopt prompt_subst
+setopt notify
+setopt equals
 
-### history ###
+# locale
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+# export LC_ALL=ja_JP.UTF-8
+# export LANG=ja_JP.UTF-8
+
+# history
 HISTFILE=~/.zsh_history
-HISTSIZE=5000
-SAVEHIST=5000
-setopt extended_history   # ヒストリに実行時間も保存する
-setopt hist_ignore_dups   # 直前と同じコマンドはヒストリに追加しない
-setopt share_history      # 他のシェルのヒストリをリアルタイムで共有する
-setopt hist_reduce_blanks # 余分なスペースを削除してヒストリに保存する
+HISTSIZE=2000
+SAVEHIST=2000
+setopt extended_history
+setopt share_history
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
 setopt hist_verify
 setopt hist_ignore_all_dups
 setopt hist_expand
 bindkey '^H' zaw-history
 
-### command syntax highlighting ###
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# complement
+autoload -Uz compinit; compinit
+setopt auto_list
+setopt auto_menu
+setopt list_packed
+setopt list_types
+bindkey "^[[Z" reverse-menu-complete
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-### prompt ###
-PROMPT='%F{red}(๑╹◡╹)  %f'
+# prompt
+PROMPT='%F{red}$ %f'
 RPROMPT='%F{green}[%50<..<%~/]%f'
-SPROMPT="%F{red}(/ω・＼)ﾁﾗｯ%f %F{magenta}もしかして%f %F{white}%B%r%b%f %F{magenta}？ [y/n]%f:${reset_color} "
+SPROMPT="%F{magenta}Perhaps: %f %F{white}%B%r%b%f %F{magenta}? [y/n]%f:${reset_color} "
 
-### complement ###
-autoload -Uz compinit; compinit # 補完機能を有効にする
-setopt auto_list                # 補完候補を一覧で表示する(d)
-setopt auto_menu                # 補完キー連打で補完候補を順に表示する(d)
-setopt list_packed              # 補完候補をできるだけ詰めて表示する
-setopt list_types               # 補完候補にファイルの種類も表示する
-bindkey "^[[Z" reverse-menu-complete  # Shift-Tabで補完候補を逆順する("\e[Z"でも動作する)
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # 補完時に大文字小文字を区別しない
-
-### color ###
+# color
 export LSCOLORS=Exfxcxdxbxegedabagacad
 export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 export ZLS_COLORS=$LS_COLORS
 export CLICOLOR=true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
-### ls after cd ###
+# custom commands
+## cd and then ls
 function cd() {
   builtin cd $@ && ls -a;
 }
 
-### extract ###
+## mkdir and then cd
+function mkcd() {
+  mkdir -p $1 && cd $1
+}
+
+## extract
 function ext() {
   case $1 in
     *.tar.gz|*.tgz) tar xzvf $1;;
@@ -80,27 +79,30 @@ function ext() {
   esac
 }
 
-### mkdir & cd ###
-function mkcd() {
-  mkdir -p $1 && cd $1
-}
-
-### PATH ###
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
-export ANDROID_HOME=/usr/local/opt/android-sdk
-export PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:/opt/local/bin:/opt/local/sbin:$PATH
-export EDITOR=/usr/local/bin/mvim
-
-### locale ###
-export LC_ALL=ja_JP.UTF-8
-export LANG=ja_JP.UTF-8
-
-### alias ###
-alias v='reattach-to-user-namespace mvim -v'
-alias ls='ls -a'
-alias lsl='ls -al'
-alias psp='open -a "Adobe Photoshop CS6"'
+# alias
+alias ll='ls -al'
 alias did='docker ps -l -q'
-alias pre='qlmanage -p "$@" >& /dev/null'
-alias onkb="sudo kextload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext/"
-alias offkb="sudo kextunload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext/"
+
+# plugins
+if [ -e ~/.zsh ]; then
+  ## zaw
+  autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+  add-zsh-hook chpwd chpwd_recent_dirs
+  zstyle ':chpwd:*' recent-dirs-max 500
+  zstyle ':chpwd:*' recent-dirs-default yes
+  zstyle ':completion:*' recent-dirs-insert both
+  source ~/.zsh/zaw/zaw.zsh
+  zstyle ':filter-select' case-insensitive yes
+  bindkey '^R' zaw-cdr
+  bindkey '^T' zaw-tmux
+  bindkey '^P' zaw-process
+
+  ## zsh-syntax-highlighting
+  source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# os-specific conf
+[ -f ~/.zshrc.additional ] && . ~/.zshrc.additional
+
+# local conf if exists
+[ -f ~/.zshrc.local ] && . ~/.zshrc.local
