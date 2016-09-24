@@ -19,6 +19,12 @@ apply () {
   fi
 }
 
+if [ `which sudo` ]; then
+  prefix='sudo'
+else
+  prefix=''
+fi
+
 case ${OSTYPE} in
   darwin*)
     apply osx/.zshrc .zshrc.additional
@@ -28,11 +34,6 @@ case ${OSTYPE} in
     brew update && brew upgrade -y && brew install -y tmux zsh sshrc python3 macvim reattach-to-user-namespace
   ;;
   linux*)
-    if [ `which sudo` ]; then
-      prefix='sudo'
-    else
-      prefix=''
-    fi
     apply linux/.zshrc .zshrc.additional
     apply linux/.tmux.conf .tmux.conf.additional
     if [ `which apt-get` ]; then
@@ -47,8 +48,8 @@ case ${OSTYPE} in
   ;;
 esac
 
-for f in .zsh .zshrc .tmux .tmux.conf .vim .vimrc .config .gitconfig .gitignore_global; do
+for f in .zsh .zshrc .tmux.conf .vim .vimrc .config .gitconfig .gitignore_global; do
   apply $f
 done
 
-pip3 install powerline-status psutil netifaces
+$prefix pip3 install powerline-status psutil netifaces
