@@ -1,5 +1,8 @@
 ### .zshrc for osx ###
 
+# powerline
+. /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+
 # alias
 alias vim='reattach-to-user-namespace mvim -v'
 alias psp='open -a "Adobe Photoshop CS6"'
