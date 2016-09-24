@@ -83,6 +83,9 @@ function ext() {
 alias ll='ls -al'
 alias did='docker ps -l -q'
 
+# powerline
+powerline-daemon -q
+
 # plugins
 if [ -e ~/.zsh ]; then
   ## zaw
