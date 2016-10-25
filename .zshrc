@@ -2,13 +2,9 @@
 
 # general
 setopt no_beep
-setopt auto_cd
-setopt auto_pushd
 setopt correct
 setopt magic_equal_subst
-setopt prompt_subst
 setopt notify
-setopt equals
 
 # locale
 export LC_ALL=en_US.UTF-8
@@ -35,8 +31,10 @@ setopt auto_list
 setopt auto_menu
 setopt list_packed
 setopt list_types
+setopt auto_param_slash
 bindkey "^[[Z" reverse-menu-complete
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+setopt auto_param_keys
 
 # prompt
 PROMPT='%F{red}$ %f'
@@ -80,8 +78,8 @@ function ext() {
 }
 
 # alias
+alias la='ls -a'
 alias ll='ls -al'
-alias did='docker ps -l -q'
 
 # powerline
 powerline-daemon -q
