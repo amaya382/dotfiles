@@ -1,4 +1,4 @@
 ### .zshrc for linux ###
 
 # powerline
-. /usr/local/lib/python3.4/dist-packages/powerline/bindings/zsh/powerline.zsh
+. /usr/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
