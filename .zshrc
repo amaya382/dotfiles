@@ -48,6 +48,10 @@ export ZLS_COLORS=$LS_COLORS
 export CLICOLOR=true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
+# home/end
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[4~" end-of-line
+
 # custom commands
 ## cd and then ls
 function cd() {
