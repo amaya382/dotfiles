@@ -5,7 +5,7 @@ dotfiles=$(pwd)
 git submodule init
 git submodule update
 
-[ -e ~/dotfiles_saved ] || mkdir ~/dotfiles_saved
+[ -e ~/dotfiles_saved/ ] || mkdir ~/dotfiles_saved
 [ $# -eq 1 ] && copy_mode=1
 
 apply () {
@@ -49,8 +49,9 @@ esac
 
 ./fonts/install.sh
 
-[ -e ~/.config/ ] || mkdir ~/.config/
-for f in .zsh .zshrc .tmux.conf .vim .vimrc .gitconfig .gitignore_global .config/powerline; do
+[ -e ~/.config/ ] || mkdir ~/.config
+[ -e ~/.vim/bundle/ ] || mkdir -p ~/.vim/bundle
+for f in .zsh .zshrc .tmux.conf .vim/bundle/neobundle.vim .vimrc .gitconfig .gitignore_global .config/powerline; do
   apply $f
 done
 
