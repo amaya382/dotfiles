@@ -84,6 +84,7 @@ function ext() {
 # alias
 alias la='ls -a'
 alias ll='ls -al'
+alias dc='docker-compose'
 
 # powerline
 powerline-daemon -q
