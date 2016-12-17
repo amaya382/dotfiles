@@ -1,4 +1,4 @@
 ### .zshrc for linux ###
 
 # powerline
-. /usr/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
+. `python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`/powerline/bindings/zsh/powerline.zsh

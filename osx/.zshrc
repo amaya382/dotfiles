@@ -1,7 +1,7 @@
 ### .zshrc for osx ###
 
 # powerline
-. /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+. `python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`/powerline/bindings/zsh/powerline.zsh
 
 # alias
 alias vim='reattach-to-user-namespace mvim -v'
