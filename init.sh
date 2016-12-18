@@ -7,7 +7,8 @@ git submodule init
 git submodule update
 
 mkdir -p ${dotfiles_saved}
-[ $# -eq 1 ] && copy_mode=1 || copy_mode=0
+[ $# -gt 1 -a $1 -eq 1 ] && with_font=1 || with_font=0
+[ $# -gt 2 -a $2 -eq 1 ] && copy_mode=1 || copy_mode=0
 
 apply () {
   from=$1
@@ -51,7 +52,7 @@ esac
 PATH_TO_PACKAGE=`python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`
 sed -i -e "s!PATH_TO_PACKAGE!$PATH_TO_PACKAGE!" ~/.tmux.conf.additional
 
-./fonts/install.sh
+[ $with_font -eq 1 ] && ./fonts/install.sh
 
 [ -e ~/.config/ ] || mkdir ~/.config
 [ -e ~/.vim/bundle/ ] || mkdir -p ~/.vim/bundle
