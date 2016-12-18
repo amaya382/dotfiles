@@ -39,7 +39,7 @@ case ${OSTYPE} in
     apply linux/.zshrc .zshrc.additional
     apply linux/.tmux.conf .tmux.conf.additional
     if [ `which apt-get` ]; then
-       $prefix add-apt-repository ppa:russell-s-stewart/ppa && $prefix apt-get update && $prefix apt-get upgrade -y && $prefix apt-get install -y tmux zsh python3 python3-dev python3-pip tree vim xsel
+      $prefix apt-get update && $prefix apt-get upgrade -y && $prefix apt-get install -y tmux zsh python3 python3-dev python3-pip tree vim xsel
     elif [ `which dnf` ]; then
       $prefix dnf upgrade -y && $prefix dnf install -y tmux zsh python3 python3-devel python3-pip tree vim gcc redhat-rpm-config xsel
     elif [ `which yum` ]; then
