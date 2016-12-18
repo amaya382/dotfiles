@@ -6,7 +6,7 @@ git submodule init
 git submodule update
 
 [ -e ~/dotfiles_saved/ ] || mkdir ~/dotfiles_saved
-[ $# -eq 1 ] && copy_mode=1
+[ $# -eq 1 ] && copy_mode=1 || copy_mode=0
 
 apply () {
   from=$1
