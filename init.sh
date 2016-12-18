@@ -13,7 +13,7 @@ mkdir -p ${dotfiles_saved}
 apply () {
   from=$1
   [ $# -eq 1 ] && to=$1 || to=$2
-  [ -e ~/$to ] && mkdir -p ${dotfiles_saved}`dirname $to` && mv ~/$to ${dotfiles_saved}/$to
+  [ -e ~/$to ] && mkdir -p ${dotfiles_saved}/`dirname $to` && mv ~/$to ${dotfiles_saved}/$to
   if [ $copy_mode -eq 1 ]; then
     cp -r $dotfiles/$from ~/$to
   else
