@@ -26,17 +26,14 @@ else
   prefix=''
 fi
 
-PATH_TO_PACKAGE=`python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`
 case ${OSTYPE} in
   darwin*)
-    sed -i -e "s!PATH_TO_PACKAGE!$PATH_TO_PACKAGE!" osx/.tmux.conf
     apply osx/.zshrc .zshrc.additional
     apply osx/.tmux.conf .tmux.conf.additional
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     brew update && brew upgrade -y && brew install -y tmux zsh python3 macvim reattach-to-user-namespace
   ;;
   linux*)
-    sed -i -e "s!PATH_TO_PACKAGE!$PATH_TO_PACKAGE!" linux/.tmux.conf
     apply linux/.zshrc .zshrc.additional
     apply linux/.tmux.conf .tmux.conf.additional
     if [ `which apt-get` ]; then
@@ -50,6 +47,9 @@ case ${OSTYPE} in
     fi
   ;;
 esac
+
+PATH_TO_PACKAGE=`python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`
+sed -i -e "s!PATH_TO_PACKAGE!$PATH_TO_PACKAGE!" ~/.tmux.conf.additional
 
 ./fonts/install.sh
 
