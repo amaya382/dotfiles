@@ -7,8 +7,8 @@ git submodule init
 git submodule update
 
 mkdir -p ${dotfiles_saved}
-[ $# -gt 1 -a $1 -eq 1 ] && with_font=1 || with_font=0
-[ $# -gt 2 -a $2 -eq 1 ] && copy_mode=1 || copy_mode=0
+[ $# -gt 1 ] && [ $1 -eq 1 ] && with_font=1 || with_font=0
+[ $# -gt 2 ] && [ $2 -eq 1 ] && copy_mode=1 || copy_mode=0
 
 apply () {
   from=$1
