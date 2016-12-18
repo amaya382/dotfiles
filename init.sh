@@ -1,17 +1,18 @@
 #!/bin/bash
 dotfiles=$(pwd)
+dotfiles_saved=~/dotfiles_saved
 [[ ! $dotfiles =~ dotfiles$ ]] && echo 'execute in dotfiles directory' && exit 1
 
 git submodule init
 git submodule update
 
-[ -e ~/dotfiles_saved/ ] || mkdir ~/dotfiles_saved
+mkdir -p ${dotfiles_saved}
 [ $# -eq 1 ] && copy_mode=1 || copy_mode=0
 
 apply () {
   from=$1
   [ $# -eq 1 ] && to=$1 || to=$2
-  [ -e ~/$to ] && mv ~/$to ~/dotfiles_saved/$to
+  [ -e ~/$to ] && mkdir -p ${dotfiles_saved}`dirname $to` && mv ~/$to ${dotfiles_saved}/$to
   if [ $copy_mode -eq 1 ]; then
     cp -r $dotfiles/$from ~/$to
   else
