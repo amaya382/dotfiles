@@ -50,7 +50,7 @@ case ${OSTYPE} in
 esac
 
 PATH_TO_PACKAGE=`python3 -c "import site; print(site.getsitepackages()[0])"`
-sed -i -e "s!PATH_TO_PACKAGE!$PATH_TO_PACKAGE!" ~/.tmux.conf.additional
+sed -i --follow-symlinks -e "s!PATH_TO_PACKAGE!$PATH_TO_PACKAGE!" ~/.tmux.conf.additional
 
 [ $with_font -eq 1 ] && ./fonts/install.sh
 
