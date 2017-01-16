@@ -40,7 +40,7 @@ case ${OSTYPE} in
     if [ `which apt-get` ]; then
       $prefix apt-get update && $prefix apt-get upgrade -y && $prefix apt-get install -y tmux zsh python3 python3-dev python3-pip tree vim xsel
     elif [ `which dnf` ]; then
-      $prefix dnf upgrade -y && $prefix dnf install -y tmux zsh python3 python3-devel python3-pip tree vim gcc redhat-rpm-config xsel
+      $prefix dnf upgrade -y && $prefix dnf install -y tmux zsh python3 python3-devel python3-pip tree vim gcc redhat-rpm-config xsel util-linux-user
     elif [ `which yum` ]; then
       $prefix yum update -y && $prefix yum install -y tmux zsh python3 python3-devel python3-pip tree vim gcc redhat-rpm-config xsel
     else
@@ -55,7 +55,8 @@ sed -i --follow-symlinks -e "s!PATH_TO_PACKAGE!$PATH_TO_PACKAGE!" ~/.tmux.conf.a
 [ $with_font -eq 1 ] && ./fonts/install.sh
 
 [ -e ~/.config ] || mkdir ~/.config
-for f in .zsh .zshrc .tmux.conf .vim/dein .vimrc .gitconfig .gitignore_global .config/powerline; do
+[ -e ~/.vim ] || mkdir -p ~/.vim
+for f in .zsh .zshrc .tmux.conf .vim .vimrc .gitconfig .gitignore_global .config/powerline; do
   apply $f
 done
 
