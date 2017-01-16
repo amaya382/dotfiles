@@ -17,7 +17,7 @@ HISTFILE=~/.zsh_history
 HISTSIZE=2000
 SAVEHIST=2000
 setopt extended_history
-setopt share_history
+# setopt share_history
 setopt hist_ignore_dups
 setopt hist_reduce_blanks
 setopt hist_verify
