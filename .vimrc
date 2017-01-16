@@ -1,48 +1,27 @@
-" Note: Skip initialization for vim-tiny or vim-small.
-if 0 | endif
+if &compatible
+  set nocompatible
+endif
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
-
-  " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+if dein#load_state(expand('~/.vim/dein'))
+  call dein#begin(expand('~/.vim/dein'))
+  call dein#add('powerline/powerline', {'rtp': 'powerline/bindings/vim/'})
+  call dein#add('haya14busa/incsearch.vim')
+  call dein#add('Shougo/neocomplete.vim')
+  call dein#add('Shougo/unite.vim')
+  call dein#add('nathanaelkane/vim-indent-guides')
+  call dein#add('derekwyatt/vim-scala')
+  call dein#end()
+  call dein#save_state()
 endif
 
-" Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'haya14busa/incsearch.vim'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'derekwyatt/vim-scala'
-NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
-
-" My Bundles here:
-" Refer to |:NeoBundle-examples|.
-" Note: You don't set neobundle setting in .gvimrc!
-
-call neobundle#end()
-
-" Required:
 filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
+syntax enable
 
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" syntax highlight
-syntax on
-
+"""""""""""
+" general "
+"""""""""""
 set number
 
 set cursorline
@@ -74,26 +53,30 @@ nmap <UP> gk
 nmap <DOWN> gj
 vmap <UP> gk
 vmap <DOWN> gj
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 """""""""""""
-""powerline""
+" powerline "
+"""""""""""""
 set laststatus=2 " Always display the statusline in all windows
 set showtabline=2 " Always display the tabline, even if there is only one tab
 set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
-""""""""""""""""""""""""""""""
-" incsearch
-""""""""""""""""""""""""""""""
+"""""""""""""
+" incsearch "
+"""""""""""""
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
-"""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
-" neocomplcache
-""""""""""""""""""""""""""""""
+
+"""""""""""""""""
+" neocomplcache "
+"""""""""""""""""
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplcache.
@@ -157,11 +140,12 @@ let g:neocomplcache_dictionary_filetype_lists = {
           inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
           inoremap <expr><C-y>  neocomplcache#close_popup()
           inoremap <expr><C-e>  neocomplcache#cancel_popup()
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"""""""""""""""""""""""""""""
-" Unite / VimFiler
-"""""""""""""""""""""""""""""
+
+""""""""""""""""""""
+" Unite / VimFiler "
+""""""""""""""""""""
 "autocmd VimEnter * VimFiler -split -simple -winwidth=30 -no-quit
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default=0
@@ -169,4 +153,4 @@ map <C-e> :VimFiler -split -simple -winwidth=35 -no-quit<CR>
 map <C-a> :UniteBookmarkAdd<CR>
 map <C-z> :Unite bookmark<CR>
 call unite#custom#default_action('directory' , 'vimfiler')
-"""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -12,12 +12,12 @@
     * [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 
 * vim
-    * [neobundle](https://github.com/Shougo/neobundle.vim)
+    * [dein](https://github.com/Shougo/dein.vim)
     * [incsearch](https://github.com/haya14busa/incsearch.vim)
     * [neocomplcache](https://github.com/Shougo/neocomplcache.vim)
     * [unite](https://github.com/Shougo/unite.vim)
-    * [vimfiler](https://github.com/Shougo/vimfiler.vim)
     * [vim-scala](https://github.com/derekwyatt/vim-scala)
+    * [indent-guides](https://github.com/nathanaelkane/vim-indent-guides)
 
 * [powerline](https://github.com/powerline/powerline)
 

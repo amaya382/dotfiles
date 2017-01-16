@@ -54,10 +54,15 @@ sed -i --follow-symlinks -e "s!PATH_TO_PACKAGE!$PATH_TO_PACKAGE!" ~/.tmux.conf.a
 
 [ $with_font -eq 1 ] && ./fonts/install.sh
 
-[ -e ~/.config/ ] || mkdir ~/.config
-[ -e ~/.vim/bundle/ ] || mkdir -p ~/.vim/bundle
-for f in .zsh .zshrc .tmux.conf .vim/bundle/neobundle.vim .vimrc .gitconfig .gitignore_global .config/powerline; do
+[ -e ~/.config ] || mkdir ~/.config
+for f in .zsh .zshrc .tmux.conf .vim/dein .vimrc .gitconfig .gitignore_global .config/powerline; do
   apply $f
 done
 
 $prefix pip3 install powerline-status psutil netifaces
+
+chsh -s `which zsh`
+
+curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
+sh ./installer.sh ~/.vim/dein
+rm installer.sh
