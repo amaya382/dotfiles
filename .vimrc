@@ -24,6 +24,9 @@ syntax enable
 """""""""""
 set number
 
+set expandtab
+set shiftwidth=2
+
 set cursorline
 set cursorcolumn
 highlight CursorColumn cterm=none ctermbg=black ctermfg=white
