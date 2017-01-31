@@ -40,9 +40,7 @@ set backspace=indent,eol,start
 set wildmode=list,full
 
 set list
-set listchars=tab:≫-,trail:-,eol:↲,extends:≫,precedes:≪,nbsp:◆
-autocmd ColorScheme * hi link TwoByteSpace Error
-autocmd VimEnter,WinEnter * let w:m_tbs = matchadd("TwoByteSpace", '　')
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:&
 
 set clipboard=unnamed
 
