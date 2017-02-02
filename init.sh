@@ -66,3 +66,8 @@ chsh -s `which zsh`
 curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
 sh ./installer.sh ~/.vim/dein
 rm installer.sh
+
+echo 'done.'
+echo 'tmux: `prefix + I`'
+echo 'vim: `:call dein#install()`'
+
