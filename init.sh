@@ -55,7 +55,6 @@ sed -i --follow-symlinks -e "s!PATH_TO_PACKAGE!$PATH_TO_PACKAGE!" ~/.tmux.conf.a
 [ $with_font -eq 1 ] && ./fonts/install.sh
 
 [ -e ~/.config ] || mkdir ~/.config
-[ -e ~/.vim ] || mkdir -p ~/.vim
 for f in .zsh .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .config/powerline; do
   apply $f
 done
