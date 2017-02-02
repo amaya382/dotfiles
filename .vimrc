@@ -52,10 +52,7 @@ set ttyfast
 
 set t_Co=256
 
-nmap <UP> gk
-nmap <DOWN> gj
-vmap <UP> gk
-vmap <DOWN> gj
+nnoremap ; :
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
