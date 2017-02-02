@@ -1,3 +1,4 @@
 *.local
+.tmux/*
 .vim/dein/*
 !.vim/dein/.gitkeep
