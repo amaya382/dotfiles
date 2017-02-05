@@ -94,6 +94,7 @@ function ext() {
 alias la='ls -a'
 alias ll='ls -al'
 alias dc='docker-compose'
+alias tmux='tmux -2'
 
 # powerline
 powerline-daemon -q
