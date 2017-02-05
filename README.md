@@ -3,9 +3,10 @@
 ## Contents
 
 * tmux
-    * [tmux-sensible](https://github.com/tmux-plugins/tmux-sensible)
     * [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)
+    * [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum)
     * [tmux-sidebar](https://github.com/tmux-plugins/tmux-sidebar)
+    * [tmux-better-mouse-mode](https://github.com/NHDaly/tmux-better-mouse-mode)
 
 * zsh
     * [zaw](https://github.com/zsh-users/zaw)
@@ -15,7 +16,6 @@
     * [dein](https://github.com/Shougo/dein.vim)
     * [incsearch](https://github.com/haya14busa/incsearch.vim)
     * [neocomplcache](https://github.com/Shougo/neocomplcache.vim)
-    * [unite](https://github.com/Shougo/unite.vim)
     * [vim-scala](https://github.com/derekwyatt/vim-scala)
     * [indent-guides](https://github.com/nathanaelkane/vim-indent-guides)
 
