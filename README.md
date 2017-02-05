@@ -18,6 +18,7 @@
     * [neocomplcache](https://github.com/Shougo/neocomplcache.vim)
     * [vim-scala](https://github.com/derekwyatt/vim-scala)
     * [indent-guides](https://github.com/nathanaelkane/vim-indent-guides)
+    * [changed](https://github.com/leftouterjoin/changed)
 
 * [powerline](https://github.com/powerline/powerline)
 
