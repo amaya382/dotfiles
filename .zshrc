@@ -59,6 +59,7 @@ esac
 # home/end
 bindkey "^[[1~" beginning-of-line
 bindkey "^[[4~" end-of-line
+bindkey "^[[3~" delete-char
 
 # custom commands
 ## cd and then ls
