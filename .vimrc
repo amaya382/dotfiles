@@ -8,7 +8,6 @@ if dein#load_state(expand('~/.vim/dein'))
   call dein#add('powerline/powerline', {'rtp': 'powerline/bindings/vim/'})
   call dein#add('haya14busa/incsearch.vim')
   call dein#add('Shougo/neocomplcache.vim')
-  call dein#add('Shougo/unite.vim')
   call dein#add('nathanaelkane/vim-indent-guides')
   call dein#add('derekwyatt/vim-scala')
   call dein#end()
@@ -22,6 +21,9 @@ syntax enable
 """""""""""
 " general "
 """""""""""
+colorscheme default
+set t_Co=256
+
 set number
 
 set expandtab
@@ -29,7 +31,7 @@ set shiftwidth=2
 
 set cursorline
 set cursorcolumn
-highlight CursorColumn cterm=none ctermbg=black ctermfg=white
+highlight CursorColumn ctermbg=233
 
 set ambiwidth=double
 
@@ -50,9 +52,8 @@ set scrolloff=999
 
 set ttyfast
 
-set t_Co=256
-
 nnoremap ; :
+nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -71,6 +72,16 @@ set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusl
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""
+" indent-guides "
+"""""""""""""""""
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors=0
+hi IndentGuidesOdd ctermbg=234
+hi IndentGuidesEven ctermbg=236
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -140,17 +151,4 @@ let g:neocomplcache_dictionary_filetype_lists = {
           inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
           inoremap <expr><C-y>  neocomplcache#close_popup()
           inoremap <expr><C-e>  neocomplcache#cancel_popup()
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-""""""""""""""""""""
-" Unite / VimFiler "
-""""""""""""""""""""
-"autocmd VimEnter * VimFiler -split -simple -winwidth=30 -no-quit
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_safe_mode_by_default=0
-map <C-e> :VimFiler -split -simple -winwidth=35 -no-quit<CR>
-map <C-a> :UniteBookmarkAdd<CR>
-map <C-z> :Unite bookmark<CR>
-call unite#custom#default_action('directory' , 'vimfiler')
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
