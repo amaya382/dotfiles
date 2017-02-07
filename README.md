@@ -3,6 +3,7 @@
 ## Contents
 
 * tmux
+    * [tpm](https://github.com/tmux-plugins/tpm)
     * [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)
     * [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum)
     * [tmux-sidebar](https://github.com/tmux-plugins/tmux-sidebar)
