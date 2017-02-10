@@ -96,12 +96,16 @@ alias la='ls -a'
 alias ll='ls -al'
 alias dc='docker-compose'
 alias tmux='tmux -2'
+alias g-sta='git status'
+alias g-dif='git diff'
+alias g-fet='git fetch'
 alias g-add='git add'
 alias g-com='git commit -m'
 alias g-com-a='git commit --amend'
+alias g-bra='git branch'
 alias g-che='git checkout'
-alias g-pul='git pull origin '`git symbolic-ref --short HEAD`
-alias g-pus='git push origin '`git symbolic-ref --short HEAD`
+alias g-pul='git pull origin `git symbolic-ref --short HEAD`'
+alias g-pus='git push origin `git symbolic-ref --short HEAD`'
 alias g-log='git log --graph --oneline --decorate=full --name-status'
 
 # powerline
