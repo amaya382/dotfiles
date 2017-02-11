@@ -3,7 +3,6 @@
 # general
 setopt no_beep
 setopt correct
-setopt magic_equal_subst
 setopt notify
 
 # locale
@@ -24,7 +23,6 @@ setopt hist_reduce_blanks
 setopt hist_verify
 setopt hist_ignore_all_dups
 setopt hist_expand
-bindkey '^H' zaw-history
 
 # complement
 autoload -Uz compinit; compinit
@@ -33,9 +31,11 @@ setopt auto_menu
 setopt list_packed
 setopt list_types
 setopt auto_param_slash
-bindkey "^[[Z" reverse-menu-complete
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+setopt magic_equal_subst
+setopt menu_complete
 setopt auto_param_keys
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+bindkey "^[[Z" reverse-menu-complete
 
 # prompt
 PROMPT='%F{red}$ %f'
@@ -121,6 +121,7 @@ if [ -e ~/.zsh ]; then
   zstyle ':completion:*' recent-dirs-insert both
   source ~/.zsh/zaw/zaw.zsh
   zstyle ':filter-select' case-insensitive yes
+  bindkey '^H' zaw-history
   bindkey '^R' zaw-cdr
   bindkey '^T' zaw-tmux
   bindkey '^P' zaw-process
