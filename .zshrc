@@ -4,6 +4,11 @@
 setopt no_beep
 setopt correct
 setopt notify
+bindkey "^Z" undo
+bindkey "^U" backward-kill-word
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[4~" end-of-line
+bindkey "^[[3~" delete-char
 
 # locale
 export LC_ALL=en_US.UTF-8
@@ -56,11 +61,6 @@ linux*)
   alias ls='ls -F --color'
   ;;
 esac
-
-# home/end
-bindkey "^[[1~" beginning-of-line
-bindkey "^[[4~" end-of-line
-bindkey "^[[3~" delete-char
 
 # custom commands
 ## cd and then ls
