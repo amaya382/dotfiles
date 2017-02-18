@@ -94,6 +94,8 @@ function ext() {
 # alias
 alias la='ls -a'
 alias ll='ls -al'
+alias mv='mv -i'
+alias cp='cp -i'
 alias dc='docker-compose'
 alias tmux='tmux -2'
 alias g-sta='git status'
