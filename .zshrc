@@ -30,6 +30,7 @@ setopt hist_ignore_all_dups
 setopt hist_expand
 
 # complement
+fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit; compinit
 setopt auto_list
 setopt auto_menu

@@ -67,6 +67,10 @@ curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh >
 sh ./installer.sh ~/.vim/dein
 rm installer.sh
 
+mkdir -p ~/.zsh/completion
+wget https://github.com/docker/docker/raw/master/contrib/completion/zsh/_docker -O - > ~/.zsh/completion/_docker
+wget https://github.com/docker/compose/raw/master/contrib/completion/zsh/_docker-compose -O - > ~/.zsh/completion/_docker-compose
+
 echo 'done.'
 echo 'tmux: `prefix + I`'
 echo 'vim: `:call dein#install()`'
