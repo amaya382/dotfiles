@@ -1,8 +1,7 @@
 [user]
   name = amaya
-  email = git@sapphire.in.net
+  email = mail@sapphire.in.net
 [core]
   excludesfile = ~/.gitignore_global
   ignorecase = false
-  autocrlf = false
-  filemode = false
+  autocrlf = input
