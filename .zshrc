@@ -117,6 +117,7 @@ alias g-pull='git pull origin `git symbolic-ref --short HEAD`'
 alias g-pus='git push'
 alias g-push='git push origin `git symbolic-ref --short HEAD`'
 alias g-log='git log --graph --oneline --decorate=full --name-status'
+alias g-log-full='git log --graph --oneline --decorate=full --name-status --pretty=fuller'
 alias g-sub='git submodule'
 alias g-sub-init='git submodule init && git submodule update'
 
