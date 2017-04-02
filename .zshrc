@@ -66,7 +66,7 @@ esac
 # custom commands
 ## cd and then ls
 function cd() {
-  builtin cd $@ && ls -a;
+  builtin cd $@ && ls -A;
 }
 
 ## mkdir and then cd
@@ -93,10 +93,12 @@ function ext() {
 }
 
 # alias
-alias la='ls -a'
-alias ll='ls -al'
+alias la='ls -A'
+alias ll='ls -Al'
 alias mv='mv -i'
 alias cp='cp -i'
+alias du0='du -sh'
+alias tree0='tree -Cha'
 alias dc='docker-compose'
 alias tmux='tmux -2'
 alias g-sta='git status'
