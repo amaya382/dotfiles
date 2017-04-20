@@ -49,9 +49,6 @@ case ${OSTYPE} in
   ;;
 esac
 
-PATH_TO_PACKAGE=`python3 -c "import site; print(site.getsitepackages()[0])"`
-sed -i --follow-symlinks -e "s!PATH_TO_PACKAGE!$PATH_TO_PACKAGE!" ~/.tmux.conf.additional
-
 [ $with_font -eq 1 ] && ./fonts/install.sh
 
 [ -e ~/.config ] || mkdir ~/.config
@@ -59,7 +56,7 @@ for f in .zsh .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .
   apply $f
 done
 
-$prefix pip3 install powerline-status psutil netifaces
+pip3 install --user powerline-status psutil netifaces
 
 chsh -s `which zsh`
 

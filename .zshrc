@@ -10,6 +10,10 @@ bindkey "^[[1~" beginning-of-line
 bindkey "^[[4~" end-of-line
 bindkey "^[[3~" delete-char
 
+## env
+export PATH="$PATH:`python3 -c 'import site; print(site.USER_BASE)'`/bin"
+export POWERLINE_HOME="`python3 -c 'import site; print(site.USER_SITE)'`/powerline"
+
 # locale
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -133,6 +137,7 @@ alias g-sub-init='git submodule init && git submodule update'
 
 # powerline
 powerline-daemon -q
+. $POWERLINE_HOME/bindings/zsh/powerline.zsh
 
 # plugins
 if [ -e ~/.zsh ]; then
