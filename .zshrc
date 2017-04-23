@@ -40,9 +40,10 @@ setopt auto_list
 setopt auto_menu
 setopt list_packed
 setopt list_types
+setopt complete_in_word
 setopt auto_param_slash
 setopt magic_equal_subst
-setopt menu_complete
+# setopt menu_complete
 setopt auto_param_keys
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 bindkey "^[[Z" reverse-menu-complete
