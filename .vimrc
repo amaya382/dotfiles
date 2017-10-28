@@ -54,6 +54,8 @@ set scrolloff=999
 
 set ttyfast
 
+set mouse=a
+
 nnoremap ; :
 nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
