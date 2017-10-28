@@ -7,6 +7,7 @@ if dein#load_state(expand('~/.vim/dein'))
   call dein#begin(expand('~/.vim/dein'))
   call dein#add('powerline/powerline', {'rtp': 'powerline/bindings/vim/'})
   call dein#add('haya14busa/incsearch.vim')
+  call dein#add('osyo-manga/vim-over')
   call dein#add('Shougo/neocomplcache.vim')
   call dein#add('nathanaelkane/vim-indent-guides')
   call dein#add('derekwyatt/vim-scala')
@@ -77,6 +78,13 @@ set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusl
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
+
+
+""""""""""""
+" vim-over "
+""""""""""""
+nnoremap %s :OverCommandLine<CR>%s//g<Left><Left>
+vnoremap %s :OverCommandLine<CR>s//g<Left><Left>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
