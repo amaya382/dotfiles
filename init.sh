@@ -32,7 +32,7 @@ case ${OSTYPE} in
     apply osx/.zshrc .zshrc.additional
     apply osx/.tmux.conf .tmux.conf.additional
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew update && brew upgrade -y && brew install -y tmux zsh python3 macvim reattach-to-user-namespace
+    brew update && brew upgrade -y && brew install -y tmux zsh python3 vim reattach-to-user-namespace
   ;;
   linux*)
     apply linux/.zshrc .zshrc.additional
