@@ -10,7 +10,7 @@ if dein#load_state(expand('~/.vim/dein'))
   call dein#add('Shougo/neocomplcache.vim')
   call dein#add('nathanaelkane/vim-indent-guides')
   call dein#add('derekwyatt/vim-scala')
-  call dein#add('leftouterjoin/changed')
+"  call dein#add('leftouterjoin/changed')
   call dein#end()
   call dein#save_state()
 endif
