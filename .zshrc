@@ -34,10 +34,13 @@ setopt hist_reduce_blanks
 setopt hist_verify
 setopt hist_ignore_all_dups
 setopt hist_expand
+setopt append_history
 
 # complement
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit; compinit
+zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list
+zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 setopt auto_list
 setopt auto_menu
 setopt list_packed
