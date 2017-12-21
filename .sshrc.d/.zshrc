@@ -1,1 +1,1 @@
-/Users/amaya/dotfiles/.zshrc
+../.zshrc

@@ -1,1 +1,1 @@
-/Users/amaya/dotfiles/.vimrc
+../.vimrc
