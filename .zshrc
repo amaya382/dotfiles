@@ -182,7 +182,7 @@ if [ -z "${SSHHOME}" ]; then # sshrc
 fi
 
 if [ ! -z "${SSHHOME}" ]; then # sshrc
-  tmux() {
+  function tmux() {
     local TMUXDIR=/tmp/.tmux-${USER}
     if ! [ -d ${TMUXDIR} ]; then
       rm -rf ${TMUXDIR}
