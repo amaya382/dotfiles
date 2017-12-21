@@ -12,9 +12,20 @@ bindkey "^[[3~" delete-char
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
 
+## stack (cannot edit on tmux...)
+show_buffer_stack() {
+  POSTDISPLAY="
+📥: ${LBUFFER}"
+  zle push-line-or-edit
+}
+zle -N show_buffer_stack
+setopt noflowcontrol
+bindkey '^Q' show_buffer_stack
+
 ## env
 export PATH="$PATH:`python3 -c 'import site; print(site.USER_BASE)'`/bin"
 export POWERLINE_HOME="`python3 -c 'import site; print(site.USER_SITE)'`/powerline"
+export KEYTIMEOUT=0
 
 # locale
 export LC_ALL=en_US.UTF-8
