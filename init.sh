@@ -8,8 +8,7 @@ git submodule init
 git submodule update
 
 mkdir -p ${dotfiles_saved}
-[ $# -gt 1 ] && [ $1 -eq 1 ] && with_font=1 || with_font=0
-[ $# -gt 2 ] && [ $2 -eq 1 ] && copy_mode=1 || copy_mode=0
+[ $# -gt 1 ] && [ $1 -eq 1 ] && copy_mode=1 || copy_mode=0
 
 apply () {
   from=$1
@@ -49,8 +48,6 @@ case ${OSTYPE} in
     fi
   ;;
 esac
-
-[ $with_font -eq 1 ] && ./fonts/install.sh
 
 [ -e ~/.config ] || mkdir ~/.config
 for f in .zsh .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .config/powerline .sshrc .sshrc.d; do
