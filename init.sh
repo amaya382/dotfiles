@@ -1,4 +1,5 @@
 #!/bin/bash
+
 dotfiles=$(pwd)
 dotfiles_saved=~/dotfiles_saved
 [[ ! $dotfiles =~ dotfiles$ ]] && echo 'execute in dotfiles directory' && exit 1
@@ -52,7 +53,7 @@ esac
 [ $with_font -eq 1 ] && ./fonts/install.sh
 
 [ -e ~/.config ] || mkdir ~/.config
-for f in .zsh .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .config/powerline; do
+for f in .zsh .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .config/powerline .sshrc .sshrc.d; do
   apply $f
 done
 
