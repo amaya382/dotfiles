@@ -156,27 +156,42 @@ alias g-log-f='git log --graph --oneline --decorate=full --name-status --pretty=
 alias g-sub='git submodule'
 alias g-sub-i='git submodule init && git submodule update'
 
-# powerline
-powerline-daemon -q
-. $POWERLINE_HOME/bindings/zsh/powerline.zsh
+if [ -z "${SSHHOME}" ]; then # sshrc
+  # powerline
+  powerline-daemon -q
+  . ${POWERLINE_HOME}/bindings/zsh/powerline.zsh
 
-# plugins
-if [ -e ~/.zsh ]; then
-  ## zaw
-  autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-  add-zsh-hook chpwd chpwd_recent_dirs
-  zstyle ':chpwd:*' recent-dirs-max 500
-  zstyle ':chpwd:*' recent-dirs-default yes
-  zstyle ':completion:*' recent-dirs-insert both
-  source ~/.zsh/zaw/zaw.zsh
-  zstyle ':filter-select' case-insensitive yes
-  bindkey '^H' zaw-history
-  bindkey '^R' zaw-cdr
-  bindkey '^T' zaw-tmux
-  bindkey '^P' zaw-process
+  # plugins
+  if [ -e ~/.zsh ]; then
+    ## zaw
+    autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+    add-zsh-hook chpwd chpwd_recent_dirs
+    zstyle ':chpwd:*' recent-dirs-max 500
+    zstyle ':chpwd:*' recent-dirs-default yes
+    zstyle ':completion:*' recent-dirs-insert both
+    source ~/.zsh/zaw/zaw.zsh
+    zstyle ':filter-select' case-insensitive yes
+    bindkey '^H' zaw-history
+    bindkey '^R' zaw-cdr
+    bindkey '^T' zaw-tmux
+    bindkey '^P' zaw-process
 
-  ## zsh-syntax-highlighting
-  source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    ## zsh-syntax-highlighting
+    source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  fi
+fi
+
+if [ ! -z "${SSHHOME}" ]; then # sshrc
+  tmux() {
+    local TMUXDIR=/tmp/.tmux-${USER}
+    if ! [ -d ${TMUXDIR} ]; then
+      rm -rf ${TMUXDIR}
+      mkdir -p ${TMUXDIR}
+    fi
+    rm -rf ${TMUXDIR}/{.sshrc,sshrc,.sshrc.d}
+    cp -r ${SSHHOME}/.sshrc ${SSHHOME}/sshrc ${SSHHOME}/.sshrc.d ${TMUXDIR}
+    SSHHOME=${TMUXDIR} ZDOTDIR=${SSHHOME}/.sshrc.d `${SHELL} -c 'which tmux'` -2 -f ${TMUXDIR}/.sshrc.d/.tmux.conf -S ${TMUXDIR}/tmuxserver $@
+}
 fi
 
 # os-specific conf
