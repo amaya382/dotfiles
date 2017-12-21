@@ -191,7 +191,7 @@ if [ ! -z "${SSHHOME}" ]; then # sshrc
     rm -rf ${TMUXDIR}/{.sshrc,sshrc,.sshrc.d}
     cp -r ${SSHHOME}/.sshrc ${SSHHOME}/sshrc ${SSHHOME}/.sshrc.d ${TMUXDIR}
     SSHHOME=${TMUXDIR} ZDOTDIR=${SSHHOME}/.sshrc.d `${SHELL} -c 'which tmux'` -2 -f ${TMUXDIR}/.sshrc.d/.tmux.conf -S ${TMUXDIR}/tmuxserver $@
-}
+  }
 fi
 
 # os-specific conf
