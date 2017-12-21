@@ -77,10 +77,10 @@ export CLICOLOR=true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 case "${OSTYPE}" in
 darwin*)
-  alias ls="ls -GF"
+  alias ls="ls -AGF"
   ;;
 linux*)
-  alias ls='ls -F --color'
+  alias ls='ls -AF --color'
   ;;
 esac
 
