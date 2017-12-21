@@ -32,9 +32,11 @@ case ${OSTYPE} in
     apply osx/.zshrc .zshrc.additional
     apply osx/.tmux.conf .tmux.conf.additional
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew update && brew upgrade -y && brew install -y tmux zsh python3 vim reattach-to-user-namespace
+    brew update && brew upgrade -y && brew install -y tmux zsh python3 vim reattach-to-user-namespace sshrc
   ;;
   linux*)
+    $prefix sh -c 'wget https://raw.githubusercontent.com/Russell91/sshrc/master/sshrc -O /usr/local/bin/sshrc && \
+      chmod +x /usr/local/bin/sshrc'
     apply linux/.zshrc .zshrc.additional
     apply linux/.tmux.conf .tmux.conf.additional
     if [ `which apt-get` ]; then
