@@ -156,6 +156,10 @@ alias g-log='git log --graph --oneline --decorate=full --name-status'
 alias g-log-f='git log --graph --oneline --decorate=full --name-status --pretty=fuller'
 alias g-sub='git submodule'
 alias g-sub-i='git submodule init && git submodule update'
+alias sum='awk "{s+=\$1} END{print s}"'
+alias avg='awk "{s+=\$1} END{print s/NR;}"'
+alias min='awk "BEGIN{m=10000000}{if(m>\$1) m=\$1} END{print m}"'
+alias max='awk "{if(m<\$1) m=\$1} END{print m}"'
 
 if [ -z "${SSHHOME}" ]; then # sshrc
   # powerline
