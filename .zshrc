@@ -115,7 +115,7 @@ function ext() {
 
 # alias
 alias la='ls -A'
-alias ll='ls -Al'
+alias ll='ls -Alh'
 alias mv='mv -i'
 alias cp='cp -i'
 alias du0='du -h -d 1'
