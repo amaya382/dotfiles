@@ -161,6 +161,10 @@ alias avg='awk "{s+=\$1} END{print s/NR;}"'
 alias min='awk "BEGIN{m=10000000}{if(m>\$1) m=\$1} END{print m}"'
 alias max='awk "{if(m<\$1) m=\$1} END{print m}"'
 
+wh() {
+  [ `which $1` ] && ll `which $1` || echo "$1 not found"
+}
+
 if [ -z "${SSHHOME}" ]; then # sshrc
   # powerline
   powerline-daemon -q
