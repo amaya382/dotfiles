@@ -32,6 +32,8 @@ set t_Co=256
 
 set number
 
+set timeout timeoutlen=10
+
 set expandtab
 set tabstop=2
 set shiftwidth=2
