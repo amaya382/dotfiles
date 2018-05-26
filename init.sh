@@ -68,6 +68,8 @@ mkdir -p ~/.zsh/completion
 wget https://github.com/docker/docker-ce/raw/master/components/cli/contrib/completion/zsh/_docker -O ~/.zsh/completion/_docker
 wget https://github.com/docker/compose/raw/master/contrib/completion/zsh/_docker-compose -O ~/.zsh/completion/_docker-compose
 
+rm -f ~/.zcompdump; compinit
+
 echo 'done.'
 echo 'tmux: `prefix + I`'
 echo 'vim: `:call dein#install()`'

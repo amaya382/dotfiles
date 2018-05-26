@@ -48,7 +48,7 @@ setopt hist_expand
 setopt append_history
 
 # complement
-fpath=(~/.zsh/completion $fpath)
+fpath=(~/.zsh/zsh-completions/src ~/.zsh/completion $fpath)
 autoload -Uz compinit; compinit
 zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list
 zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
