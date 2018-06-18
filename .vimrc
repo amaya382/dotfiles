@@ -65,6 +65,8 @@ set ttyfast
 
 set mouse=a
 
+nnoremap x "_x
+
 nnoremap ; :
 nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
