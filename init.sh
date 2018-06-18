@@ -51,8 +51,7 @@ case ${OSTYPE} in
   ;;
 esac
 
-[ -e ~/.config ] || mkdir ~/.config
-for f in .zsh .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .config/powerline .sshrc .sshrc.d; do
+for f in .zsh .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .sshrc .sshrc.d; do
   apply $f
 done
 
