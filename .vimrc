@@ -29,6 +29,7 @@ syntax enable
 """""""""""
 colorscheme default
 set t_Co=256
+hi Visual term=reverse cterm=reverse guibg=Gray
 
 set number
 
@@ -103,9 +104,9 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
   " indent-guides "
   """""""""""""""""
   let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_auto_colors=0
-  hi IndentGuidesOdd ctermbg=234
-  hi IndentGuidesEven ctermbg=236
+  let g:indent_guides_auto_colors = 0
+  hi IndentGuidesOdd ctermbg=246
+  hi IndentGuidesEven ctermbg=242
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
