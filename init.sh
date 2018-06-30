@@ -51,8 +51,7 @@ case ${OSTYPE} in
   ;;
 esac
 
-[ -e ~/.config ] || mkdir ~/.config
-for f in .zsh .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .config/powerline .sshrc .sshrc.d; do
+for f in .zsh .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .sshrc .sshrc.d; do
   apply $f
 done
 
@@ -67,6 +66,8 @@ rm installer.sh
 mkdir -p ~/.zsh/completion
 wget https://github.com/docker/docker-ce/raw/master/components/cli/contrib/completion/zsh/_docker -O ~/.zsh/completion/_docker
 wget https://github.com/docker/compose/raw/master/contrib/completion/zsh/_docker-compose -O ~/.zsh/completion/_docker-compose
+
+rm -f ~/.zcompdump; compinit
 
 echo 'done.'
 echo 'tmux: `prefix + I`'
