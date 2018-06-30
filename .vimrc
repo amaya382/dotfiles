@@ -12,6 +12,7 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
     call dein#add('Shougo/neocomplcache.vim')
     call dein#add('nathanaelkane/vim-indent-guides')
     call dein#add('derekwyatt/vim-scala')
+    call dein#add('ekalinin/Dockerfile.vim')
     call dein#add('prabirshrestha/async.vim')
     call dein#add('prabirshrestha/vim-lsp')
   "  call dein#add('leftouterjoin/changed')
