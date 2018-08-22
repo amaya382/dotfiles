@@ -98,8 +98,8 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
   """"""""""""
   " vim-over "
   """"""""""""
-  nnoremap %s :OverCommandLine<CR>%s//g<Left><Left>
-  vnoremap %s :OverCommandLine<CR>s//g<Left><Left>
+  nnoremap %s :OverCommandLine<CR>%s/\v/g<Left><Left>
+  vnoremap %s :OverCommandLine<CR>s/\v/g<Left><Left>
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
