@@ -30,7 +30,8 @@ syntax enable
 """""""""""
 colorscheme default
 set t_Co=256
-hi Visual term=reverse cterm=reverse guibg=Gray
+hi Visual cterm=reverse ctermbg=Black gui=none
+hi MatchParen ctermbg=1 gui=none
 
 set number
 
