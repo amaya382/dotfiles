@@ -56,7 +56,7 @@ set wildmode=list,full
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:&
 
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 set ignorecase
 "set incsearch
