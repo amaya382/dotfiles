@@ -6,11 +6,11 @@
     * [tpm](https://github.com/tmux-plugins/tpm)
     * [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)
     * [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum)
-    * [tmux-sidebar](https://github.com/tmux-plugins/tmux-sidebar)
     * [tmux-better-mouse-mode](https://github.com/NHDaly/tmux-better-mouse-mode)
 
 * zsh
-    * [zaw](https://github.com/zsh-users/zaw)
+    * [zplug](https://github.com/zplug/zplug)
+    * [zsh-completions](https://github.com/zsh-users/zsh-completions)
     * [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 
 * vim
@@ -19,7 +19,7 @@
     * [neocomplcache](https://github.com/Shougo/neocomplcache.vim)
     * [vim-scala](https://github.com/derekwyatt/vim-scala)
     * [indent-guides](https://github.com/nathanaelkane/vim-indent-guides)
-    * [changed](https://github.com/leftouterjoin/changed)
+    * [DISABLED] [changed](https://github.com/leftouterjoin/changed)
 
 * [powerline](https://github.com/powerline/powerline)
 
@@ -40,7 +40,6 @@
 
 ### Prerequirements
 
-* `which`
 * `git`
 
 ```shell

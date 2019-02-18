@@ -32,10 +32,13 @@ colorscheme default
 set t_Co=256
 hi Visual cterm=reverse ctermbg=Black gui=none
 hi MatchParen ctermbg=1 gui=none
+set background=dark
 
 set number
 
-set timeout timeoutlen=10
+if !has("mac")
+  set timeout timeoutlen=10
+endif
 
 set expandtab
 set tabstop=2
@@ -56,9 +59,14 @@ set wildmode=list,full
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:&
 
-set clipboard=unnamedplus
+if has("mac")
+  set clipboard=unnamed
+else
+  set clipboard=unnamedplus
+endif
 
 set ignorecase
+set smartcase
 "set incsearch
 "set hlsearch | nohlsearch
 
@@ -111,8 +119,8 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
   """""""""""""""""
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_auto_colors = 0
-  hi IndentGuidesOdd ctermbg=246
-  hi IndentGuidesEven ctermbg=242
+  hi IndentGuidesOdd ctermbg=black
+  hi IndentGuidesEven ctermbg=darkgray
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
