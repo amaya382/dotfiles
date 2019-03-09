@@ -37,7 +37,7 @@ case ${OSTYPE} in
     brew update
     brew upgrade -y
     brew install \
-      tmux zsh python3 vim reattach-to-user-namespace sshrc zplug
+      tmux zsh vim reattach-to-user-namespace sshrc
   ;;
   linux*)
     apply linux/.zshrc .zshrc.additional
@@ -46,15 +46,15 @@ case ${OSTYPE} in
       $sudo apt-get update
       $sudo apt-get upgrade -y
       $sudo apt-get install -y \
-        tmux zsh python3 python3-dev python3-pip tree vim xsel gawk
+        tmux zsh tree vim xsel gawk
     elif [ `which dnf` ]; then
       $sudo dnf update -y
       $sudo dnf install -y \
-        tmux zsh python3 python3-devel python3-pip tree vim gcc redhat-rpm-config xsel util-linux-user gawk
+        tmux zsh tree vim gcc redhat-rpm-config xsel util-linux-user gawk
     elif [ `which yum` ]; then
       $sudo yum update -y
       $sudo yum install -y \
-        tmux zsh python3 python3-devel python3-pip tree vim gcc redhat-rpm-config xsel gawk
+        tmux zsh tree vim gcc redhat-rpm-config xsel gawk
     else
       echo 'unexpected distribution' && exit 1
     fi
@@ -63,20 +63,20 @@ case ${OSTYPE} in
     wget https://raw.githubusercontent.com/Russell91/sshrc/master/sshrc \
      -O ~/.local/bin/sshrc
     chmod +x ~/.local/bin/sshrc
-    export ZPLUG_HOME=~/.local/opt/zplug
-    [ -z "${ZPLUG_HOME}" ] || \
-      ( mkdir -p ${ZPLUG_HOME} && \
-        curl -sL --proto-redir -all,https \
-        https://raw.githubusercontent.com/zplug/installer/master/installer.zsh \
-        | zsh )
   ;;
 esac
+
+# zplug
+export ZPLUG_HOME=~/.local/opt/zplug
+[ -z "${ZPLUG_HOME}" ] || \
+  ( mkdir -p ${ZPLUG_HOME} && \
+    curl -sL --proto-redir -all,https \
+    https://raw.githubusercontent.com/zplug/installer/master/installer.zsh \
+    | zsh )
 
 for f in .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .sshrc .sshrc.d; do
   apply $f
 done
-
-pip3 install --user powerline-status psutil netifaces
 
 chsh -s `which zsh`
 

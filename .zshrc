@@ -28,7 +28,7 @@ show-buffer-stack() {
 }
 zle -N show-buffer-stack
 setopt noflowcontrol
-bindkey '^Q' show_buffer_stack
+bindkey '^Q' show-buffer-stack
 
 ## env
 export KEYTIMEOUT=0
@@ -110,18 +110,17 @@ if [ -z "${SSHHOME}" ]; then # not sshrc
   zstyle ':chpwd:*' recent-dirs-default yes
   zstyle ':completion:*' recent-dirs-insert both
 
-  #export ZPLUG_HOME=/usr/local/opt/zplug # mac only!!!!!!!!!
-  export ZPLUG_HOME=~/.local/opt/zplug # linux only!!!!!!!!!
+  export ZPLUG_HOME=~/.local/opt/zplug
   source ${ZPLUG_HOME}/init.zsh
   zplug "zsh-users/zsh-syntax-highlighting", defer:2
   zplug "zsh-users/zsh-autosuggestions"
   zplug "zsh-users/zsh-completions"
   zplug "docker/compose", use:contrib/completion/zsh
-  zplug "docker/docker-ce", use:components/cli/contrib/completion/zsh
-  zplug "git/git", use:contrib/completion
+  zplug "docker/docker-ce", use:components/cli/contrib/completion/zsh, lazy:true
+  zplug "plugins/git", from:oh-my-zsh
   zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
   zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
-  zplug "amaya382/fzf-zsh-widgets"
+  zplug "amaya382/zsh-fzf-widgets"
   zplug "mollifier/cd-gitroot"
   zplug "momo-lab/zsh-abbrev-alias", defer:3
   zplug "b4b4r07/zsh-gomi", as:command, use:bin
@@ -230,4 +229,3 @@ alias max='awk "{if(m<\$1) m=\$1} END{print m}"'
 # local conf if exists
 [ -f ~/.zshrc.local ] && . ~/.zshrc.local
 
-source ~/work/fzf-zsh-widgets/fzf-zsh-widgets.zsh
