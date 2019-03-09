@@ -12,6 +12,13 @@ bindkey "^[[3~" delete-char
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
 
+# theme
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs command_execution_time root_indicator vcs context time)
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
+POWERLEVEL9K_SHORTEN_DELIMITER=''
+POWERLEVEL9K_SHORTEN_STRATEGY=truncate_from_right
+
 ## stack (cannot edit on tmux...)
 ## FIXME: Broken by "momo-lab/zsh-abbrev-alias"
 show-buffer-stack() {
@@ -24,8 +31,6 @@ setopt noflowcontrol
 bindkey '^Q' show_buffer_stack
 
 ## env
-export PATH="$PATH:`python3 -c 'import site; print(site.USER_BASE)'`/bin"
-export POWERLINE_HOME="`python3 -c 'import site; print(site.USER_SITE)'`/powerline"
 export KEYTIMEOUT=0
 
 # locale
@@ -98,10 +103,6 @@ function mkcd() {
 }
 
 if [ -z "${SSHHOME}" ]; then # not sshrc
-  # powerline
-  powerline-daemon -q
-  . ${POWERLINE_HOME}/bindings/zsh/powerline.zsh
-
   ## recent dirs
   autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
   add-zsh-hook chpwd chpwd_recent_dirs
@@ -124,6 +125,7 @@ if [ -z "${SSHHOME}" ]; then # not sshrc
   zplug "mollifier/cd-gitroot"
   zplug "momo-lab/zsh-abbrev-alias", defer:3
   zplug "b4b4r07/zsh-gomi", as:command, use:bin
+  zplug "bhilburn/powerlevel9k", use:"powerlevel9k.zsh-theme", as:theme
   zplug check --verbose || zplug install
   zplug load
 
