@@ -6,7 +6,6 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
 
   if dein#load_state(expand('~/.vim/dein'))
     call dein#begin(expand('~/.vim/dein'))
-    call dein#add('powerline/powerline', {'rtp': 'powerline/bindings/vim/'})
     call dein#add('haya14busa/incsearch.vim')
     call dein#add('osyo-manga/vim-over')
     call dein#add('Shougo/neocomplcache.vim')
@@ -15,6 +14,8 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
     call dein#add('ekalinin/Dockerfile.vim')
     call dein#add('prabirshrestha/async.vim')
     call dein#add('prabirshrestha/vim-lsp')
+    call dein#add('vim-airline/vim-airline')
+    call dein#add('vim-airline/vim-airline-themes')
   "  call dein#add('leftouterjoin/changed')
     call dein#end()
     call dein#save_state()
@@ -86,15 +87,13 @@ autocmd InsertLeave * set nopaste
 
 
 if isdirectory(expand("~/.vim/dein")) " sshrc
-  """""""""""""
-  " powerline "
-  """""""""""""
-  let g:powerline_pycmd="python3"
-  set laststatus=2 " Always display the statusline in all windows
-  set showtabline=2 " Always display the tabline, even if there is only one tab
-  set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+  """""""""""
+  " airline "
+  """""""""""
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline_powerline_fonts = 1
+  let g:airline_theme = 'dracula'
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 
   """""""""""""
   " incsearch "
@@ -104,6 +103,7 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
     map ?  <Plug>(incsearch-backward)
     map g/ <Plug>(incsearch-stay)
   "endif
+  """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
   """"""""""""
