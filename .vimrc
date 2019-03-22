@@ -6,7 +6,6 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
 
   if dein#load_state(expand('~/.vim/dein'))
     call dein#begin(expand('~/.vim/dein'))
-    call dein#add('powerline/powerline', {'rtp': 'powerline/bindings/vim/'})
     call dein#add('haya14busa/incsearch.vim')
     call dein#add('osyo-manga/vim-over')
     call dein#add('Shougo/neocomplcache.vim')
@@ -15,6 +14,8 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
     call dein#add('ekalinin/Dockerfile.vim')
     call dein#add('prabirshrestha/async.vim')
     call dein#add('prabirshrestha/vim-lsp')
+    call dein#add('vim-airline/vim-airline')
+    call dein#add('vim-airline/vim-airline-themes')
   "  call dein#add('leftouterjoin/changed')
     call dein#end()
     call dein#save_state()
@@ -32,10 +33,13 @@ colorscheme default
 set t_Co=256
 hi Visual cterm=reverse ctermbg=Black gui=none
 hi MatchParen ctermbg=1 gui=none
+set background=dark
 
 set number
 
-set timeout timeoutlen=10
+if !has("mac")
+  set timeout timeoutlen=10
+endif
 
 set expandtab
 set tabstop=2
@@ -56,9 +60,14 @@ set wildmode=list,full
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:&
 
-set clipboard=unnamedplus
+if has("mac")
+  set clipboard=unnamed
+else
+  set clipboard=unnamedplus
+endif
 
 set ignorecase
+set smartcase
 "set incsearch
 "set hlsearch | nohlsearch
 
@@ -78,15 +87,13 @@ autocmd InsertLeave * set nopaste
 
 
 if isdirectory(expand("~/.vim/dein")) " sshrc
-  """""""""""""
-  " powerline "
-  """""""""""""
-  let g:powerline_pycmd="python3"
-  set laststatus=2 " Always display the statusline in all windows
-  set showtabline=2 " Always display the tabline, even if there is only one tab
-  set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+  """""""""""
+  " airline "
+  """""""""""
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline_powerline_fonts = 1
+  let g:airline_theme = 'dracula'
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 
   """""""""""""
   " incsearch "
@@ -96,6 +103,7 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
     map ?  <Plug>(incsearch-backward)
     map g/ <Plug>(incsearch-stay)
   "endif
+  """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
   """"""""""""
@@ -111,8 +119,8 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
   """""""""""""""""
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_auto_colors = 0
-  hi IndentGuidesOdd ctermbg=246
-  hi IndentGuidesEven ctermbg=242
+  hi IndentGuidesOdd ctermbg=black
+  hi IndentGuidesEven ctermbg=darkgray
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 

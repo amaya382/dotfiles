@@ -12,19 +12,25 @@ bindkey "^[[3~" delete-char
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
 
+# theme
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs command_execution_time root_indicator vcs context time)
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
+POWERLEVEL9K_SHORTEN_DELIMITER=''
+POWERLEVEL9K_SHORTEN_STRATEGY=truncate_from_right
+
 ## stack (cannot edit on tmux...)
-show_buffer_stack() {
+## FIXME: Broken by "momo-lab/zsh-abbrev-alias"
+show-buffer-stack() {
   POSTDISPLAY="
 📥: ${LBUFFER}"
   zle push-line-or-edit
 }
-zle -N show_buffer_stack
+zle -N show-buffer-stack
 setopt noflowcontrol
-bindkey '^Q' show_buffer_stack
+bindkey '^Q' show-buffer-stack
 
 ## env
-export PATH="$PATH:`python3 -c 'import site; print(site.USER_BASE)'`/bin"
-export POWERLINE_HOME="`python3 -c 'import site; print(site.USER_SITE)'`/powerline"
 export KEYTIMEOUT=0
 
 # locale
@@ -48,8 +54,7 @@ setopt hist_expand
 setopt append_history
 
 # complement
-fpath=(~/.zsh/zsh-completions/src ~/.zsh/completion $fpath)
-autoload -Uz compinit; compinit
+autoload -Uz compinit && compinit
 zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list
 zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 setopt auto_list
@@ -59,10 +64,12 @@ setopt list_types
 setopt complete_in_word
 setopt auto_param_slash
 setopt magic_equal_subst
-# setopt menu_complete
+setopt menu_complete
 setopt auto_param_keys
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*:default' menu select=2
 bindkey "^[[Z" reverse-menu-complete
+compdef sshrc=ssh
 
 # prompt
 PROMPT='%F{red}$ %f'
@@ -95,99 +102,59 @@ function mkcd() {
   mkdir -p $1 && cd $1
 }
 
-## extract
-function ext() {
-  case $1 in
-    *.tar.gz|*.tgz) tar xzvf $1;;
-    *.tar.xz) tar Jxvf $1;;
-    *.zip) unzip $1;;
-    *.lzh) lha e $1;;
-    *.tar.bz2|*.tbz) tar xjvf $1;;
-    *.tar.Z) tar zxvf $1;;
-    *.gz) gzip -dc $1;;
-    *.bz2) bzip2 -dc $1;;
-    *.Z) uncompress $1;;
-    *.tar) tar xvf $1;;
-    *.arj) unarj $1;;
-    *.rar) unrar e $1;;
-  esac
-}
+if [ -z "${SSHHOME}" ]; then # not sshrc
+  ## recent dirs
+  autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+  add-zsh-hook chpwd chpwd_recent_dirs
+  zstyle ':chpwd:*' recent-dirs-max 500
+  zstyle ':chpwd:*' recent-dirs-default yes
+  zstyle ':completion:*' recent-dirs-insert both
 
-# alias
-alias la='ls -A'
-alias ll='ls -Alh'
-alias mv='mv -i'
-alias cp='cp -i'
-alias du0='du -h -d 1'
-alias tree0='tree -Chaf'
-alias d-ps='docker ps'
-alias d-exe='docker exec'
-alias d-exe0='docker exec -it'
-alias d-run='docker run'
-alias d-run0='docker run -it --rm'
-alias d-bui='docker build'
-alias dc='docker-compose'
-alias tmux='tmux -2'
-alias g-ini='git init'
-alias g-sta='git status'
-alias g-dif='git diff'
-alias g-dif-c='git diff --cached'
-alias g-dif-w='git diff --word-diff-regex=$'\''[^\x80-\xbf][\x80-\xbf]*'\'' --word-diff=color'
-alias g-clo='git clone'
-alias g-fet='git fetch'
-alias g-add='git add'
-alias g-rm='git rm'
-alias g-res='git reset'
-alias g-tag='git tag'
-alias g-com='git diff --cached --stat && echo -n "[y/n]: " && read yn && [ "$yn" = "y" ] && git commit -m'
-alias g-com-a='git commit --amend --date=now'
-alias g-rem='git remote'
-alias g-bra='git branch'
-alias g-che='git checkout'
-alias g-mer='git merge'
-alias g-mer-dry='git merge --no-commit --no-ff'
-alias g-reb='git rebase --committer-date-is-author-date'
-alias g-chp='git cherry-pick'
-alias g-pul='git pull'
-alias g-pull='git pull origin `git symbolic-ref --short HEAD`'
-alias g-pus='git push'
-alias g-push='git push origin `git symbolic-ref --short HEAD`'
-alias g-log='git log --graph --oneline --decorate=full --name-status'
-alias g-log-f='git log --graph --oneline --decorate=full --name-status --pretty=fuller'
-alias g-sub='git submodule'
-alias g-sub-i='git submodule init && git submodule update'
-alias sum='awk "{s+=\$1} END{print s}"'
-alias avg='awk "{s+=\$1} END{print s/NR;}"'
-alias min='awk "BEGIN{m=10000000}{if(m>\$1) m=\$1} END{print m}"'
-alias max='awk "{if(m<\$1) m=\$1} END{print m}"'
+  export ZPLUG_HOME=~/.local/opt/zplug
+  source ${ZPLUG_HOME}/init.zsh
+  zplug "zsh-users/zsh-syntax-highlighting", defer:2
+  zplug "zsh-users/zsh-autosuggestions"
+  zplug "zsh-users/zsh-completions"
+  zplug "docker/compose", use:contrib/completion/zsh
+  zplug "docker/docker-ce", use:components/cli/contrib/completion/zsh, lazy:true
+  zplug "plugins/git", from:oh-my-zsh
+  zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
+  zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
+  zplug "amaya382/zsh-fzf-widgets"
+  zplug "mollifier/cd-gitroot"
+  zplug "momo-lab/zsh-abbrev-alias", defer:3
+  zplug "b4b4r07/zsh-gomi", as:command, use:bin
+  zplug "bhilburn/powerlevel9k", use:"powerlevel9k.zsh-theme", as:theme
+  zplug check --verbose || zplug install
+  zplug load
 
-wh() {
-  [ `which $1` ] && ll `which $1` || echo "$1 not found"
-}
+  bindkey '^R' fzf-cdr
+  bindkey '^H' fzf-history
+  bindkey '^P' fzf-kill-proc-by-list
 
-if [ -z "${SSHHOME}" ]; then # sshrc
-  # powerline
-  powerline-daemon -q
-  . ${POWERLINE_HOME}/bindings/zsh/powerline.zsh
+  alias cds='cd-gitroot'
 
-  # plugins
-  if [ -e ~/.zsh ]; then
-    ## zaw
-    autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-    add-zsh-hook chpwd chpwd_recent_dirs
-    zstyle ':chpwd:*' recent-dirs-max 500
-    zstyle ':chpwd:*' recent-dirs-default yes
-    zstyle ':completion:*' recent-dirs-insert both
-    source ~/.zsh/zaw/zaw.zsh
-    zstyle ':filter-select' case-insensitive yes
-    bindkey '^H' zaw-history
-    bindkey '^R' zaw-cdr
-    bindkey '^T' zaw-tmux
-    bindkey '^P' zaw-process
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets cursor)
+  ZSH_HIGHLIGHT_STYLES[bracket-error]='fg=red,bold'
+  ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=blue,bold'
+  ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=green,bold'
+  ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=magenta,bold'
+  ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=yellow,bold'
+  ZSH_HIGHLIGHT_STYLES[bracket-level-5]='fg=cyan,bold'
+  ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]='standout'
+  ZSH_HIGHLIGHT_STYLES[cursor]='bg=blue'
 
-    ## zsh-syntax-highlighting
-    source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  fi
+  # TODO: Expand when pushing down enter (?)
+  #enter() {
+  #  zle accept-line
+  #  if [[ -n "$LBUFFER" && -z "$RBUFFER" ]] then;
+  #    __abbrev_alias::magic_abbrev_expand
+  #  else
+  #    zle accept-line
+  #  fi
+  #}
+  #zle -N enter
+  #bindkey "\C-m" enter
 fi
 
 if [ ! -z "${SSHHOME}" ]; then # sshrc
@@ -199,12 +166,67 @@ if [ ! -z "${SSHHOME}" ]; then # sshrc
     fi
     rm -rf ${TMUXDIR}/{.sshrc,sshrc,.sshrc.d}
     cp -r ${SSHHOME}/.sshrc ${SSHHOME}/sshrc ${SSHHOME}/.sshrc.d ${TMUXDIR}
-    SSHHOME=${TMUXDIR} ZDOTDIR=${TMUXDIR}/.sshrc.d `${SHELL} -c 'which tmux'` -2 -f ${TMUXDIR}/.sshrc.d/.tmux.conf -S ${TMUXDIR}/tmuxserver $@
+    SSHHOME=${TMUXDIR} ZDOTDIR=${TMUXDIR}/.sshrc.d \
+      `${SHELL} -c 'which tmux'` -2 -f ${TMUXDIR}/.sshrc.d/.tmux.conf -S ${TMUXDIR}/tmuxserver $@
   }
 fi
+
+
+# alias
+alias abbr="$($(which abbrev-alias > /dev/null) && echo abbrev-alias || echo alias)"
+alias la='ls -A'
+alias ll='ls -Alh'
+
+abbr mv='mv -i'
+abbr cp='cp -i'
+abbr du0='du -h -d 1'
+abbr tree0='tree -Chaf'
+abbr d-ps='docker ps'
+abbr d-exe='docker exec'
+abbr d-exe0='docker exec -it'
+abbr d-run='docker run'
+abbr d-run0='docker run -it --rm'
+abbr d-bui='docker build'
+abbr dc='docker-compose'
+abbr tmux='tmux -2'
+abbr g-ini='git init'
+abbr g-sta='git status'
+abbr g-dif='git diff'
+abbr g-dif-c='git diff --cached'
+abbr g-dif-w='git diff --word-diff-regex=$'\''[^\x80-\xbf][\x80-\xbf]*'\'' --word-diff=color'
+abbr g-clo='git clone'
+abbr g-fet='git fetch'
+abbr g-add='git add'
+abbr g-rm='git rm'
+abbr g-res='git reset'
+abbr g-tag='git tag'
+abbr g-com='git commit -m'
+abbr g-com-a='git commit --amend --date=now'
+abbr g-rem='git remote'
+abbr g-bra='git branch'
+abbr g-che='git checkout'
+abbr g-mer='git merge'
+abbr g-mer-dry='git merge --no-commit --no-ff'
+abbr g-reb='git rebase --committer-date-is-author-date'
+abbr g-chp='git cherry-pick'
+abbr g-pul='git pull'
+abbr g-pull='git pull origin `git symbolic-ref --short HEAD`'
+abbr g-pus='git push'
+abbr g-push='git push origin `git symbolic-ref --short HEAD`'
+abbr g-log='git log --graph --oneline --decorate=full --name-status'
+abbr g-log-f='git log --graph --oneline --decorate=full --name-status --pretty=fuller'
+abbr g-sub='git submodule'
+abbr g-sub-i='git submodule init && git submodule update'
+
+alias sum='awk "{s+=\$1} END{print s}"'
+alias avg='awk "{s+=\$1} END{print s/NR;}"'
+alias min='awk "BEGIN{m=10000000}{if(m>\$1) m=\$1} END{print m}"'
+alias max='awk "{if(m<\$1) m=\$1} END{print m}"'
+
 
 # os-specific conf
 [ -f ~/.zshrc.additional ] && . ~/.zshrc.additional
 
 # local conf if exists
 [ -f ~/.zshrc.local ] && . ~/.zshrc.local
+
