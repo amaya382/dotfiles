@@ -130,6 +130,7 @@ if [ -z "${SSHHOME}" ]; then # not sshrc
 
   bindkey '^R' fzf-cdr
   bindkey '^H' fzf-history
+  bindkey '^P' fzf-kill-proc-by-list
 
   alias cds='cd-gitroot'
 
