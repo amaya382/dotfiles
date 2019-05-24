@@ -11,6 +11,7 @@ bindkey "^[[4~" end-of-line
 bindkey "^[[3~" delete-char
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
+set -o ignoreeof # prevent Ctrl-D
 
 # theme
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir)
