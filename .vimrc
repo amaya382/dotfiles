@@ -12,8 +12,6 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
     call dein#add('nathanaelkane/vim-indent-guides')
     call dein#add('derekwyatt/vim-scala')
     call dein#add('ekalinin/Dockerfile.vim')
-    call dein#add('prabirshrestha/async.vim')
-    call dein#add('prabirshrestha/vim-lsp')
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
   "  call dein#add('leftouterjoin/changed')
@@ -139,18 +137,5 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
 
   " <TAB>: completion.
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-  """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-  """""""""""""""""""
-  " language server "
-  """""""""""""""""""
-  if executable('clangd')
-    au User lsp_setup call lsp#register_server({
-      \ 'name': 'clangd',
-      \ 'cmd': {server_info->['clangd']},
-      \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'h'],
-      \ })
-  endif
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 endif
