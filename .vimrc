@@ -100,8 +100,6 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
   """""""""""""
   "if !has('patch-8.0.1238')
     map /  <Plug>(incsearch-forward)
-    map ?  <Plug>(incsearch-backward)
-    map g/ <Plug>(incsearch-stay)
   "endif
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -109,8 +107,8 @@ if isdirectory(expand("~/.vim/dein")) " sshrc
   """"""""""""
   " vim-over "
   """"""""""""
-  nnoremap %s :OverCommandLine<CR>%s/\v/g<Left><Left>
-  vnoremap %s :OverCommandLine<CR>s/\v/g<Left><Left>
+  nnoremap ? :OverCommandLine<CR>%s/\v/g<Left><Left>
+  vnoremap ? :OverCommandLine<CR>s/\v/g<Left><Left>
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
