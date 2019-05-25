@@ -32,6 +32,7 @@ bindkey '^Q' show-buffer-stack
 
 ## env
 export KEYTIMEOUT=0
+export PATH=$PATH:$HOME/.local/bin
 
 # locale
 export LC_ALL=en_US.UTF-8
