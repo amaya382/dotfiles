@@ -80,6 +80,9 @@ nnoremap x "_x
 nnoremap ; :
 nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 
+nnoremap j gj
+nnoremap k gk
+
 autocmd InsertLeave * set nopaste
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
