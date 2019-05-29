@@ -9,3 +9,8 @@ alias offkb="sudo kextunload /System/Library/Extensions/AppleUSBTopCase.kext/Con
 # PATH
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export EDITOR=/usr/local/bin/vim
+export PATH=/usr/local/opt/unzip/bin:$PATH
+
+
+export GOPATH=${HOME}/go
+export PATH=$PATH:$GOPATH/bin
