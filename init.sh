@@ -37,7 +37,7 @@ case ${OSTYPE} in
     brew update
     brew upgrade -y
     brew install \
-      tmux zsh vim reattach-to-user-namespace sshrc
+      tmux zsh vim reattach-to-user-namespace
   ;;
   linux*)
     apply linux/.zshrc .zshrc.additional
@@ -58,13 +58,13 @@ case ${OSTYPE} in
     else
       echo 'unexpected distribution' && exit 1
     fi
-
-    mkdir -p ~/.local/bin
-    wget https://raw.githubusercontent.com/Russell91/sshrc/master/sshrc \
-     -O ~/.local/bin/sshrc
-    chmod +x ~/.local/bin/sshrc
   ;;
 esac
+
+mkdir -p ~/.local/bin
+
+# anyrc
+curl -sSL https://github.com/amaya382/anyrc/raw/master/install.sh | DIR=~/.local/bin bash
 
 # zplug
 export ZPLUG_HOME=~/.local/opt/zplug
@@ -74,7 +74,7 @@ export ZPLUG_HOME=~/.local/opt/zplug
     https://raw.githubusercontent.com/zplug/installer/master/installer.zsh \
     | zsh )
 
-for f in .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .sshrc .sshrc.d; do
+for f in .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .anyrc .anyrc.d; do
   apply $f
 done
 

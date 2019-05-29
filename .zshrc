@@ -36,10 +36,8 @@ export KEYTIMEOUT=0
 export PATH=$PATH:$HOME/.local/bin
 
 # locale
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-# export LC_ALL=ja_JP.UTF-8
-# export LANG=ja_JP.UTF-8
+# export LC_ALL=en_US.UTF-8
+# export LANG=en_US.UTF-8
 
 # history
 HISTFILE=~/.zsh_history
@@ -104,7 +102,7 @@ function mkcd() {
   mkdir -p $1 && cd $1
 }
 
-if [ -z "${SSHHOME}" ]; then # not sshrc
+if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
   ## recent dirs
   autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
   add-zsh-hook chpwd chpwd_recent_dirs
@@ -159,20 +157,6 @@ if [ -z "${SSHHOME}" ]; then # not sshrc
   #bindkey "\C-m" enter
 fi
 
-if [ ! -z "${SSHHOME}" ]; then # sshrc
-  function tmux() {
-    local TMUXDIR=/tmp/.tmux-${USER}
-    if ! [ -d ${TMUXDIR} ]; then
-      rm -rf ${TMUXDIR}
-      mkdir -p ${TMUXDIR}
-    fi
-    rm -rf ${TMUXDIR}/{.sshrc,sshrc,.sshrc.d}
-    cp -r ${SSHHOME}/.sshrc ${SSHHOME}/sshrc ${SSHHOME}/.sshrc.d ${TMUXDIR}
-    SSHHOME=${TMUXDIR} ZDOTDIR=${TMUXDIR}/.sshrc.d \
-      `${SHELL} -c 'which tmux'` -2 -f ${TMUXDIR}/.sshrc.d/.tmux.conf -S ${TMUXDIR}/tmuxserver $@
-  }
-fi
-
 
 # alias
 alias abbr="$($(which abbrev-alias > /dev/null) && echo abbrev-alias || echo alias)"
@@ -190,7 +174,6 @@ abbr d-run='docker run'
 abbr d-run0='docker run -it --rm'
 abbr d-bui='docker build'
 abbr dc='docker-compose'
-abbr tmux='tmux -2'
 abbr g-ini='git init'
 abbr g-sta='git status'
 abbr g-dif='git diff'
@@ -232,3 +215,5 @@ alias max='awk "{if(m<\$1) m=\$1} END{print m}"'
 # local conf if exists
 [ -f ~/.zshrc.local ] && . ~/.zshrc.local
 
+# anyrc
+[ ! -z "${ANYRC_DANYRC:+_}" ] && . "${ANYRC_DANYRC}"

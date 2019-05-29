@@ -1,4 +1,4 @@
-if isdirectory(expand("~/.vim/dein")) " sshrc
+if isdirectory(expand("~/.vim/dein")) " anyrc
   if &compatible
     set nocompatible
   endif
@@ -87,7 +87,7 @@ autocmd InsertLeave * set nopaste
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
-if isdirectory(expand("~/.vim/dein")) " sshrc
+if isdirectory(expand("~/.vim/dein")) " anyrc
   """""""""""
   " airline "
   """""""""""
