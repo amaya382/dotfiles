@@ -71,6 +71,8 @@ set smartcase
 
 set scrolloff=999
 
+set display=lastline
+
 set ttyfast
 
 set mouse=a
