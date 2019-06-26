@@ -7,3 +7,4 @@ build/
 target/
 *.swp
 telepresence.log
+.history/
