@@ -145,6 +145,11 @@ if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
   ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]='standout'
   ZSH_HIGHLIGHT_STYLES[cursor]='bg=blue'
 
+  ## wrapped ssh
+  function ssh() {
+    SSSH_SSH_CMD=autossh ANYRC_SSH_CMD=sssh sshrc $@
+  }
+
   # TODO: Expand when pushing down enter (?)
   #enter() {
   #  zle accept-line
