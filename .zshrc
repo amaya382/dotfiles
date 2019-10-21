@@ -147,7 +147,7 @@ if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
 
   ## wrapped ssh
   function ssh() {
-    SSSH_SSH_CMD=autossh ANYRC_SSH_CMD=sssh sshrc $@
+    SSSH_SSH_CMD='autossh -M 0' SSSH_SSHFS_SSH_CMD='autossh -M 0' ANYRC_SSH_CMD=sssh sshrc $@
   }
 
   # TODO: Expand when pushing down enter (?)
