@@ -211,10 +211,10 @@ alias max='awk "{if(m<\$1) m=\$1} END{print m}"'
 
 
 # os-specific conf
-[ -f ~/.zshrc.additional ] && . ~/.zshrc.additional
+[ -f ${ANYRC_HOME:-${HOME}}/.zshrc.additional ] && . ${ANYRC_HOME:-${HOME}}/.zshrc.additional
 
 # local conf if exists
-[ -f ~/.zshrc.local ] && . ~/.zshrc.local
+[ -f ${ANYRC_HOME:-${HOME}}/.zshrc.local ] && . ${ANYRC_HOME:-${HOME}}/.zshrc.local
 
 # anyrc
 [ ! -z "${ANYRC_DANYRC:+_}" ] && . "${ANYRC_DANYRC}"
