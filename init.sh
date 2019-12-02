@@ -67,11 +67,6 @@ mkdir -p ~/.local/bin
 curl -sSL https://raw.githubusercontent.com/amaya382/anyrc/master/install.sh \
   | DIR=~/.local/bin bash
 
-# sssh
-curl -sSL https://raw.githubusercontent.com/amaya382/sssh/master/sssh \
-  > ~/.local/bin/sssh
-chmod +x ~/.local/bin/sssh
-
 # zplug
 export ZPLUG_HOME=~/.local/opt/zplug
 [ -z "${ZPLUG_HOME}" ] || \
