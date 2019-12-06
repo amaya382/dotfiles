@@ -104,6 +104,10 @@ function mkcd() {
   mkdir -p $1 && cd $1
 }
 
+function sshrc() {
+  $(sh -c 'which sshrc') -A $@
+}
+
 if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
   ## recent dirs
   autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
