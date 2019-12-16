@@ -168,6 +168,9 @@ fi
 alias abbr="$($(which abbrev-alias > /dev/null) && echo abbrev-alias || echo alias)"
 alias la='ls -A'
 alias ll='ls -Alh'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 
 abbr mv='mv -i'
 abbr cp='cp -i'
