@@ -60,8 +60,14 @@ set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:&
 
 if has("mac")
   set clipboard=unnamed
-else
+elseif has("linux")
   set clipboard=unnamedplus
+elseif system('uname -a | grep -i Microsoft') != ''
+  " TODO: Copy only
+  augroup yank4wsl
+    autocmd!
+    autocmd TextYankPost * :call system('win32yank.exe -i', @")
+  augroup END
 endif
 
 set ignorecase
