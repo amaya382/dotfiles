@@ -35,6 +35,7 @@ bindkey '^Q' show-buffer-stack
 export KEYTIMEOUT=0
 export PATH=$PATH:$HOME/.local/bin
 export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
 export EDITOR=vim
 
 # locale
