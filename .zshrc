@@ -105,11 +105,17 @@ function mkcd() {
   mkdir -p $1 && cd $1
 }
 
+## ssh
 function sshrc() {
   $(sh -c 'which sshrc') -A $@
 }
 
 if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
+  ## ssh
+  eval `ssh-agent` &> /dev/null
+  ssh-add ~/.ssh/id_rsa &> /dev/null
+  ssh-add ~/.ssh/id_ed25519 &> /dev/null
+
   ## recent dirs
   autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
   add-zsh-hook chpwd chpwd_recent_dirs
@@ -180,7 +186,7 @@ abbr tree0='tree -Chaf'
 abbr d-ps='docker ps'
 abbr d-exe='docker exec'
 abbr d-exe0='docker exec -it'
-abbr d-run='docker run'
+abbr d-run='docker run --name'
 abbr d-run0='docker run -it --rm'
 abbr d-bui='docker build'
 abbr dc='docker-compose'
