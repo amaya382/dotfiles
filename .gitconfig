@@ -1,8 +1,11 @@
 [user]
-  name = amaya
-  email = mail@sapphire.in.net
+	name = amaya
+	email = mail@sapphire.in.net
+	signingkey = C6D2C54B81CB8C08
 [core]
-  excludesfile = ~/.gitignore_global
-  ignorecase = false
-  autocrlf = input
-  editor = vim
+	excludesfile = ~/.gitignore_global
+	ignorecase = false
+	autocrlf = input
+	editor = vim
+[gpg]
+	program = gpg

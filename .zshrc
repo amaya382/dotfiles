@@ -37,6 +37,7 @@ export PATH=$PATH:$HOME/.local/bin
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 export EDITOR=vim
+export GPG_TTY=$(tty)
 
 # locale
 export LC_ALL=en_US.UTF-8
