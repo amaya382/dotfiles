@@ -74,6 +74,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=2
 bindkey "^[[Z" reverse-menu-complete
 compdef sshrc=ssh
+compdef dockerrc=docker
+compdef kubectlrc=kubectl
 
 # prompt
 PROMPT='%F{red}$ %f'
