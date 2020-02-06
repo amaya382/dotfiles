@@ -221,6 +221,8 @@ abbr g-log='git log --graph --oneline --decorate=full --name-status'
 abbr g-log-f='git log --graph --oneline --decorate=full --name-status --pretty=fuller'
 abbr g-sub='git submodule'
 abbr g-sub-i='git submodule init && git submodule update'
+abbr aptu='sudo apt update'
+abbr apti='sudo apt install -y --no-install-recommends'
 
 alias sum='awk "{s+=\$1} END{print s}"'
 alias avg='awk "{s+=\$1} END{print s/NR;}"'
