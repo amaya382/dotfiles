@@ -133,13 +133,13 @@ if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
   zplug "zsh-users/zsh-completions"
   zplug "docker/compose", use:contrib/completion/zsh
   zplug "docker/docker-ce", use:components/cli/contrib/completion/zsh, lazy:true
+  zplug "nnao45/zsh-kubectl-completion"
   zplug "plugins/git", from:oh-my-zsh
   zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
   zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
   zplug "amaya382/zsh-fzf-widgets"
   zplug "mollifier/cd-gitroot"
   zplug "momo-lab/zsh-abbrev-alias", defer:3
-  zplug "b4b4r07/zsh-gomi", as:command, use:bin
   zplug "bhilburn/powerlevel9k", use:"powerlevel9k.zsh-theme", as:theme
   zplug check --verbose || zplug install
   zplug load
