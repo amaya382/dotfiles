@@ -37,16 +37,17 @@ case ${OSTYPE} in
     brew update
     brew upgrade
     brew install \
-      tmux zsh vim reattach-to-user-namespace
+      tmux zsh vim reattach-to-user-namespace csvq
   ;;
   linux*)
     apply linux/.zshrc .zshrc.additional
     apply linux/.tmux.conf .tmux.conf.additional
     if [ `which apt-get` ]; then
+      $sudo add-apt-repository -y ppa:mithrandie/csvq
       $sudo apt-get update
       $sudo apt-get upgrade -y
       $sudo apt-get install -y \
-        tmux zsh tree vim xsel gawk
+        tmux zsh tree vim xsel gawk csvq
     elif [ `which dnf` ]; then
       $sudo dnf update -y
       $sudo dnf install -y \

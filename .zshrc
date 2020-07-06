@@ -198,7 +198,7 @@ abbr g-sta='git status'
 abbr g-dif='git diff'
 abbr g-dif-c='git diff --cached'
 abbr g-dif-w='git diff --word-diff-regex=$'\''[^\x80-\xbf][\x80-\xbf]*'\'' --word-diff=color'
-abbr g-clo='git clone --recursive'
+abbr g-clo='git clone -c user.name=$(git config user.name) -c user.email=$(git config user.email) --recursive'
 abbr g-fet='git fetch'
 abbr g-add='git add'
 abbr g-rm='git rm'
@@ -228,6 +228,7 @@ alias sum='awk "{s+=\$1} END{print s}"'
 alias avg='awk "{s+=\$1} END{print s/NR;}"'
 alias min='awk "BEGIN{m=10000000}{if(m>\$1) m=\$1} END{print m}"'
 alias max='awk "{if(m<\$1) m=\$1} END{print m}"'
+alias median='sort -n | awk "{v[i++]=\$1;}END {x=int((i+1)/2); if(x>(i+1)/2) print (v[x-1]+v[x])/2; else print v[x-1];}"'
 
 
 # os-specific conf
