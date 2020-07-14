@@ -108,6 +108,18 @@ function mkcd() {
   mkdir -p $1 && cd $1
 }
 
+function notify() {
+  [ -v SLACK_WEBHOOK ] \
+    && curl -s -X POST -H 'Content-Type: application/json' -d "{\"username\": \"$(hostname)\", \"text\": \"$1\"}" "${SLACK_WEBHOOK}" \
+       > /dev/null \
+    || echo "Set \$SLACK_WEBHOOK"
+}
+
+function after() {
+  pid="$1"; shift
+  tail -f /dev/null --pid "${pid}"; $@
+}
+
 ## ssh
 function sshrc() {
   $(sh -c 'which sshrc') -A $@
