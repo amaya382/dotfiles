@@ -9,3 +9,4 @@ target/
 telepresence.log
 .history/
 .dust/
+.worktrees/
