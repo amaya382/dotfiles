@@ -58,17 +58,25 @@ set wildmode=list,full
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:&
 
-if has("mac")
-  set clipboard=unnamed
-elseif has("linux")
-  set clipboard=unnamedplus
-elseif system('uname -a | grep -i Microsoft') != ''
-  " TODO: Copy only
-  augroup yank4wsl
-    autocmd!
-    autocmd TextYankPost * :call system('win32yank.exe -i', @")
-  augroup END
-endif
+" clipboard anywhere (w/ terminal supporting OSC 52)
+function! Osc52Yank()
+  let encoded=@"
+  let encoded=substitute(encoded, '\', '\\\\', "g")
+  let encoded=substitute(encoded, "'", "'\\\\''", "g")
+  let executeCmd="echo -n '".encoded."' | base64 | tr -d '\\n'"
+  let encoded=system(executeCmd)
+  if $TMUX != ""
+    let executeCmd='echo -en "\x1bPtmux;\x1b\x1b]52;;'.encoded.'\x1b\x1b\\\\\x1b\\" > /dev/tty'
+  else
+    let executeCmd='echo -en "\x1b]52;;'.encoded.'\x1b\\" > /dev/tty'
+  endif
+  call system(executeCmd)
+  redraw!
+endfunction
+augroup osc52yank
+  autocmd!
+  autocmd TextYankPost * call Osc52Yank()
+augroup END
 
 set ignorecase
 set smartcase
