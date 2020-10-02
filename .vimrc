@@ -80,8 +80,8 @@ augroup END
 
 set ignorecase
 set smartcase
-"set incsearch
-"set hlsearch | nohlsearch
+set incsearch
+"set hlsearch | nohlsearch " cannot nohls by EscEsc??
 
 set scrolloff=999
 
