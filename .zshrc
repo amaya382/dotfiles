@@ -40,6 +40,7 @@ export EDITOR=vim
 export GPG_TTY=$(tty)
 
 # locale
+export LANGUAGE=C
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
@@ -74,8 +75,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=2
 bindkey "^[[Z" reverse-menu-complete
 compdef sshrc=ssh
-compdef dockerrc=docker
-compdef kubectlrc=kubectl
+#compdef dockerrc=docker
+#compdef kubectlrc=kubectl
 
 # prompt
 PROMPT='%F{red}$ %f'
@@ -145,10 +146,11 @@ if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
   zplug "zsh-users/zsh-completions"
   zplug "docker/compose", use:contrib/completion/zsh
   zplug "docker/docker-ce", use:components/cli/contrib/completion/zsh, lazy:true
-  zplug "nnao45/zsh-kubectl-completion"
+  #zplug "nnao45/zsh-kubectl-completion"
   zplug "plugins/git", from:oh-my-zsh
-  zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
-  zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
+  #gh-r looks broken. install it via package manager instead
+  #zplug "junegunn/fzf", from:gh-r, as:command, use:"*$(uname -s | tr '[:upper:]' '[:lower:]')*$([ $(uname -m) = 'x86_64' ] && echo 'amd64' || echo 'arm64')*"
+  zplug "junegunn/fzf", from:github, as:command, use:bin/fzf-tmux
   zplug "amaya382/zsh-fzf-widgets"
   zplug "mollifier/cd-gitroot"
   zplug "momo-lab/zsh-abbrev-alias", defer:3

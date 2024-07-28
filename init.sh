@@ -37,7 +37,7 @@ case ${OSTYPE} in
     brew update
     brew upgrade
     brew install \
-      tmux zsh vim reattach-to-user-namespace csvq
+      tmux zsh vim reattach-to-user-namespace csvq fzf
   ;;
   linux*)
     apply linux/.zshrc .zshrc.additional
@@ -47,11 +47,11 @@ case ${OSTYPE} in
       $sudo apt-get update
       $sudo apt-get upgrade -y
       $sudo apt-get install -y \
-        tmux zsh tree vim xsel gawk csvq
+        tmux zsh tree vim xsel gawk csvq fzf
     elif [ `which dnf` ]; then
       $sudo dnf update -y
       $sudo dnf install -y \
-        tmux zsh tree vim gcc redhat-rpm-config xsel util-linux-user gawk
+        tmux zsh tree vim gcc redhat-rpm-config xsel util-linux-user gawk fzf
     elif [ `which yum` ]; then
       $sudo yum update -y
       $sudo yum install -y \
@@ -83,10 +83,7 @@ done
 chsh -s `which zsh`
 
 # dein.vim
-curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh \
-  > installer.sh
-sh ./installer.sh ~/.vim/dein
-rm installer.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/Shougo/dein-installer.vim/master/installer.sh)"
 
 echo 'done.'
 echo 'tmux: `prefix + I`'
