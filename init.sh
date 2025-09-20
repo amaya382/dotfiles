@@ -47,7 +47,7 @@ case ${OSTYPE} in
       $sudo apt-get update
       $sudo apt-get upgrade -y
       $sudo apt-get install -y \
-        tmux zsh tree vim xsel gawk csvq fzf
+        tmux zsh tree vim xsel gawk csvq fzf locales-all
     elif [ `which dnf` ]; then
       $sudo dnf update -y
       $sudo dnf install -y \
