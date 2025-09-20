@@ -154,7 +154,7 @@ if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
   zplug "amaya382/zsh-fzf-widgets"
   zplug "mollifier/cd-gitroot"
   zplug "momo-lab/zsh-abbrev-alias", defer:3
-  zplug "bhilburn/powerlevel9k", use:"powerlevel9k.zsh-theme", as:theme
+  zplug "romkatv/powerlevel10k", use:"powerlevel10k.zsh-theme", from:github, as:theme
   zplug check --verbose || zplug install
   zplug load
 
