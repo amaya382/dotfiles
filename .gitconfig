@@ -9,3 +9,5 @@
 	editor = vim
 [gpg]
 	program = gpg
+[push]
+	autoSetupRemote = true

@@ -10,3 +10,7 @@ telepresence.log
 .history/
 .dust/
 .worktrees/
+settings.local.json
+.env
+*.code-workspace
+
