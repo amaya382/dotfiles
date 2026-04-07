@@ -76,7 +76,7 @@ export ZPLUG_HOME=~/.local/opt/zplug
     https://raw.githubusercontent.com/zplug/installer/master/installer.zsh \
     | zsh )
 
-for f in .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .anyrc .anyrc.d; do
+for f in .zshrc .tmux .tmux.conf .vim .vimrc .gitconfig .gitignore_global .anyrc .anyrc.d .claude; do
   apply $f
 done
 

@@ -1,0 +1,100 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "allow": [
+      "Read(//tmp)",
+      "Bash(cd:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Bash(head:*)",
+      "Bash(awk:*)",
+      "Bash(tr:*)",
+      "Bash(mkdir:*)",
+      "Bash(test:*)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(pnpm:*)",
+      "Bash(yarn:*)",
+      "Bash(cargo:*)",
+      "Bash(rustup:*)",
+      "Bash(go:*)",
+      "Bash(task:*)",
+      "Bash(make:*)",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "Bash(tree:*)",
+      "Bash(bt:*)",
+      "Bash(git remote:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git show:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git fetch:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git worktree:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh run:*)",
+      "Bash(kustomize:*)",
+      "mcp__serena",
+      "mcp__atlassian",
+      "WebFetch",
+      "WebSearch",
+      "Bash(rm /tmp/*:*)",
+      "Bash(rm -r /tmp/*:*)",
+      "Bash(rm -rf /tmp/*:*)",
+      "Bash(git config:*)",
+      "Bash(xargs:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx vitest run:*)"
+    ]
+  },
+  "model": "opus",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PROJECT=$(basename \"$PWD\"); osascript -e \"display notification \\\"Need your action\\\" with title \\\"Claude Code @ ${PROJECT}\\\"\""
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PROJECT=$(basename \"$PWD\"); osascript -e \"display notification \\\"Need your action\\\" with title \\\"Claude Code @ ${PROJECT}\\\"\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PROJECT=$(basename \"$PWD\"); osascript -e \"display notification \\\"Completed!\\\" with title \\\"Claude Code @ ${PROJECT}\\\"\""
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true
+  },
+  "language": "japanese",
+  "effortLevel": "high"
+}
