@@ -1,6 +1,7 @@
 ### .zshrc for linux ###
 export GOPATH=${GOPATH:-$HOME/go}
 export PATH=$PATH:/snap/bin:$GOPATH/bin
+export PATH=$PATH:/usr/local/go/bin
 
 # WSL
 # if [ -z "$SSH_AUTH_SOCK" ]; then
