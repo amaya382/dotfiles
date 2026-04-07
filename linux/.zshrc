@@ -14,3 +14,5 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
    eval `cat $HOME/.ssh/ssh-agent`
 fi
 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+

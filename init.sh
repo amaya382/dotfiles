@@ -59,6 +59,7 @@ case ${OSTYPE} in
     else
       echo 'unexpected distribution' && exit 1
     fi
+    $sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   ;;
 esac
 
