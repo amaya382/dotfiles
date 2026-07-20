@@ -1,0 +1,15 @@
+# macOS-only extras. With auto_env = true (see miserc.toml) this file is
+# merged into the config chain automatically on macOS. Merging is additive
+# with config.toml: keys form a union.
+
+[bootstrap.packages]
+# Needed by tmux when spawning macOS's system zsh as a child.
+# The formula does not exist on Linux, so declare it here only.
+"brew:reattach-to-user-namespace" = "latest"
+
+# GNU coreutils-style tools missing (or shipped as BSD variants) on macOS.
+# Not needed on Linux where apt/dnf ship the GNU flavor as the default awk / grep / sed.
+# Available on PATH as gawk / ggrep / gsed.
+"brew:gawk"    = "latest"
+"brew:grep"    = "latest"
+"brew:gnu-sed" = "latest"

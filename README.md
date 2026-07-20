@@ -1,70 +1,76 @@
-# dotfiles (chezmoi)
+# dotfiles
 
-[chezmoi](https://www.chezmoi.io/) 管理下の dotfiles。
+Uses [mise](https://mise.jdx.dev/) as a dotfile manager, system-package manager, and language-runtime manager. This replaces the previous three-layer setup (chezmoi + Brewfile + `.tool-versions`) with `mise bootstrap` and `mise dotfiles`, both stabilized in mise 2026.7.4.
+
+## Repository layout
+
+```
+dotfiles/
+├── mise/
+│   ├── config.toml         # main config, deployed as ~/.config/mise/config.toml
+│   └── config.macos.toml   # macOS-only extras (auto-merged by mise on macOS)
+├── home/                # dotfile bodies placed under ~/
+│   ├── .zshrc.tera      # tera template (OS-conditional)
+│   ├── .tmux.conf.tera
+│   ├── .vimrc
+│   ├── .gitconfig
+│   ├── .anyrc / .anyrc.d/
+│   └── .claude/         # Claude Code rules / skills (rules/references/skills use symlink-each)
+└── bootstrap/           # scripts invoked from bootstrap.hooks
+    └── install-3rdparty.sh   # anyrc / dein.vim (post-packages; zplug ships via Homebrew)
+```
 
 ## Setup
 
-新しいマシンで:
+On a new machine:
 
 ```bash
-# 1. chezmoi を事前に手動インストール (Brewfile では管理していない)
-brew install chezmoi
-# または
-sh -c "$(curl -fsLS get.chezmoi.io)"
+# 1. Install mise itself (needed to drive bootstrap).
+curl https://mise.run | sh
+export PATH=$HOME/.local/bin:$PATH
 
-# 2. このリポジトリから初期化 & 適用
-chezmoi init --apply amaya382/dotfiles
+# 2. Clone this repo. The path is flexible; the config discovers it via the
+#    ~/.config/mise symlink below.
+git clone git@github.com:amaya382/dotfiles.git <clone-path>
+
+# 3. Symlink the entire mise config directory. Every mise config file
+#    (config.toml, config.macos.toml, ...) becomes visible in one step, and
+#    the repo's location stops being hardcoded in the config.
+mkdir -p ~/.config
+ln -sn <clone-path>/mise ~/.config/mise
+mise trust ~/.config/mise/config.toml
+
+# 4. Bootstrap: system packages → dotfile placement → language runtimes, in one command.
+mise bootstrap --yes
 ```
 
-**注記**: chezmoi 自身は Brewfile に含めていない。理由は「Brewfile を配置し `brew bundle` を走らせるのは chezmoi 自身」で、自己解決の順序が回らないため。
+`mise bootstrap` is idempotent, so re-run it any time to reconverge.
 
-## 管理対象
+## What bootstrap does
 
-| Path | 種類 |
-|---|---|
-| `~/.zshrc` | テンプレート (OS 分岐) |
-| `~/.tmux.conf` | テンプレート (OS 分岐) |
-| `~/.vimrc` | ファイル |
-| `~/.gitconfig` | ファイル |
-| `~/.gitignore_global` | ファイル |
-| `~/.anyrc`, `~/.anyrc.d/` | ファイル + symlink 群 |
-| `~/.tmux/plugins/` | ディレクトリ (tpm が中身を管理) |
-| `~/.vim/dein/` | ディレクトリ (dein が中身を管理) |
-| `~/.claude/CLAUDE.md` | ファイル |
-| `~/.claude/settings.json` | ファイル |
-| `~/.claude/rules/`, `references/`, `skills/` | ファイル + symlink 群 |
+`mise bootstrap` runs these phases declaratively, in order:
 
-## パッケージインストール
+1. **`bootstrap.packages`** — reconciles apt (build-essential, ...) and brew (tmux, vim, gh, uv, custom taps, ...). Brew formulae are installed by mise's built-in bottle installer, so Homebrew itself is not required.
+2. **`post-packages` hook** — runs `bootstrap/install-3rdparty.sh` to install anyrc and dein.vim. zplug is now installed as a Homebrew formula in the previous phase.
+3. **`dotfiles`** — applies `[dotfiles]` entries, symlinking or templating from `home/` into `~/`.
+4. **`bootstrap.user`** — sets `login_shell = "/usr/bin/zsh"`.
+5. **`tools`** — installs the node / python / go versions declared in `[tools]`.
 
-### 事前手動 (Setup 節)
+Individual phases can be targeted with `mise bootstrap --skip <phase>` or `--only <phase>`.
 
-- **chezmoi** 本体
-
-### 自動 (chezmoi apply 時)
-
-**`run_once_install-packages.sh` (初回のみ):**
-- OS 標準パッケージ (tmux, zsh, vim, fzf など)
-- Homebrew 本体 (Linux/macOS)
-- anyrc, zplug, tpm, dein.vim
-- デフォルトシェルの zsh 化
-
-**`run_onchange_after_brew-bundle.sh` (Brewfile 変更時):**
-- `~/.Brewfile` に基づく `brew bundle --global`
-- gh, jq, mise, mkcert, ripgrep, uv, baretree, ftgrep など
-
-### ツールを追加したいとき
+## Day-to-day commands
 
 ```bash
-chezmoi edit ~/.Brewfile   # brew "foo" を追記
-chezmoi apply              # 自動で brew bundle が走る
+mise bootstrap status               # convergence dashboard for every phase
+mise bootstrap --dry-run            # preview what would change
+mise dotfiles status                # dotfile-only status
+mise dotfiles apply                 # re-apply dotfiles
+mise dotfiles edit ~/.zshrc         # edit the managed source
+mise dotfiles add ~/.foo            # start tracking a new file
 ```
 
-## 日常操作
+## Adding tools
 
-```bash
-chezmoi status     # 差分の一覧
-chezmoi diff       # 差分の詳細
-chezmoi edit ~/.zshrc  # ソースを直接編集
-chezmoi apply      # ~/ に反映
-chezmoi cd         # ソースディレクトリに移動
-```
+- **Homebrew formulae**: add `"brew:foo" = "latest"` under `[bootstrap.packages]` in `mise/config.toml`, then run `mise bootstrap`.
+- **Language runtimes**: add an entry under `[tools]`, then run `mise install`.
+- **New dotfile**: drop the file under `home/`, add a `[dotfiles]` entry, and run `mise dotfiles apply`. Alternatively `mise dotfiles add ~/.foo` captures a live file automatically.

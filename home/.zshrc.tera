@@ -32,11 +32,9 @@ setopt noflowcontrol
 bindkey '^Q' show-buffer-stack
 
 ## env
+# EDITOR / DOCKER_BUILDKIT / COMPOSE_DOCKER_CLI_BUILD are defined in mise [env].
 export KEYTIMEOUT=0
 export PATH=$PATH:$HOME/.local/bin
-export DOCKER_BUILDKIT=1
-export COMPOSE_DOCKER_CLI_BUILD=1
-export EDITOR=vim
 export GPG_TTY=$(tty)
 
 # locale
@@ -139,7 +137,15 @@ if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
   zstyle ':chpwd:*' recent-dirs-default yes
   zstyle ':completion:*' recent-dirs-insert both
 
-  export ZPLUG_HOME=~/.local/opt/zplug
+  # zplug is installed via Homebrew (mise bootstrap.packages).
+  # Ensure brew is initialized here so $HOMEBREW_PREFIX is set before use;
+  # the OS-specific branch below re-runs shellenv but that fires after zplug.
+  if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+  elif [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+  fi
+  export ZPLUG_HOME=${HOMEBREW_PREFIX}/opt/zplug
   source ${ZPLUG_HOME}/init.zsh
   zplug "zsh-users/zsh-syntax-highlighting", defer:2
   zplug "zsh-users/zsh-autosuggestions"
@@ -201,16 +207,6 @@ abbr mv='mv -i'
 abbr cp='cp -i'
 abbr du0='du -h -d 1'
 abbr tree0='tree -Chaf'
-abbr d-ps='docker ps'
-abbr d-exe='docker exec'
-abbr d-exe0='dockerrc exec -it'
-abbr d-run='docker run --name'
-abbr d-run0='dockerrc run -it --rm'
-abbr d-bui='docker build -t'
-abbr dc='docker-compose'
-abbr tele='telepresence --logfile=/dev/null'
-abbr tele-s='telepresence --logfile=/dev/null --swap-deployment'
-abbr tele-n='telepresence --logfile=/dev/null --new-deployment'
 abbr g-ini='git init'
 abbr g-sta='git status'
 abbr g-dif='git diff'
@@ -239,11 +235,6 @@ abbr g-log='git log --graph --oneline --decorate=full --name-status'
 abbr g-log-f='git log --graph --oneline --decorate=full --name-status --pretty=fuller'
 abbr g-sub='git submodule'
 abbr g-sub-i='git submodule init && git submodule update'
-function g-wta(){ git worktree add .worktrees/$1 $1 }
-abbr g-wtr='git worktree remove .worktrees/'
-abbr apts='apt search'
-abbr aptu='apt update'
-abbr apti='apt install -y --no-install-recommends'
 
 alias sum='awk "{s+=\$1} END{print s}"'
 alias avg='awk "{s+=\$1} END{print s/NR;}"'
@@ -253,11 +244,11 @@ alias median='sort -n | awk "{v[i++]=\$1;}END {x=int((i+1)/2); if(x>(i+1)/2) pri
 
 
 # os-specific conf
-{{- if eq .chezmoi.os "linux" }}
 
+{%- if os() == "linux" %}
 ### .zshrc for linux ###
+
 export GOPATH=${GOPATH:-$HOME/go}
-export PATH=$PATH:/snap/bin:$GOPATH/bin
 export PATH=$PATH:/usr/local/go/bin
 
 # WSL
@@ -271,22 +262,20 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
    eval `cat $HOME/.ssh/ssh-agent`
 fi
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
-{{- else if eq .chezmoi.os "darwin" }}
+# Ensure brew is on PATH even under sshrc/tmux re-entry (the zplug branch above
+# only runs when ANYRC_HOME is unset). Repeated shellenv is idempotent.
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+fi
 
+{%- elif os() == "macos" %}
 ### .zshrc for osx ###
-
-# alias
-alias psp='open -a "Adobe Photoshop CS6"'
-alias pre='qlmanage -p "$@" >& /dev/null'
-alias onkb="sudo kextload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext/"
-alias offkb="sudo kextunload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext/"
 
 # PATH
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export GOPATH=${GOPATH:-$HOME/go}
 export PATH=$PATH:/usr/local/opt/unzip/bin:$GOPATH/bin
-{{- end }}
+{%- endif %}
 
 # local conf if exists
 [ -f ${ANYRC_HOME:-${HOME}}/.zshrc.local ] && . ${ANYRC_HOME:-${HOME}}/.zshrc.local
@@ -294,8 +283,7 @@ export PATH=$PATH:/usr/local/opt/unzip/bin:$GOPATH/bin
 # anyrc
 [ ! -z "${ANYRC_DANYRC:+_}" ] && . "${ANYRC_DANYRC}"
 
-# mise (言語ランタイム管理)
+# mise
 command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
 
 eval "$(bt shell-init zsh)"
-

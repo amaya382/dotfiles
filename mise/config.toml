@@ -1,0 +1,122 @@
+# Global mise config. Deployed as ~/.config/mise/config.toml.
+#
+# Setup: after cloning this dotfiles repo,
+#   ln -s <clone-path>/mise/config.toml ~/.config/mise/config.toml
+#   mise trust ~/.config/mise/config.toml
+#   mise bootstrap --yes
+# See README.md for details.
+
+[settings]
+# dotfiles.root points at a symlink to the repo itself; individual [dotfiles]
+# entries below use relative sources resolved from this config's directory
+# (= <repo>/mise/), so "../home/..." references the dotfile bodies.
+dotfiles.root = "~/.dotfiles"
+dotfiles.default_mode = "symlink"
+
+[env]
+# Exposed so post-packages hook scripts can locate this repo.
+# Resolve ~/.config/mise (a symlink to <repo>/mise) with readlink and go one up.
+# tera's config_root is unreliable here: mise treats XDG config dirs
+# specially and returns $HOME instead of the actual directory.
+DOTFILES_DIR = "{{ exec(command='readlink -f ~/.config/mise/..') }}"
+
+# Static, shell-independent variables that were previously in .zshrc.
+# Anything that needs early-zsh timing, dynamic evaluation (like $(tty)),
+# or fine-grained $PATH ordering stays in .zshrc.
+EDITOR                  = "vim"
+DOCKER_BUILDKIT         = "1"
+COMPOSE_DOCKER_CLI_BUILD = "1"
+
+# ---------------------------------------------------------------------------
+# System packages / Homebrew formulae
+# ---------------------------------------------------------------------------
+[bootstrap.packages]
+# --- Linux ---
+"apt:build-essential" = "latest"
+"apt:procps"          = "latest"
+"apt:curl"            = "latest"
+"apt:file"            = "latest"
+"apt:git"             = "latest"
+"apt:zsh"             = "latest"
+"apt:xsel"            = "latest"
+"apt:locales-all"     = "latest"
+
+# --- Cross-platform CLI ---
+"brew:tmux"     = "latest"
+"brew:tpack"    = "latest"
+"brew:vim"      = "latest"
+"brew:fzf"      = "latest"
+"brew:tree"     = "latest"
+"brew:gh"       = "latest"
+"brew:jq"       = "latest"
+"brew:mkcert"   = "latest"
+"brew:ripgrep"  = "latest"
+"brew:uv"       = "latest"
+"brew:zplug"    = "latest"  # zsh plugin manager; loaded from $HOMEBREW_PREFIX/opt/zplug
+"brew:amaya382/tap/baretree" = "latest"
+"brew:amaya382/tap/ftgrep"   = "latest"
+
+# ---------------------------------------------------------------------------
+# Login shell
+# Currently assumes Linux (WSL). Update this path if using on macOS with brew zsh.
+# ---------------------------------------------------------------------------
+[bootstrap.user]
+login_shell = "/usr/bin/zsh"
+
+# ---------------------------------------------------------------------------
+# Dotfile placement
+# Sources go through ~/.config/mise/../ which relies on ~/.config/mise being
+# a symlink to the repo's mise/ directory (see README setup). This avoids
+# hardcoding the repo's absolute location.
+# ---------------------------------------------------------------------------
+[dotfiles]
+# shell / terminal
+"~/.zshrc"     = { source = "~/.config/mise/../home/.zshrc.tera",     mode = "template" }
+"~/.tmux.conf" = { source = "~/.config/mise/../home/.tmux.conf.tera", mode = "template" }
+
+# editor
+"~/.vimrc"     = "~/.config/mise/../home/.vimrc"
+
+# git
+"~/.gitconfig"        = "~/.config/mise/../home/.gitconfig"
+"~/.gitignore_global" = "~/.config/mise/../home/.gitignore_global"
+
+# anyrc: main file plus the .anyrc.d/ copies used when re-running under tmux/ssh.
+"~/.anyrc"                     = "~/.config/mise/../home/.anyrc"
+"~/.anyrc.d/.zshrc"            = "~/.config/mise/../home/.zshrc.tera"      # ideally the rendered form, but anyrc re-runs it inside tmux anyway
+"~/.anyrc.d/.tmux.conf"        = "~/.config/mise/../home/.tmux.conf.tera"
+"~/.anyrc.d/.vimrc"            = "~/.config/mise/../home/.vimrc"
+"~/.anyrc.d/.gitconfig"        = "~/.config/mise/../home/.gitconfig"
+"~/.anyrc.d/.gitignore_global" = "~/.config/mise/../home/.gitignore_global"
+
+# Claude Code config.
+# rules / references / skills use symlink-each: the directory itself is a real
+# dir and only the repo-tracked children are symlinked, so machine-local
+# skills / rules dropped into ~/.claude/*/ stay outside mise's management.
+"~/.claude/CLAUDE.md"     = "~/.config/mise/../home/.claude/CLAUDE.md"
+"~/.claude/settings.json" = "~/.config/mise/../home/.claude/settings.json"
+"~/.claude/rules"         = { source = "~/.config/mise/../home/.claude/rules",      mode = "symlink-each" }
+"~/.claude/references"    = { source = "~/.config/mise/../home/.claude/references", mode = "symlink-each" }
+"~/.claude/skills"        = { source = "~/.config/mise/../home/.claude/skills",     mode = "symlink-each" }
+
+# config.macos.toml is discovered directly through the ~/.config/mise symlink,
+# no explicit dotfiles entry needed.
+
+# ---------------------------------------------------------------------------
+# Post-packages hook
+# ---------------------------------------------------------------------------
+# mise's brew: backend does not require Homebrew itself; it downloads bottles
+# from formulae.brew.sh straight into the canonical prefix. No pre-packages
+# hook is needed.
+
+[bootstrap.hooks.post-packages]
+# User tools not carried by any package manager.
+run = 'bash "$DOTFILES_DIR/bootstrap/install-3rdparty.sh"'
+
+# ---------------------------------------------------------------------------
+# Language runtimes
+# ---------------------------------------------------------------------------
+[tools]
+node   = "26.5.0"
+python = "3.13.14"
+go     = "1.26.5"
