@@ -29,13 +29,8 @@ else
   sudo='sudo'
 fi
 
-{{- if eq .chezmoi.os "darwin" }}
-# macOS: OS 標準に近いユーティリティのみ (残りは Brewfile 参照)
-if ! command -v brew >/dev/null 2>&1; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-{{- else if eq .chezmoi.os "linux" }}
-# Linux: ディストロ標準のツール群
+{{- if eq .chezmoi.os "linux" }}
+# OS 標準のツール群 (Linux のみ; macOS は OS 添付で足りる)
 if command -v apt-get >/dev/null 2>&1; then
   $sudo apt-get update
   $sudo apt-get install -y \
@@ -49,12 +44,12 @@ elif command -v yum >/dev/null 2>&1; then
 else
   echo 'unexpected distribution' && exit 1
 fi
+{{- end }}
 
-# Homebrew on Linux (Brewfile がここに乗る)
+# Homebrew (macOS / Linux 共通)。Brewfile はこれに載る。
 if ! command -v brew >/dev/null 2>&1; then
   $sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
-{{- end }}
 
 mkdir -p ~/.local/bin
 
