@@ -61,41 +61,7 @@
     ]
   },
   "model": "claude-fable-5[1m]",
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "PROJECT=$(basename \"$PWD\"); osascript -e \"display notification \\\"Need your action\\\" with title \\\"Claude Code @ ${PROJECT}\\\"\""
-          }
-        ]
-      }
-    ],
-    "PermissionRequest": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "PROJECT=$(basename \"$PWD\"); osascript -e \"display notification \\\"Need your action\\\" with title \\\"Claude Code @ ${PROJECT}\\\"\""
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "PROJECT=$(basename \"$PWD\"); osascript -e \"display notification \\\"Completed!\\\" with title \\\"Claude Code @ ${PROJECT}\\\"\""
-          }
-        ]
-      }
-    ]
-  },
+  "hooks": {},
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true
   },
