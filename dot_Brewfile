@@ -6,12 +6,14 @@
 
 # ==== Taps ====
 tap "amaya382/tap"
+tap "tmuxpack/tpack"
 
 # chezmoi 自身はこのファイルを配置する時点でインストール済み前提のため含めない。
 # 事前手動: brew install chezmoi
 
 # ==== Terminal/editor stack ====
 brew "tmux"           # ターミナルマルチプレクサ
+brew "tpack"          # tmux プラグインマネージャ (tpm 後継)
 brew "vim"            # エディタ
 brew "fzf"            # fuzzy finder
 brew "tree"           # ディレクトリ可視化

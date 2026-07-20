@@ -66,7 +66,7 @@ bind n swap-window -t +1
 # pack windows' order
 set -g renumber-windows on
 
-# tpm
+# tpack (tmux plugin manager)
 ## plugin conf
 ### resurrect
 set -g @resurrect-save 'S'
@@ -85,14 +85,13 @@ set -g mouse on
 
 # enable plugins
 set -g @tpm_plugins '           \
-  tmux-plugins/tpm              \
   jimeh/tmux-themepack          \
   tmux-plugins/tmux-resurrect   \
   tmux-plugins/tmux-continuum   \
 '
 
 if-shell '[ -z "${ANYRC_HOME}" ]' \
-  'run-shell "~/.tmux/plugins/tpm/tpm"' ''
+  "run 'tpack init'" ''
 
 {{- if eq .chezmoi.os "linux" }}
 

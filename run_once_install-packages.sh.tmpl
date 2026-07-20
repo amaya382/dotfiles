@@ -11,7 +11,6 @@ all_ready() {
   command -v brew >/dev/null 2>&1 || return 1
   [ -x "$HOME/.local/bin/anyrc" ]                          || return 1
   [ -d "$HOME/.local/opt/zplug" ]                          || return 1
-  [ -x "$HOME/.tmux/plugins/tpm/tpm" ]                     || return 1
   [ -d "$HOME/.cache/dein/repos/github.com/Shougo/dein.vim" ] || return 1
   return 0
 }
@@ -73,10 +72,7 @@ if [ ! -d "${ZPLUG_HOME}" ]; then
     | zsh
 fi
 
-# tpm (tmux plugin manager)
-if [ ! -x ~/.tmux/plugins/tpm/tpm ]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-fi
+# tpack (tmux plugin manager) は Brewfile 側で管理する。
 
 # dein.vim
 if [ ! -d ~/.cache/dein/repos/github.com/Shougo/dein.vim ]; then
@@ -90,5 +86,5 @@ fi
 
 echo 'OS packages installed.'
 echo 'User tools will be installed by run_onchange_after_brew-bundle.sh via Brewfile.'
-echo 'tmux: `prefix + I` to install plugins'
+echo 'tmux: `prefix + I` to install plugins (via tpack)'
 echo 'vim:  `:call dein#install()` to install plugins'
