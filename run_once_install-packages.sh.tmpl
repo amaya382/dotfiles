@@ -1,6 +1,26 @@
 #!/bin/bash
-# Package installation (runs once per changed content)
+# OS パッケージと Homebrew 本体のブートストラップ
+# ユーザーツールは Brewfile 側で管理 (run_onchange_after_brew-bundle.sh)
 set -eu
+
+# 既に全部揃っていれば何もしない (再構築マシン以外はここで抜ける)
+all_ready() {
+  command -v tmux >/dev/null 2>&1 || return 1
+  command -v zsh  >/dev/null 2>&1 || return 1
+  command -v vim  >/dev/null 2>&1 || return 1
+  command -v fzf  >/dev/null 2>&1 || return 1
+  command -v brew >/dev/null 2>&1 || return 1
+  [ -x "$HOME/.local/bin/anyrc" ]                          || return 1
+  [ -d "$HOME/.local/opt/zplug" ]                          || return 1
+  [ -x "$HOME/.tmux/plugins/tpm/tpm" ]                     || return 1
+  [ -d "$HOME/.cache/dein/repos/github.com/Shougo/dein.vim" ] || return 1
+  return 0
+}
+
+if all_ready; then
+  echo "All prerequisites already installed; skipping."
+  exit 0
+fi
 
 if [ "$(whoami)" = 'root' ]; then
   sudo=''
@@ -9,21 +29,16 @@ else
 fi
 
 {{- if eq .chezmoi.os "darwin" }}
-# macOS
+# macOS: OS 標準に近いユーティリティのみ (残りは Brewfile 参照)
 if ! command -v brew >/dev/null 2>&1; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
-brew update
-brew upgrade
-brew install \
-  tmux zsh vim reattach-to-user-namespace csvq fzf chezmoi
 {{- else if eq .chezmoi.os "linux" }}
-# Linux
+# Linux: ディストロ標準のツール群
 if command -v apt-get >/dev/null 2>&1; then
-  $sudo add-apt-repository -y ppa:mithrandie/csvq || true
   $sudo apt-get update
   $sudo apt-get install -y \
-    tmux zsh tree vim xsel gawk csvq fzf locales-all
+    tmux zsh tree vim xsel gawk fzf locales-all
 elif command -v dnf >/dev/null 2>&1; then
   $sudo dnf install -y \
     tmux zsh tree vim gcc redhat-rpm-config xsel util-linux-user gawk fzf
@@ -34,7 +49,7 @@ else
   echo 'unexpected distribution' && exit 1
 fi
 
-# Homebrew on Linux (for tools not in distro repos)
+# Homebrew on Linux (Brewfile がここに乗る)
 if ! command -v brew >/dev/null 2>&1; then
   $sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
@@ -58,7 +73,7 @@ if [ ! -d "${ZPLUG_HOME}" ]; then
 fi
 
 # tpm (tmux plugin manager)
-if [ ! -d ~/.tmux/plugins/tpm/.git ]; then
+if [ ! -x ~/.tmux/plugins/tpm/tpm ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
@@ -67,11 +82,12 @@ if [ ! -d ~/.cache/dein/repos/github.com/Shougo/dein.vim ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/Shougo/dein-installer.vim/master/installer.sh)" -- --use-vim-config -y
 fi
 
-# Change default shell to zsh
+# デフォルトシェルを zsh に
 if [ "$SHELL" != "$(command -v zsh)" ]; then
   chsh -s "$(command -v zsh)" || true
 fi
 
-echo 'done.'
+echo 'OS packages installed.'
+echo 'User tools will be installed by run_onchange_after_brew-bundle.sh via Brewfile.'
 echo 'tmux: `prefix + I` to install plugins'
 echo 'vim:  `:call dein#install()` to install plugins'

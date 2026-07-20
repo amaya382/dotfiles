@@ -1,0 +1,27 @@
+# Homebrew Bundle
+# 使い方:
+#   brew bundle --global              # ~/.Brewfile をインストール
+#   brew bundle --global cleanup      # Brewfile にないパッケージを列挙
+#   brew bundle --global cleanup --force  # 実際にアンインストール
+
+# ==== Taps ====
+tap "amaya382/tap"
+
+# ==== Cross-platform tools ====
+brew "chezmoi"        # dotfiles 管理
+brew "gh"             # GitHub CLI
+brew "jq"             # JSON プロセッサ
+brew "mise"           # 言語ランタイム管理
+brew "mkcert"         # ローカル TLS 証明書
+brew "ripgrep"        # 高速 grep
+brew "uv"             # Python パッケージマネージャ
+
+# ==== Personal tools ====
+brew "amaya382/tap/baretree"  # git worktree 拡張
+brew "amaya382/tap/ftgrep"    # 日本語形態素解析付き grep
+
+# ==== macOS only ====
+# 必要になったら以下のようにコメント解除
+# brew "reattach-to-user-namespace" if OS.mac?
+# brew "csvq" if OS.mac?
+# cask "iterm2" if OS.mac?
