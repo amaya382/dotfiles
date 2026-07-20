@@ -7,8 +7,10 @@
 # ==== Taps ====
 tap "amaya382/tap"
 
+# chezmoi 自身はこのファイルを配置する時点でインストール済み前提のため含めない。
+# 事前手動: brew install chezmoi
+
 # ==== Cross-platform tools ====
-brew "chezmoi"        # dotfiles 管理
 brew "gh"             # GitHub CLI
 brew "jq"             # JSON プロセッサ
 brew "mise"           # 言語ランタイム管理
@@ -22,6 +24,5 @@ brew "amaya382/tap/ftgrep"    # 日本語形態素解析付き grep
 
 # ==== macOS only ====
 # 必要になったら以下のようにコメント解除
-# brew "reattach-to-user-namespace" if OS.mac?
-# brew "csvq" if OS.mac?
-# cask "iterm2" if OS.mac?
+brew "reattach-to-user-namespace" if OS.mac?
+
