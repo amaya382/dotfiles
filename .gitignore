@@ -1,4 +1,0 @@
-*.local
-.tmux/*
-.vim/*
-.zsh/completion/*

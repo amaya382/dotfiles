@@ -1,0 +1,77 @@
+#!/bin/bash
+# Package installation (runs once per changed content)
+set -eu
+
+if [ "$(whoami)" = 'root' ]; then
+  sudo=''
+else
+  sudo='sudo'
+fi
+
+{{- if eq .chezmoi.os "darwin" }}
+# macOS
+if ! command -v brew >/dev/null 2>&1; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+brew update
+brew upgrade
+brew install \
+  tmux zsh vim reattach-to-user-namespace csvq fzf chezmoi
+{{- else if eq .chezmoi.os "linux" }}
+# Linux
+if command -v apt-get >/dev/null 2>&1; then
+  $sudo add-apt-repository -y ppa:mithrandie/csvq || true
+  $sudo apt-get update
+  $sudo apt-get install -y \
+    tmux zsh tree vim xsel gawk csvq fzf locales-all
+elif command -v dnf >/dev/null 2>&1; then
+  $sudo dnf install -y \
+    tmux zsh tree vim gcc redhat-rpm-config xsel util-linux-user gawk fzf
+elif command -v yum >/dev/null 2>&1; then
+  $sudo yum install -y \
+    tmux zsh tree vim gcc redhat-rpm-config xsel gawk
+else
+  echo 'unexpected distribution' && exit 1
+fi
+
+# Homebrew on Linux (for tools not in distro repos)
+if ! command -v brew >/dev/null 2>&1; then
+  $sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+{{- end }}
+
+mkdir -p ~/.local/bin
+
+# anyrc
+if [ ! -x ~/.local/bin/anyrc ]; then
+  curl -sSL https://raw.githubusercontent.com/amaya382/anyrc/master/install.sh \
+    | DIR=~/.local/bin bash
+fi
+
+# zplug
+export ZPLUG_HOME=~/.local/opt/zplug
+if [ ! -d "${ZPLUG_HOME}" ]; then
+  mkdir -p ${ZPLUG_HOME}
+  curl -sL --proto-redir -all,https \
+    https://raw.githubusercontent.com/zplug/installer/master/installer.zsh \
+    | zsh
+fi
+
+# tpm (tmux plugin manager)
+if [ ! -d ~/.tmux/plugins/tpm/.git ]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+# dein.vim
+if [ ! -d ~/.cache/dein/repos/github.com/Shougo/dein.vim ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Shougo/dein-installer.vim/master/installer.sh)" -- --use-vim-config -y
+fi
+
+# Change default shell to zsh
+if [ "$SHELL" != "$(command -v zsh)" ]; then
+  chsh -s "$(command -v zsh)" || true
+fi
+
+echo 'done.'
+echo 'tmux: `prefix + I` to install plugins'
+echo 'vim:  `:call dein#install()` to install plugins'

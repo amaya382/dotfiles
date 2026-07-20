@@ -1,4 +1,8 @@
 {
+  "env": {
+    "CLAUDE_CODE_EFFORT_LEVEL": "high",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-7"
+  },
   "attribution": {
     "commit": "",
     "pr": ""
@@ -56,7 +60,7 @@
       "Bash(npx vitest run:*)"
     ]
   },
-  "model": "opus",
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "Notification": [
       {
@@ -96,5 +100,9 @@
     "gopls-lsp@claude-plugins-official": true
   },
   "language": "japanese",
-  "effortLevel": "high"
+  "tui": "fullscreen",
+  "skipDangerousModePermissionPrompt": true,
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
+  "effortLevel": "xhigh"
 }

@@ -92,5 +92,25 @@ set -g @tpm_plugins '           \
 '
 
 if-shell '[ -z "${ANYRC_HOME}" ]' \
-  'run-shell "~/.tmux/plugins/tpm/tpm"; \
-   source-file ~/.tmux.conf.additional' ''
+  'run-shell "~/.tmux/plugins/tpm/tpm"' ''
+
+{{- if eq .chezmoi.os "linux" }}
+
+### .tmux.conf for linux ###
+
+# general
+## copy-paste
+if-shell '[ "$(uname -a | grep -i Microsoft)" != "" ]' \
+  'bind-key -T copy-mode-vi Enter send -X copy-pipe-and-cancel "win32yank.exe -i"' \
+  'bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xsel -bi"'
+
+{{- else if eq .chezmoi.os "darwin" }}
+
+### .tmux.conf for osx ###
+
+# general
+## shell
+set-option -g default-shell /usr/local/bin/zsh
+set-option -g default-command "reattach-to-user-namespace -l /usr/local/bin/zsh"
+
+{{- end }}

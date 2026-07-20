@@ -1,53 +1,52 @@
-# dotfiles
+# dotfiles (chezmoi)
 
-## Contents
+[chezmoi](https://www.chezmoi.io/) 管理下の dotfiles。
 
-* tmux
-    * [tpm](https://github.com/tmux-plugins/tpm)
-    * [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)
-    * [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum)
-    * [tmux-better-mouse-mode](https://github.com/NHDaly/tmux-better-mouse-mode)
-    * [tmux-themepack](https://github.com/jimeh/tmux-themepack)
+## Setup
 
-* zsh
-    * [zplug](https://github.com/zplug/zplug)
-    * [zsh-completions](https://github.com/zsh-users/zsh-completions)
-    * [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
-    * [zsh-abbrev-alias](https://github.com/momo-lab/zsh-abbrev-alias)
-    * [zsh-fzf-widgets](https://github.com/amaya382/zsh-fzf-widgets)
-    * [powerlevel9k](https://github.com/bhilburn/powerlevel9k)
+新しいマシンで:
 
-* vim
-    * [dein](https://github.com/Shougo/dein.vim)
-    * [incsearch](https://github.com/haya14busa/incsearch.vim)
-    * [neocomplcache](https://github.com/Shougo/neocomplcache.vim)
-    * [vim-scala](https://github.com/derekwyatt/vim-scala)
-    * [indent-guides](https://github.com/nathanaelkane/vim-indent-guides)
-    * [vim-airline](https://github.com/vim-airline)
-    * [DISABLED] [changed](https://github.com/leftouterjoin/changed)
+```bash
+# 1. chezmoi をインストール
+brew install chezmoi
+# または
+sh -c "$(curl -fsLS get.chezmoi.io)"
 
-* git
-* fzf
+# 2. このリポジトリから初期化 & 適用
+chezmoi init --apply amaya382/dotfiles
+```
 
+## 管理対象
 
-## Compatibility
+| Path | 種類 |
+|---|---|
+| `~/.zshrc` | テンプレート (OS 分岐) |
+| `~/.tmux.conf` | テンプレート (OS 分岐) |
+| `~/.vimrc` | ファイル |
+| `~/.gitconfig` | ファイル |
+| `~/.gitignore_global` | ファイル |
+| `~/.anyrc`, `~/.anyrc.d/` | ファイル + symlink 群 |
+| `~/.tmux/plugins/` | ディレクトリ (tpm が中身を管理) |
+| `~/.vim/dein/` | ディレクトリ (dein が中身を管理) |
+| `~/.claude/CLAUDE.md` | ファイル |
+| `~/.claude/settings.json` | ファイル |
+| `~/.claude/rules/`, `references/`, `skills/` | ファイル + symlink 群 |
 
-* linux
-    * apt
-    * dnf
-    * yum
-* osx
-    * brew
+## パッケージインストール
 
+`chezmoi apply` 時に `run_once_install-packages.sh` が実行され、以下がセットアップされる:
 
-## Usage
+- 基本パッケージ (tmux, zsh, vim, fzf など)
+- Homebrew (Linux/macOS)
+- anyrc, zplug, tpm, dein.vim
+- デフォルトシェルの zsh 化
 
-### Prerequirements
+## 日常操作
 
-* `git`
-
-```shell
-git clone https://github.com/amaya382/dotfiles.git
-cd dotfiles
-./init.sh
+```bash
+chezmoi status     # 差分の一覧
+chezmoi diff       # 差分の詳細
+chezmoi edit ~/.zshrc  # ソースを直接編集
+chezmoi apply      # ~/ に反映
+chezmoi cd         # ソースディレクトリに移動
 ```
