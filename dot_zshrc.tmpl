@@ -298,5 +298,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# mise (言語ランタイム管理): 後に activate すると PATH で優先される
+command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
+
 eval "$(bt shell-init zsh)"
 

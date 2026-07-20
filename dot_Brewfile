@@ -10,6 +10,13 @@ tap "amaya382/tap"
 # chezmoi 自身はこのファイルを配置する時点でインストール済み前提のため含めない。
 # 事前手動: brew install chezmoi
 
+# ==== Terminal/editor stack ====
+brew "tmux"           # ターミナルマルチプレクサ
+brew "vim"            # エディタ
+brew "fzf"            # fuzzy finder
+brew "tree"           # ディレクトリ可視化
+brew "gawk"           # GNU awk (macOS の BSD awk 対策)
+
 # ==== Cross-platform tools ====
 brew "gh"             # GitHub CLI
 brew "jq"             # JSON プロセッサ

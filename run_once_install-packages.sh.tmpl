@@ -4,12 +4,10 @@
 # ユーザーツールは Brewfile 側で管理 (run_onchange_after_brew-bundle.sh)
 set -eu
 
-# 既に全部揃っていれば何もしない (再構築マシン以外はここで抜ける)
+# このスクリプトが担う下地が全部揃っていれば何もしない。
+# (tmux/vim/fzf/tree/gawk などは Brewfile の担当なのでここでは見ない)
 all_ready() {
-  command -v tmux >/dev/null 2>&1 || return 1
   command -v zsh  >/dev/null 2>&1 || return 1
-  command -v vim  >/dev/null 2>&1 || return 1
-  command -v fzf  >/dev/null 2>&1 || return 1
   command -v brew >/dev/null 2>&1 || return 1
   [ -x "$HOME/.local/bin/anyrc" ]                          || return 1
   [ -d "$HOME/.local/opt/zplug" ]                          || return 1
@@ -30,17 +28,24 @@ else
 fi
 
 {{- if eq .chezmoi.os "linux" }}
-# OS 標準のツール群 (Linux のみ; macOS は OS 添付で足りる)
+# Linux 特有の最小限:
+#   - Homebrew を動かす下地 (build-essential/curl/git/procps 相当)
+#   - Homebrew では入らない Linux 特有物 (xsel, locales-all)
+#   - シェル変更用 (zsh, util-linux-user)
+# それ以外の CLI ツールは Brewfile 側で管理する。
 if command -v apt-get >/dev/null 2>&1; then
   $sudo apt-get update
   $sudo apt-get install -y \
-    tmux zsh tree vim xsel gawk fzf locales-all
+    build-essential procps curl file git \
+    zsh xsel locales-all
 elif command -v dnf >/dev/null 2>&1; then
   $sudo dnf install -y \
-    tmux zsh tree vim gcc redhat-rpm-config xsel util-linux-user gawk fzf
+    gcc redhat-rpm-config curl file git procps-ng \
+    zsh xsel util-linux-user
 elif command -v yum >/dev/null 2>&1; then
   $sudo yum install -y \
-    tmux zsh tree vim gcc redhat-rpm-config xsel gawk
+    gcc redhat-rpm-config curl file git procps-ng \
+    zsh xsel
 else
   echo 'unexpected distribution' && exit 1
 fi
