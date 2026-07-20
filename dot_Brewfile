@@ -23,6 +23,5 @@ brew "amaya382/tap/baretree"  # git worktree 拡張
 brew "amaya382/tap/ftgrep"    # 日本語形態素解析付き grep
 
 # ==== macOS only ====
-# 必要になったら以下のようにコメント解除
 brew "reattach-to-user-namespace" if OS.mac?
 
