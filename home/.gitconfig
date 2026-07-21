@@ -7,7 +7,7 @@
 	ignorecase = false
 	autocrlf = input
 	editor = vim
-[gpg]
-	program = gpg
 [push]
 	autoSetupRemote = true
+[include]
+	path = ~/.gitconfig.local

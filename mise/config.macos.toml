@@ -1,6 +1,6 @@
-# macOS-only extras. With auto_env = true (see miserc.toml) this file is
-# merged into the config chain automatically on macOS. Merging is additive
-# with config.toml: keys form a union.
+# macOS-only extras. Merged into the config chain automatically on macOS
+# when auto_env = true is set in ~/.miserc.toml (see [dotfiles] entry in
+# config.toml). Merging is additive with config.toml: keys form a union.
 
 [bootstrap.packages]
 # Needed by tmux when spawning macOS's system zsh as a child.

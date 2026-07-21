@@ -1,0 +1,6 @@
+# mise early-init settings. Loaded before config discovery.
+# Deployed to ~/.miserc.toml via the [dotfiles] entry in mise/config.toml.
+#
+# auto_env enables platform-scoped config files (mise.<os>.toml and
+# config.<os>.toml) so config.macos.toml is merged into the chain on macOS.
+auto_env = true

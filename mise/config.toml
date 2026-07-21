@@ -53,6 +53,10 @@ COMPOSE_DOCKER_CLI_BUILD = "1"
 "brew:ripgrep"  = "latest"
 "brew:uv"       = "latest"
 "brew:zplug"    = "latest"  # zsh plugin manager; loaded from $HOMEBREW_PREFIX/opt/zplug
+"brew:aqua"        = "latest"
+"brew:direnv"      = "latest"
+"brew:htop"        = "latest"
+"brew:yq"          = "latest"
 # baretree / ftgrep are personal taps without Homebrew API metadata,
 # so mise's brew backend can't resolve them. Installed via ubi from
 # GitHub Releases instead (see [tools] below).
@@ -72,6 +76,10 @@ login_shell = "/usr/bin/zsh"
 # hardcoding the repo's absolute location.
 # ---------------------------------------------------------------------------
 [dotfiles]
+# mise early-init: must live at ~/.miserc.toml to be discovered.
+# Enables auto_env so config.macos.toml merges into the chain on macOS.
+"~/.miserc.toml" = "~/.config/mise/../home/.miserc.toml"
+
 # shell / terminal
 "~/.zshrc"     = { source = "~/.config/mise/../home/.zshrc.tera",     mode = "template" }
 "~/.tmux.conf" = { source = "~/.config/mise/../home/.tmux.conf.tera", mode = "template" }
@@ -130,6 +138,7 @@ run = 'mkdir -p ~/.anyrc.d'
 node   = "26.5.0"
 python = "3.13.14"
 go     = "1.26.5"
+java   = "openjdk-21"
 
 "github:amaya382/baretree" = "latest"
 "github:amaya382/ftgrep"   = "latest"
