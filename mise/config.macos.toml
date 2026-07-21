@@ -13,3 +13,12 @@
 "brew:gawk"    = "latest"
 "brew:grep"    = "latest"
 "brew:gnu-sed" = "latest"
+
+# ---------------------------------------------------------------------------
+# Login shell
+# macOS ships zsh at /bin/zsh; the /usr/bin/zsh path used on Linux does not
+# exist here. Prefer the system zsh over a brew-installed one so the shell
+# stays in place even when Homebrew is absent or being reinstalled.
+# ---------------------------------------------------------------------------
+[bootstrap.user]
+login_shell = "/bin/zsh"

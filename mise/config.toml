@@ -53,12 +53,14 @@ COMPOSE_DOCKER_CLI_BUILD = "1"
 "brew:ripgrep"  = "latest"
 "brew:uv"       = "latest"
 "brew:zplug"    = "latest"  # zsh plugin manager; loaded from $HOMEBREW_PREFIX/opt/zplug
-"brew:amaya382/tap/baretree" = "latest"
-"brew:amaya382/tap/ftgrep"   = "latest"
+# baretree / ftgrep are personal taps without Homebrew API metadata,
+# so mise's brew backend can't resolve them. Installed via ubi from
+# GitHub Releases instead (see [tools] below).
 
 # ---------------------------------------------------------------------------
 # Login shell
-# Currently assumes Linux (WSL). Update this path if using on macOS with brew zsh.
+# Defaults to the Linux (WSL) path. macOS overrides this to /bin/zsh in
+# config.macos.toml since /usr/bin/zsh does not exist on macOS.
 # ---------------------------------------------------------------------------
 [bootstrap.user]
 login_shell = "/usr/bin/zsh"
@@ -111,12 +113,23 @@ login_shell = "/usr/bin/zsh"
 
 [bootstrap.hooks.post-packages]
 # User tools not carried by any package manager.
-run = 'bash "$DOTFILES_DIR/bootstrap/install-3rdparty.sh"'
+# NOTE: bootstrap hooks don't inherit variables from [env] (tera-resolved
+# vars are visible to `mise env` but not to the hook subshell), so resolve
+# the dotfiles root inline instead of relying on $DOTFILES_DIR.
+run = 'bash "$(readlink -f ~/.config/mise/..)/bootstrap/install-3rdparty.sh"'
+
+[bootstrap.hooks.pre-dotfiles]
+# mise's dotfiles apply doesn't auto-create parent directories for plain
+# symlink entries, so seed any nested target dirs first.
+run = 'mkdir -p ~/.anyrc.d'
 
 # ---------------------------------------------------------------------------
-# Language runtimes
+# mise-managed tools (language runtimes + CLI binaries from GitHub Releases)
 # ---------------------------------------------------------------------------
 [tools]
 node   = "26.5.0"
 python = "3.13.14"
 go     = "1.26.5"
+
+"github:amaya382/baretree" = "latest"
+"github:amaya382/ftgrep"   = "latest"

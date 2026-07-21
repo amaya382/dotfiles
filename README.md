@@ -53,7 +53,7 @@ mise bootstrap --yes
 1. **`bootstrap.packages`** — reconciles apt (build-essential, ...) and brew (tmux, vim, gh, uv, custom taps, ...). Brew formulae are installed by mise's built-in bottle installer, so Homebrew itself is not required.
 2. **`post-packages` hook** — runs `bootstrap/install-3rdparty.sh` to install anyrc and dein.vim. zplug is now installed as a Homebrew formula in the previous phase.
 3. **`dotfiles`** — applies `[dotfiles]` entries, symlinking or templating from `home/` into `~/`.
-4. **`bootstrap.user`** — sets `login_shell = "/usr/bin/zsh"`.
+4. **`bootstrap.user`** — sets `login_shell` (`/usr/bin/zsh` on Linux, `/bin/zsh` on macOS via `config.macos.toml`).
 5. **`tools`** — installs the node / python / go versions declared in `[tools]`.
 
 Individual phases can be targeted with `mise bootstrap --skip <phase>` or `--only <phase>`.

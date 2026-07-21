@@ -6,6 +6,7 @@ out/
 build/
 target/
 *.swp
+.netrwhist
 telepresence.log
 .history/
 .dust/
@@ -13,4 +14,6 @@ telepresence.log
 settings.local.json
 .env
 *.code-workspace
+node_modules/
+.serena/
 

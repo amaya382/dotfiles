@@ -109,7 +109,7 @@ if-shell '[ "$(uname -a | grep -i Microsoft)" != "" ]' \
 
 # general
 ## shell
-set-option -g default-shell /usr/local/bin/zsh
-set-option -g default-command "reattach-to-user-namespace -l /usr/local/bin/zsh"
+set-option -g default-shell /bin/zsh
+set-option -g default-command "reattach-to-user-namespace -l /bin/zsh"
 
 {%- endif %}

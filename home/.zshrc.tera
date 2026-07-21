@@ -154,9 +154,7 @@ if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
   zplug "docker/docker-ce", use:components/cli/contrib/completion/zsh, lazy:true
   #zplug "nnao45/zsh-kubectl-completion"
   zplug "plugins/git", from:oh-my-zsh
-  #gh-r looks broken. install it via package manager instead
-  #zplug "junegunn/fzf", from:gh-r, as:command, use:"*$(uname -s | tr '[:upper:]' '[:lower:]')*$([ $(uname -m) = 'x86_64' ] && echo 'amd64' || echo 'arm64')*"
-  zplug "junegunn/fzf", from:github, as:command, use:bin/fzf-tmux
+  zplug "junegunn/fzf", as:command
   zplug "amaya382/zsh-fzf-widgets"
   zplug "mollifier/cd-gitroot"
   zplug "momo-lab/zsh-abbrev-alias", defer:3
@@ -205,6 +203,7 @@ alias sudo='sudo '
 
 abbr mv='mv -i'
 abbr cp='cp -i'
+abbr k='kubectl'
 abbr du0='du -h -d 1'
 abbr tree0='tree -Chaf'
 abbr g-ini='git init'
