@@ -17,9 +17,10 @@ dotfiles/
 │   ├── .anyrc
 │   ├── .gitconfig
 │   ├── .gitignore_global
+│   ├── Brewfile         # macOS-only Homebrew casks (linked to ~/Brewfile on macOS)
 │   └── .claude/         # Claude Code config (CLAUDE.md / settings.json plus rules/references/skills via symlink-each)
 └── bootstrap/           # scripts invoked from bootstrap.hooks
-    └── install-3rdparty.sh   # anyrc / dein.vim (post-packages; zplug ships via Homebrew)
+    └── install-3rdparty.sh   # anyrc / dein.vim / `brew bundle` on macOS (post-packages; zplug ships via Homebrew)
 ```
 
 ## Setup
@@ -53,7 +54,7 @@ mise bootstrap --yes
 `mise bootstrap` runs these phases declaratively, in order:
 
 1. **`bootstrap.packages`** — reconciles apt (build-essential, ...) and brew (tmux, vim, gh, uv, custom taps, ...). Brew formulae are installed by mise's built-in bottle installer, so Homebrew itself is not required. On macOS, `config.macos.toml` adds `reattach-to-user-namespace` and the GNU coreutils variants (`gawk` / `grep` / `gnu-sed`).
-2. **`post-packages` hook** — runs `bootstrap/install-3rdparty.sh` to install anyrc and dein.vim. zplug is installed as a Homebrew formula in the previous phase.
+2. **`post-packages` hook** — runs `bootstrap/install-3rdparty.sh` to install anyrc and dein.vim. On macOS it also runs `brew bundle` against `~/Brewfile` (symlinked from `home/Brewfile`) to install GUI casks such as Docker Desktop, DBeaver, and AltTab. Requires Homebrew; missing brew emits a warning and skips. zplug is installed as a Homebrew formula in the previous phase.
 3. **`pre-dotfiles` hook** — creates `~/.anyrc.d/` so subsequent symlink entries have a parent to land in.
 4. **`dotfiles`** — applies `[dotfiles]` entries, symlinking or templating from `home/` into `~/`. `.claude/{rules,references,skills}` use `symlink-each`, so machine-local files dropped into those dirs stay outside mise's management.
 5. **`bootstrap.user`** — sets `login_shell` (`/usr/bin/zsh` on Linux, `/bin/zsh` on macOS via `config.macos.toml`).
@@ -75,6 +76,7 @@ mise dotfiles add ~/.foo            # start tracking a new file
 ## Adding tools
 
 - **Homebrew formulae**: add `"brew:foo" = "latest"` under `[bootstrap.packages]` in `mise/config.toml` (or `config.macos.toml` for macOS-only formulae), then run `mise bootstrap`.
+- **Homebrew casks (macOS GUI apps)**: add a `cask "foo"` line to `home/Brewfile`, then run `mise bootstrap`. Do not duplicate formulae here — keep those under mise's `brew:` backend — and do not use `brew bundle cleanup`, which would remove mise-managed formulae.
 - **GitHub-release binaries**: add `"github:owner/repo" = "latest"` under `[tools]` for tools that Homebrew doesn't carry.
 - **Language runtimes**: add an entry under `[tools]`, then run `mise install`.
 - **New dotfile**: drop the file under `home/`, add a `[dotfiles]` entry, and run `mise dotfiles apply`. Alternatively `mise dotfiles add ~/.foo` captures a live file automatically.

@@ -1,0 +1,14 @@
+# macOS Homebrew casks (GUI apps and other cask-only tools).
+# Applied via `brew bundle` from bootstrap/install-3rdparty.sh on macOS.
+#
+# Homebrew formulae stay under mise's brew: backend in mise/config.toml
+# and mise/config.macos.toml. Do not duplicate formulae here, and avoid
+# `brew bundle cleanup` — it would remove mise-managed formulae that are
+# not listed in this file.
+
+cask "alt-tab"
+cask "bluesnooze"
+cask "dbeaver-community"
+cask "docker-desktop"
+cask "linearmouse"
+cask "maccy"

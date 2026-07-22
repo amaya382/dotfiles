@@ -22,3 +22,11 @@
 # ---------------------------------------------------------------------------
 [bootstrap.user]
 login_shell = "/bin/zsh"
+
+# ---------------------------------------------------------------------------
+# Homebrew casks (macOS only)
+# `brew bundle` reads ~/Brewfile by default, so symlinking it here lets the
+# post-packages hook run `brew bundle` without a --file flag.
+# ---------------------------------------------------------------------------
+[dotfiles]
+"~/Brewfile" = "~/.config/mise/../home/Brewfile"
