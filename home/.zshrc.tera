@@ -290,3 +290,5 @@ export PATH=$PATH:/usr/local/opt/unzip/bin:$GOPATH/bin
 command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
 
 eval "$(bt shell-init zsh)"
+eval "$(direnv hook zsh)"
+
