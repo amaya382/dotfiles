@@ -83,6 +83,7 @@ Rewrite (grouped by outcome, siblings at the same altitude):
 
 - PR title under 70 chars; details go in the body.
 - Use a HEREDOC for `--body` to preserve formatting.
+- References to other PRs must use the `<org>/<repo>#<pr_number>` form, even for same-repo PRs. Bare `#123` renders identically in the current repo but breaks once quoted elsewhere.
 - Defaults (assignee, labels, etc.) follow the user's global rules unless told otherwise.
 - Report the PR URL when done; for updates, add a one-line summary of what changed.
 
