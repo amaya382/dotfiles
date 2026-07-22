@@ -17,3 +17,5 @@ settings.local.json
 node_modules/
 .serena/
 
+
+**/.claude/.cc-writes/
