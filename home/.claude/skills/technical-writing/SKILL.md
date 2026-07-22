@@ -9,6 +9,8 @@ description: Write, revise, or polish technical documents through structured pha
 
 This skill is executed by Claude. The user is not the executor; they intervene only at the Confirm points defined in Bootstrap (Step 1, Skeleton, Draft, Prose) and at the audience-check gate in Preparation.
 
+**Skill procedure is mandatory** regardless of mode, document size, or prior conversation — Auto Mode and "make it simple" adjust how much is asked at each gate, not whether it runs.
+
 **Confirm reports optimize for user decision resolution, not completeness.** Report only what the user needs to accept, reject, or redirect the step. Diagnostic detail is held in Claude's working memory and produced on request, not by default.
 
 ## Prerequisites
@@ -44,7 +46,13 @@ Run before entering any mode; Polish and Revise skip Bootstrap but not this.
 
 ## Bootstrap (New mode)
 
-Step 2 and the Skeleton and Draft confirmations in Step 3 present their material via ExitPlanMode (entering plan mode first if needed). The plan UI carries inline feedback per item; AskUserQuestion loses that affordance. The Prose confirmation in Step 3 uses AskUserQuestion because prose is reviewed section-by-section rather than as a plan to accept.
+Step 2 and the Skeleton, Draft, and Prose confirmations in Step 3 present their material via ExitPlanMode. **Enter plan mode at the start of each of these four confirmations** — call EnterPlanMode if not already in plan mode, write the plan file, then call ExitPlanMode. Structure the plan file top-down:
+
+1. **Review target** — the outline / skeleton / draft / prose the user is being asked to accept, redirect, or stop
+2. **Supplementary context** — Claude's understanding of audience and theme
+3. **Per-section role weighting** — Center / Support / Background per §3, with any deliberate misalignment reason recorded
+
+The plan UI carries inline feedback per item; AskUserQuestion loses that affordance. Once Prose is approved, write the document to file and proceed to Polishing.
 
 Do not proceed to the next step until the current step is confirmed. Background information may be accepted at any point; it feeds the Step 2 triage, not the document directly.
 
@@ -74,13 +82,13 @@ Build the Skeleton, expand into a bullet Draft, then write prose. Weighting has 
 2. **Confirm Skeleton via ExitPlanMode.** Adjust if the central claims need to shift.
 3. **Draft.** Fill every section with concise bullets covering the intended content: sub-claims, evidence, examples, qualifications, transitions. One line per bullet where possible; no prose. For figures and tables, write a direction note only (what it shows, along which axes). Center sections carry more bullets than Support, Support more than Background, and within each section the bullets around the central claim carry the most concrete material. Do not extend a Support or Background section past what its role requires; a Draft that overfills a low-ink slot commits the section to prose it should not carry.
 4. **Confirm Draft via ExitPlanMode.** Adjust bullets, add or drop sections, re-check role weighting. Only proceed once the user approves the Draft.
-5. **Prose.** Convert the approved Draft into prose section by section. Allocate ink deliberately along two axes; treat the default as a starting point, not a rule.
+5. **Prose.** Convert the approved Draft into prose across all sections. Allocate ink deliberately along two axes; treat the default as a starting point, not a rule.
 
    - **Between sections (role-driven).** The default is Center > Support > Background. Center sections carry mechanism, evidence, qualifications, and counterexamples; Support carries the reasoning that connects to the Center; Background carries only orientation. Do not put mechanism into Background, do not let Support outweigh its Center, do not repeat scope or duplicate examples across Center paragraphs.
    - **Within a section (climax-driven).** Vary paragraph length and density. Keep the opening summary-level, concentrate concrete detail (numbers, proper names, mechanism, worked examples) at the paragraph carrying the section's central claim, and make that paragraph distinguishable from its neighbors by position, length, or density (§3).
    - **Upper bound (writing-too-much guard).** Ink absent from the role or from the position is not free space to fill. Support prose that recovers the Center's mechanism from a different angle, Background prose that names its own qualifications or counterexamples, Center opening paragraphs written at climax density — each is a form of writing past the section's or paragraph's assigned load. Cut the excess rather than smoothing it in; a low-ink slot writing at high-ink density flattens the section's contour just as reliably as a uniform allocation does.
    - **Deliberate misalignment.** The default beats a uniform allocation, not the writer's judgment. Legitimate misalignments run in either direction: a Center compressed to a short sharp paragraph for emphasis (a lead, a summary, a pivot), or a Background enlarged when the reader genuinely needs the orientation. Reader care is the criterion for enlarging a low-role slot; the criterion is not that the writer knows more about it. Record the reason at Confirm so Polishing does not flag the section as a weighting inversion.
-6. **Confirm Prose via AskUserQuestion.** The user chooses to accept the section, request changes, or stop. Findings on individual paragraphs are recorded and handed to Polishing rather than absorbed here.
+6. **Confirm Prose via ExitPlanMode.** On approval, write the document to file and proceed to Polishing. Findings on individual paragraphs raised at this gate are recorded and handed to Polishing rather than absorbed here.
 
 All sections follow the language-independent rules, the language-specific rules, and project conventions.
 
