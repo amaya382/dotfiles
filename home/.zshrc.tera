@@ -276,9 +276,11 @@ export GOPATH=${GOPATH:-$HOME/go}
 export PATH=$PATH:/usr/local/opt/unzip/bin:$GOPATH/bin
 {%- endif %}
 
-# rustup (brew formula is keg-only; expose its bin explicitly)
+# PATH for tools by brew
 [ -n "${HOMEBREW_PREFIX}" ] && [ -d "${HOMEBREW_PREFIX}/opt/rustup/bin" ] \
   && export PATH="${HOMEBREW_PREFIX}/opt/rustup/bin:$PATH"
+[ -n "${HOMEBREW_PREFIX}" ] && [ -d "${HOMEBREW_PREFIX}/opt/libpq/bin" ] \
+  && export PATH="${HOMEBREW_PREFIX}/opt/libpq/bin:$PATH"
 
 # local conf if exists
 [ -f ${ANYRC_HOME:-${HOME}}/.zshrc.local ] && . ${ANYRC_HOME:-${HOME}}/.zshrc.local

@@ -58,6 +58,7 @@ COMPOSE_DOCKER_CLI_BUILD = "1"
 "brew:htop"        = "latest"
 "brew:yq"          = "latest"
 "brew:rustup"      = "latest"
+"brew:libpq"      = "latest"
 # baretree / ftgrep are personal taps without Homebrew API metadata,
 # so mise's brew backend can't resolve them. Installed via ubi from
 # GitHub Releases instead (see [tools] below).
