@@ -15,11 +15,10 @@ At each Confirm, report only what the user needs to accept, reject, or redirect.
 
 ## Prerequisites
 
-- `technical-document.md`: **language-independent rules**
+- `technical-document.md`: **language-independent rules** (includes figure notation in §15-1)
 - `technical-document-<lang>.md`: **language-specific rules** (currently `ja`, `en`)
-- `figure-notation.md`: **diagram notation**, loaded when the document will carry a figure
 
-**Resolution.** `technical-document.md` and `figure-notation.md` live under `.claude/rules/` (project or user; project wins). `technical-document-<lang>.md` and quick-checks live under `.claude/references/` (not auto-loaded; project wins). If a needed file is missing at both locations, locate by name and warn. §numbers refer to sections in the resolved language-independent file.
+**Resolution.** `technical-document.md` lives under `.claude/rules/` (project or user; project wins). `technical-document-<lang>.md` and quick-checks live under `.claude/references/` (not auto-loaded; project wins). If a needed file is missing at both locations, locate by name and warn. §numbers refer to sections in the resolved language-independent file.
 
 **Language.** Match the document's existing language, or confirm via AskUserQuestion for new documents.
 
@@ -53,7 +52,7 @@ Do not proceed until the current gate is confirmed. The plan UI carries inline f
 
 ## Preparation (all modes)
 
-- Follow document convention files under `.claude/rules/` if present (naming, frontmatter, placement). For diagram notation, a project convention wins over `figure-notation.md`; absent one, match the format the repository's existing documents use.
+- Follow document convention files under `.claude/rules/` if present (naming, frontmatter, placement). For diagram notation, a project convention wins over §15-1's Mermaid mapping; absent one, match the format the repository's existing documents use.
 - If a project-specific documentation skill fits the request, suggest it via AskUserQuestion.
 - **Audience check (Refine and Revise only).** Bootstrap fixes the audience at Step 1. Otherwise, check whether an audience is available (user-supplied definition, Bootstrap Step 1 record, or project convention). If none, ask via AskUserQuestion to (a) define one now, or (b) skip Persona Reader Review (1-3), noting that (b) degrades review to structure and rules only. Record the decision for the Completion Report.
 
@@ -80,7 +79,7 @@ Propose an outline, then confirm via ExitPlanMode following **Review Gates**. Th
 
 - **Triage.** Keep a section only if it contributes to what the reader can do or decide after reading (§3). Move dropped candidates into the lead's scope exclusions (§4-1) and list them so the user can promote one back.
 - **Annotate roles.** Mark each section Center, Support, or Background (§3).
-- **Assign figures.** Where a section's claim is structural (§4-5), mark it with the figure kind from §4-5's table; read `figure-notation.md` before Step 3. A Center section with a structural claim and no figure needs a stated reason. Assigning here rather than in Polishing avoids prose that has already spent its ink on the structure.
+- **Assign figures.** Where a section's claim is structural (§4-5), mark it with the figure kind from §15-1's table. A Center section with a structural claim and no figure needs a stated reason. Assigning here rather than in Polishing avoids prose that has already spent its ink on the structure.
 
 ### Step 3: Write Sections
 
@@ -90,7 +89,7 @@ Expand the approved Outline into a bullet Draft, confirm the Draft, then generat
 
    Do not draw the figures marked in Step 2; specify each in four lines — **kind**, **elements**, **claim** in one sentence (the caption), and **prose division**: what the prose keeps (the why and the conditions). Skipping the fourth line lets prose generation re-narrate the figure (§10). Tables get a direction note only.
 2. **Confirm Draft via ExitPlanMode following Review Gates.** The gate asks whether the information the document will carry is the expected set, so keep bullets at note density; do not pre-polish them into finished sentences. Adjust claims, bullets, sections, and roles.
-3. **Prose (internal).** Convert the approved Draft into prose and render the specified figures per `figure-notation.md`. Allocate ink along three axes:
+3. **Prose (internal).** Convert the approved Draft into prose and render the specified figures per §15-1. Allocate ink along three axes:
    - **Between sections (role-driven).** Default Center > Support > Background. Center carries mechanism, evidence, qualifications; Support carries connecting reasoning; Background carries orientation only.
    - **Within a section (climax-driven).** Keep the opening summary-level; concentrate concrete detail at the paragraph carrying the central claim (§3).
    - **Between prose and figure.** Hold to the Draft's prose division: the ink the prose would have spent naming the structure goes to why and under what conditions.

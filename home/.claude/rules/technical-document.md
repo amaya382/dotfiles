@@ -1,6 +1,6 @@
 ---
 name: technical-document
-description: Language-independent rules for technical prose. Covers authorial presence, false agency, paragraph structure, information weighting, hierarchy and placement (overview-first ordering, heading levels, the demotion ladder, list structure, choosing between prose, list, table, and figure), logical rigor, reader load, restraint in rhetoric, structural AI tells, redundancy elimination, headings, honesty toward readers, and standards for examples, code samples, and figures. Pair with a language-specific ruleset (technical-document-ja.md, technical-document-en.md) for vocabulary, punctuation, and idiom-level checks, and with figure-notation.md for diagram notation.
+description: Language-independent rules for technical prose. Covers authorial presence, false agency, paragraph structure, information weighting, hierarchy and placement (overview-first ordering, heading levels, the demotion ladder, list structure, choosing between prose, list, table, and figure), logical rigor, reader load, restraint in rhetoric, structural AI tells, redundancy elimination, headings, honesty toward readers, standards for examples and code samples, and figure quality and notation. Pair with a language-specific ruleset (technical-document-ja.md, technical-document-en.md) for vocabulary, punctuation, and idiom-level checks.
 ---
 
 # Language-Independent Rules for Technical Prose
@@ -14,7 +14,7 @@ Pair them with the appropriate language-specific ruleset for vocabulary, punctua
 - English: `~/.claude/references/technical-document-en.md`
 - Quick-checks (language-independent and language-specific): `~/.claude/references/technical-document-quick-checks*.md`
 
-Figure notation and tooling are a separate concern, in `~/.claude/rules/figure-notation.md`. Read it when the document will carry a figure; §4-5 and §15-1 here decide *whether* and *what*, that file decides *how*.
+Figures: §4-5 decides whether the content wants a figure; §15-1 covers quality and notation, including the Mermaid mapping.
 
 ---
 
@@ -123,16 +123,7 @@ Lists carry the same weighting problem as paragraphs. When one sibling bullet na
 - Prose carries reasoning. Causation, concession, and inference need the connectives that bullets amputate; if the items only make sense read in order with logic between them, they are a paragraph wearing list formatting.
 - A list implies siblings that share a role. Using one for a sequence of unrelated remarks is a formatting shortcut that misleads the reader.
 - A table carries comparison along two axes: each row a case, each column a property. Keep cells to short facts; put interpretation in the surrounding prose.
-- A figure carries structure the reader must hold at once rather than read in sequence. Prefer one whenever the content has two or more dimensions, is a state machine, turns on ordering or concurrency, or claims a boundary — leaving that structure in prose charges the reader (§6) to rebuild it. The tell is a sentence chaining three or more actors. Notation is in `figure-notation.md`, quality in §15-1.
-
-| Content shape                             | Figure kind        |
-| ----------------------------------------- | ------------------ |
-| Time × actor, message ordering            | Sequence           |
-| State × event, allowed transitions        | State diagram      |
-| Boundary × dependency, what contains what | Component          |
-| Branching on conditions                   | Flowchart          |
-| Entities and their relations              | ER                 |
-| Duration and overlap                      | Gantt              |
+- A figure carries structure the reader must hold at once rather than read in sequence. Prefer one whenever the content has two or more dimensions, is a state machine, turns on ordering or concurrency, or claims a boundary — leaving that structure in prose charges the reader (§6) to rebuild it. The tell is a sentence chaining three or more actors. Quality and notation are in §15-1.
 
 A strictly linear flow is the exception: a numbered list reads faster and costs less to maintain.
 
@@ -281,6 +272,19 @@ An example exists to make one claim concrete. Its quality is measured against th
 
 - **One figure, one claim**, statable in one sentence — that sentence is the caption. A request path plus a deployment topology is two figures. The exception is a figure whose claim *is* the whole: an overview or summary exists to show how the parts sit together, and splitting it destroys what the reader came for.
 - **The figure owns the structure; the prose owns why, the conditions, and what the figure cannot draw.** Prose walking the reader node by node is redundancy (§10).
+- **Label every edge with its condition or event; name nodes as the prose names them.** A node whose label diverges from the prose forces the reader to re-map on every mention.
+
+Pick the figure kind by content shape. Notate as Mermaid in a fenced ` ```mermaid ` block, inline; do not also commit a rendered image. Fall back to a checked-in SVG for precise spatial layout or annotation over a screenshot. A project convention, or the format the repository's documents already use, wins over this table.
+
+| Content shape                             | Figure kind    | Mermaid type                |
+| ----------------------------------------- | -------------- | --------------------------- |
+| Time × actor, message ordering            | Sequence       | `sequenceDiagram`           |
+| State × event, allowed transitions        | State diagram  | `stateDiagram-v2`           |
+| Boundary × dependency, what contains what | Component      | `flowchart` with `subgraph` |
+| Branching on conditions                   | Flowchart      | `flowchart TD`              |
+| Entities and their relations              | ER             | `erDiagram`                 |
+| Duration and overlap                      | Gantt          | `gantt`                     |
+| Class or type structure                   | Class          | `classDiagram`              |
 
 ---
 
