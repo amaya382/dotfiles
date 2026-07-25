@@ -6,7 +6,7 @@ The checklist is two-tiered. Priority 1 covers the high-miss-rate failures that 
 
 ## Priority 1
 
-Fifteen high-yield checks. If time is limited, this list is the run.
+Sixteen high-yield checks. If time is limited, this list is the run.
 
 - [ ] **False agency (§1).** Any inanimate subject performing a human verb ("the data tells us," "the decision emerges")?
 - [ ] **Falsifiable claim (§1).** Every load-bearing claim descends to a specific proposition someone could argue against?
@@ -15,6 +15,7 @@ Fifteen high-yield checks. If time is limited, this list is the run.
 - [ ] **Flat weighting (§3).** Central claims allocated more ink than their supporting premises; no support or background paragraph outweighing its section's center?
 - [ ] **Central paragraph distinguishable (§3).** A reader scanning the section can identify the center paragraph by position, length, or density?
 - [ ] **Hierarchy expressed (§4).** Central point stated before detail at every level; secondary facts on the right rung (clause, parenthetical, footnote, appendix) rather than the main line?
+- [ ] **Missing figure (§4-5).** Structural content — two or more dimensions, a state machine, ordering or concurrency, a boundary — carried by a figure rather than left for the reader to reconstruct?
 - [ ] **Hedging calibrated (§5, §9).** Hedges reserved for genuine uncertainty; technically verifiable facts stated as facts; no uniformly qualified prose?
 - [ ] **Causal mechanism (§5).** Every causal claim states the mechanism in one sentence, not just the correlation?
 - [ ] **Thesis-statement headings (§8, §11).** Headings are noun phrases naming the topic, not sentences delivering the conclusion?
@@ -68,7 +69,9 @@ Remaining checks by section. See the corresponding section of the rule file for 
 - [ ] Flat lists beyond ~7 items regrouped?
 - [ ] Nesting stays within three or four levels?
 - [ ] Parent bullets name what their children share?
-- [ ] Prose, list, or table chosen by the shape of the content?
+- [ ] Prose, list, table, or figure chosen by the shape of the content?
+- [ ] Figure kind matches the content shape (§4-5's table)?
+- [ ] Linear no-branch flows left as numbered lists?
 
 ### 5. Logical rigor
 
@@ -148,4 +151,9 @@ Remaining checks by section. See the corresponding section of the rule file for 
 - [ ] Main examples typical, edge cases labeled as such?
 - [ ] Each example anchored in prose to the claim it supports?
 - [ ] Code samples runnable as shown, elisions marked, output shown where it matters?
-- [ ] Every figure referenced from prose and captioned with what it shows?
+
+#### 15-1. Figures
+
+- [ ] One claim per figure, statable in one sentence (overview figures excepted)?
+- [ ] Prose not re-narrating the figure node by node?
+- [ ] Edges labeled, node names matching the prose's terms?

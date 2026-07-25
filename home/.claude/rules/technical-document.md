@@ -1,6 +1,6 @@
 ---
 name: technical-document
-description: Language-independent rules for technical prose. Covers authorial presence, false agency, paragraph structure, information weighting, hierarchy and placement (overview-first ordering, heading levels, the demotion ladder, list structure), logical rigor, reader load, restraint in rhetoric, structural AI tells, redundancy elimination, headings, honesty toward readers, and standards for examples, code samples, and figures. Pair with a language-specific ruleset (technical-document-ja.md, technical-document-en.md) for vocabulary, punctuation, and idiom-level checks.
+description: Language-independent rules for technical prose. Covers authorial presence, false agency, paragraph structure, information weighting, hierarchy and placement (overview-first ordering, heading levels, the demotion ladder, list structure, choosing between prose, list, table, and figure), logical rigor, reader load, restraint in rhetoric, structural AI tells, redundancy elimination, headings, honesty toward readers, and standards for examples, code samples, and figures. Pair with a language-specific ruleset (technical-document-ja.md, technical-document-en.md) for vocabulary, punctuation, and idiom-level checks, and with figure-notation.md for diagram notation.
 ---
 
 # Language-Independent Rules for Technical Prose
@@ -13,6 +13,8 @@ Pair them with the appropriate language-specific ruleset for vocabulary, punctua
 - Japanese: `~/.claude/references/technical-document-ja.md`
 - English: `~/.claude/references/technical-document-en.md`
 - Quick-checks (language-independent and language-specific): `~/.claude/references/technical-document-quick-checks*.md`
+
+Figure notation and tooling are a separate concern, in `~/.claude/rules/figure-notation.md`. Read it when the document will carry a figure; §4-5 and §15-1 here decide *whether* and *what*, that file decides *how*.
 
 ---
 
@@ -120,8 +122,19 @@ Lists carry the same weighting problem as paragraphs. When one sibling bullet na
 
 - Prose carries reasoning. Causation, concession, and inference need the connectives that bullets amputate; if the items only make sense read in order with logic between them, they are a paragraph wearing list formatting.
 - A list implies siblings that share a role. Using one for a sequence of unrelated remarks is a formatting shortcut that misleads the reader.
-- A table earns its place when the reader will compare items along two axes (each row a case, each column a property). Keep cells to short facts; put interpretation in the surrounding prose.
-- A figure earns its place when the relationships have more crossings than prose can hold (an architecture, a lifecycle, a dependency graph). For a linear flow, a numbered list is cheaper to read and to maintain. Quality rules for figures are in §15.
+- A table carries comparison along two axes: each row a case, each column a property. Keep cells to short facts; put interpretation in the surrounding prose.
+- A figure carries structure the reader must hold at once rather than read in sequence. Prefer one whenever the content has two or more dimensions, is a state machine, turns on ordering or concurrency, or claims a boundary — leaving that structure in prose charges the reader (§6) to rebuild it. The tell is a sentence chaining three or more actors. Notation is in `figure-notation.md`, quality in §15-1.
+
+| Content shape                             | Figure kind        |
+| ----------------------------------------- | ------------------ |
+| Time × actor, message ordering            | Sequence           |
+| State × event, allowed transitions        | State diagram      |
+| Boundary × dependency, what contains what | Component          |
+| Branching on conditions                   | Flowchart          |
+| Entities and their relations              | ER                 |
+| Duration and overlap                      | Gantt              |
+
+A strictly linear flow is the exception: a numbered list reads faster and costs less to maintain.
 
 ## 5. Logical Rigor
 
@@ -261,7 +274,13 @@ An example exists to make one claim concrete. Its quality is measured against th
 - Make the main example typical. Edge cases go in follow-up examples, labeled as such; leading with the exotic case makes the reader misjudge the normal one.
 - State in prose which claim the example supports, before or immediately after it. An unanchored example reads as decoration.
 - Code samples must run as shown, or say what was cut: mark elisions explicitly (`...` or a comment), name the language and version assumptions that matter, and show output when the output is the point.
-- A figure supports the text; the text must survive without it. Reference every figure from prose, and caption it with the one thing it shows, not a restatement of its title.
+
+### 15-1. Figures
+
+§4-5 decides whether the content wants a figure; these rules govern the one you commit to.
+
+- **One figure, one claim**, statable in one sentence — that sentence is the caption. A request path plus a deployment topology is two figures. The exception is a figure whose claim *is* the whole: an overview or summary exists to show how the parts sit together, and splitting it destroys what the reader came for.
+- **The figure owns the structure; the prose owns why, the conditions, and what the figure cannot draw.** Prose walking the reader node by node is redundancy (§10).
 
 ---
 
@@ -274,7 +293,7 @@ The full checklist covering §1-§15 lives in `~/.claude/references/technical-do
 When time is limited, work top to bottom. Fixing surface wording (sections 8–10) without fixing authorial presence (section 1), paragraph structure (section 2), information weighting (section 3), and hierarchy and placement (section 4) leaves AI slop intact.
 
 1. **Authorial presence:** falsifiable claims and named actors
-2. **Information weighting and hierarchy:** ink allocated to importance, central paragraphs distinguishable from background, secondary facts demoted down the ladder (clause, footnote, appendix) instead of standing in the main line, list hierarchy matches idea hierarchy
+2. **Information weighting and hierarchy:** ink allocated to importance, central paragraphs distinguishable from background, secondary facts demoted down the ladder (clause, footnote, appendix) instead of standing in the main line, list hierarchy matches idea hierarchy, structural content carried by a figure rather than reconstructed by the reader
 3. **Structural tells:** thesis-statement headings, setup-then-reversal openings, uniform texture
 4. **Redundancy:** repeated claims, unnecessary framing, weak predicates
 5. **Rhetoric and rhythm:** punchline overuse, dramatic fragmentation, negative listing
