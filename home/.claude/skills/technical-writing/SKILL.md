@@ -7,7 +7,7 @@ description: Write, revise, or polish technical documents through structured pha
 
 ## Execution Model
 
-Claude executes this skill. The user intervenes only at Confirm gates: Bootstrap Step 1 (Theme/Purpose/Audience), Step 2 (Outline), Step 3-2 (Draft), the Preparation audience-check gate, and the Final Confirm at the end of Polishing.
+Claude executes this skill. The user intervenes only at Confirm gates: Bootstrap Step 1 (Theme/Purpose/Audience), Step 2 (Outline), Step 3-2 (Draft), the Preparation audience-check gate, and the Final Confirm at the end of Polishing. The three ExitPlanMode gates (Step 2, Step 3-2, Final Confirm) follow the shared structure in **Review Gates**.
 
 The procedure is mandatory in every mode. Auto Mode or "make it simple" tunes how much is asked at each gate, not whether the skill runs.
 
@@ -34,6 +34,22 @@ Determine mode from user input; confirm via AskUserQuestion if uncertain.
 | Revise | Modify or expand parts of an existing document   | Revise Mode           |
 | Refine | Improve overall quality of an existing document  | Polishing only        |
 
+## Review Gates
+
+Three gates present work to the user via ExitPlanMode (enter plan mode first if not already). Each gate asks one question and defers the rest; the questions do not overlap.
+
+- **Step 2 (Outline).** Are the sections the reader needs all present, each earning its place, ordered and nested to match the hierarchy of ideas (§4-2, §4-4), and assigned the right role (§3)?
+- **Step 3-2 (Draft).** Is each section's central claim the right one, backed by the evidence the audience needs, free of material that changes nothing for the reader (§3), with terms defined where the Step 1 boundary puts them?
+- **Final Confirm.** Does the argument run in one direction (§2), with ink allocated to importance (§3), claims carrying their mechanisms and conditions (§5), and a surface that reads as a situated author wrote it (§1, §8-§10)?
+
+Structure every gate's plan file in this order:
+
+1. **Review perspective** — the gate's question, in the terms above, narrowed to what this document actually puts at stake. One sentence.
+2. **Review target** — the full artifact under review: the outline (Step 2), the bullet draft (Step 3-2), or the document's full prose (Final Confirm). Present it inline, not as a file path; the user must be able to review without opening the file.
+3. **Supplementary context** — anything the user needs to judge the target, omitted when there is nothing to add. Content varies by gate; see each gate's section.
+
+Do not proceed until the current gate is confirmed. The plan UI carries inline feedback per item; AskUserQuestion does not. Background information may be accepted at any point and feeds Step 2 triage, not the document directly.
+
 ## Preparation (all modes)
 
 - Follow document convention files under `.claude/rules/` if present (naming, frontmatter, placement, diagram notation).
@@ -42,15 +58,9 @@ Determine mode from user input; confirm via AskUserQuestion if uncertain.
 
 ## Bootstrap (New mode)
 
-Two user-facing Confirms: **Outline** (Step 2) and **Draft** (Step 3-2). Prose generation runs internally; the user next sees the document at the **Final Confirm** in Polishing.
+Two user-facing Confirms: **Outline** (Step 2) and **Draft** (Step 3-2), both following **Review Gates**. Prose generation runs internally; the user next sees the document at the **Final Confirm** in Polishing.
 
-Present each Confirm via ExitPlanMode (enter plan mode first if not already). Structure the plan file:
-
-1. **Review target** — the outline or draft to accept, redirect, or stop
-2. **Supplementary context** — Claude's understanding of audience and theme
-3. **Per-section role weighting** — Center / Support / Background (§3), with any deliberate misalignment noted
-
-The plan UI carries inline feedback per item; AskUserQuestion does not. Do not proceed until the current step is confirmed. Background information may be accepted at any point and feeds Step 2 triage, not the document directly.
+Supplementary context at both gates: Claude's understanding of audience and theme, and per-section role weighting — Center / Support / Background (§3), with any deliberate misalignment noted.
 
 ### Step 1: Confirm Theme, Purpose, and Audience
 
@@ -65,7 +75,7 @@ Record a term boundary for the audience: for each technical term, decide whether
 
 ### Step 2: Confirm Outline
 
-Propose an outline, then confirm via ExitPlanMode. Before proposing:
+Propose an outline, then confirm via ExitPlanMode following **Review Gates**. The gate asks whether the structural components are right, so the outline carries section titles, their order, nesting, and roles — not the content each section will hold. Before proposing:
 
 - **Triage.** Keep a section only if it contributes to what the reader can do or decide after reading (§3). Move dropped candidates into the lead's scope exclusions (§4-1) and list them so the user can promote one back.
 - **Annotate roles.** Mark each section Center, Support, or Background (§3).
@@ -75,7 +85,7 @@ Propose an outline, then confirm via ExitPlanMode. Before proposing:
 Expand the approved Outline into a bullet Draft, confirm the Draft, then generate prose internally.
 
 1. **Draft.** For each section, open with the central claim in one sentence, then list terms on the needs-definition side of the Step 1 boundary and pin where each is defined before its first use. Fill with concise bullets (sub-claims, evidence, examples, qualifications, transitions), one line each. For figures and tables, write a direction note only. Center carries more bullets than Support, Support more than Background.
-2. **Confirm Draft via ExitPlanMode.** Adjust claims, bullets, sections, and roles.
+2. **Confirm Draft via ExitPlanMode following Review Gates.** The gate asks whether the information the document will carry is the expected set, so keep bullets at note density; do not pre-polish them into finished sentences. Adjust claims, bullets, sections, and roles.
 3. **Prose (internal).** Convert the approved Draft into prose. Allocate ink along two axes:
    - **Between sections (role-driven).** Default Center > Support > Background. Center carries mechanism, evidence, qualifications; Support carries connecting reasoning; Background carries orientation only.
    - **Within a section (climax-driven).** Keep the opening summary-level; concentrate concrete detail at the paragraph carrying the central claim (§3).
@@ -93,14 +103,14 @@ Revisions break in ways new writing does not: locally fine text can drift the do
 2. **Edit within those constraints.** New text uses existing terms and register. Surface any role change before writing.
 3. **Prefer rewriting over appending.** Fold new material into existing sentences; appending stacks equal-weight claims and flattens the section.
 4. **Re-balance.** Check revised sections against their roles; an expanded background outweighing its center is a weighting inversion (§3).
-5. **Polish the seams.** Run Polishing on the revised sections plus immediate neighbors — transitions are where revisions tear. Revise runs one Polishing iteration, then Final Confirm. Seam Polishing typically qualifies as a Small target and runs in the main session.
+5. **Polish the seams.** Run Polishing on the revised sections plus immediate neighbors — transitions are where revisions tear. Seam Polishing typically qualifies as a Small target and runs in the main session.
 6. **Escalate on structural findings.** If Polishing surfaces a §2-§4 finding that a local edit cannot resolve, return to Step 1 for the affected sections rather than absorbing the fix inside Polishing.
 
 ## Polishing
 
 Improve text written in Bootstrap (New) or existing text (Revise, Refine).
 
-**Iteration budget.** New and Revise run **one** iteration; Refine runs **two**. Exit early on zero new findings (same span and rule section as a prior iteration = reappearance). Report zero as zero.
+**Iteration budget.** New and Revise run **one** iteration; Refine runs **two**. Exit early on zero new findings (same span and rule section as a prior iteration = reappearance).
 
 **Small targets.** Judge by structural scope, not word count: one or two sections, a single Center, no Support the reader could not reconstruct from the Center. For Small targets, skip subagents — run 1-1, 1-2, 1-3 sequentially in the main session, then Edit. Inherit any Bootstrap compression choice.
 
@@ -126,7 +136,7 @@ Two phases in one run; complete Phase 1 before starting Phase 2. Do not rewrite.
 
 **Phase 1 (annotate).** For each paragraph, output: topic, logical relationship to the previous paragraph, dimensions served (hierarchical, parallel, comparative, temporal, causal), claims supported, and role read from the text (§3). When a Step 2 role assignment is available (Bootstrap or Revise with the record preserved), record it alongside and mark divergences as candidate findings. On external documents (Refine), note "no reference assignment".
 
-**Phase 2 (detect).** Flag: paragraphs serving no dimension or claim (redundancy); claims lacking supporting paragraphs; weighting inversions and indistinguishable center paragraphs (§3-§4); over-carry (Support recovering Center mechanism, Background asserting qualifications, Center openings at climax density). Do not flag declared deliberate misalignment.
+**Phase 2 (detect).** Flag: paragraphs serving no dimension or claim (redundancy); claims lacking supporting paragraphs; weighting inversions and indistinguishable center paragraphs (§3-§4); over-carry as defined in the Step 3-3 Guard. Do not flag declared deliberate misalignment.
 
 When Phase 1 recorded "no reference assignment", weighting-inversion findings are **advisory**: Edit does not apply them directly, but asks the user via AskUserQuestion whether the flagged section's center matches their intent. Redundancy and missing-support findings remain actionable.
 
@@ -170,11 +180,15 @@ If Refine exits at the 2-iteration cap, re-check the final edit's spans against 
 
 ### Final Confirm
 
-Runs in all modes, including Small targets. Present via ExitPlanMode. Structure:
+Runs in all modes, including Small targets. Present via ExitPlanMode following **Review Gates**. The review target is the **final document in full, inline**. The user reviews the finished prose, not a diff: the pre-Polishing text was never theirs to accept.
 
-1. **Change summary** — the Edit list, grouped by rule tier (structure §2-§5, surface §8-§10, seams). For each: section or span, motivating rule, one-line note. Include mid-Polishing escalations.
-2. **Pointer to the final document** — file path; do not inline the full document.
-3. **Persona and mode** — audience definition used in 1-3 (or skip reason) and the mode.
+Supplementary context, in this order, each omitted when it has nothing to report:
+
+1. **Structural divergence from the approved Draft** — sections added, dropped, reordered, or re-roled since Step 3-2. Report only divergence; a document matching its Draft has none. In Refine mode there is no approved Draft, so report structural edits against the document as received.
+2. **Change summary** — the Edit list, grouped by rule tier (structure §2-§5, surface §8-§10, seams). For each: section or span, motivating rule, one-line note. Include mid-Polishing escalations.
+3. **Persona and mode** — audience definition used in 1-3 (or skip reason), and the mode.
+
+The file path appears alongside the inline text, not in place of it.
 
 On approval, proceed to the Completion Report. On redirect: local fixes stay within one additional Polishing iteration (regardless of mode budget); a broader re-review escalates to Revise Mode Step 1.
 
