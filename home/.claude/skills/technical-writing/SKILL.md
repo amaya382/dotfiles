@@ -1,6 +1,6 @@
 ---
 name: technical-writing
-description: Write, revise, or polish technical documents through structured phases (Bootstrap → Polishing). Use for general technical writing or systematic refinement of existing documents. Trigger when the user says "write a technical document," "polish this text," or "improve this document."
+description: Write, revise, or polish technical documents through structured phases (Bootstrap → Polishing). Use for general technical writing or systematic refinement of existing documents. Trigger when the user says "write a technical document," "polish this text," or "improve this document," including Japanese equivalents — 執筆: 「技術文書書いて」「設計書作って」「ブログ書いて」「解説記事作って」「ADR書いて」「RFC作って」「README書いて」「仕様書作成」; 推敲・リライト: 「推敲して」「リライトして」「文章を締めて」「誤字直して」; 改善: 「もっと良くして」「読みやすくして」「ブラッシュアップ」「磨いて」「文章を良くして」.
 ---
 
 # Technical Writing Skill

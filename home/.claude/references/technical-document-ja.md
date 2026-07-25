@@ -1,6 +1,6 @@
 ---
 name: technical-document-ja
-description: 日本語技術文書の文章規範（日本語固有）。視点と語り、文の構造、日本語の AI Slop フレーズ、整形と記号を定める。言語非依存の規範（主体と立場、段落構成、情報の重み付け、階層と配置、論証の厳密さ、読者負荷、演出の抑制、冗長の排除、見出し、読者への誠実さ、例とコードと図）は technical-document.md を参照。日本語で技術文章やその草稿、記事、解説文、設計書などを書く、推敲する、リライトするときは常に使用する。
+description: Japanese-specific writing rules for technical prose. Covers voice and narration, sentence structure, Japanese AI slop phrases, and Japanese formatting and punctuation. Language-independent concerns (authorial presence, paragraph structure, information weighting, hierarchy and placement, logical rigor, reader load, restraint in rhetoric, redundancy, headings, honesty toward readers, examples/code/figures) are in technical-document.md and always used alongside. / 日本語技術文書の文章規範（日本語固有）。視点と語り、文の構造、日本語の AI Slop フレーズ、整形と記号を定める。言語非依存の規範（主体と立場、段落構成、情報の重み付け、階層と配置、論証の厳密さ、読者負荷、演出の抑制、冗長の排除、見出し、読者への誠実さ、例とコードと図）は technical-document.md を参照。日本語で技術文章やその草稿、記事、解説文、設計書などを書く、推敲する、リライトするときは常に使用する。
 ---
 
 # 日本語技術文書の文章規範（日本語固有）

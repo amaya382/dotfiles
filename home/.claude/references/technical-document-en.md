@@ -1,6 +1,6 @@
 ---
 name: technical-document-en
-description: English-specific writing rules for technical prose. Covers voice and stance, sentence structure, English AI slop phrases, metaphor restraint, and English-specific punctuation. Use alongside technical-document.md (which covers language-independent concerns such as false agency, paragraph structure, information weighting, hierarchy and placement, logical rigor, and structural AI tells).
+description: English-specific writing rules for technical prose. Covers voice and stance, sentence structure, English AI slop phrases, metaphor restraint, and English-specific punctuation. Use alongside technical-document.md (which covers language-independent concerns such as false agency, paragraph structure, information weighting, hierarchy and placement, logical rigor, and structural AI tells). / 英語で技術文章を書く・推敲する・リライトする際の英語固有の規範。voice と stance、文構造、英語の AI Slop フレーズ、メタファーの抑制、英語固有の句読点を扱う。false agency、段落構成、情報の重み付け、階層と配置、論証の厳密さ、構造 AI 臭など言語非依存の規範は technical-document.md 側にあり、常に併用する。
 ---
 
 # English-Specific Rules for Technical Prose
