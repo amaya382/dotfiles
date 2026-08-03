@@ -1,10 +1,8 @@
 ---
-description: Applies when writing or editing code — comments, justifications, and design choices. / コードを書く・編集するときに適用する。コメント、justification、設計判断が対象。
+description: Applies when writing or editing code — comments and justifications in the implementation itself. / コードを書く・編集するときに適用する。実装内のコメントと justification が対象。設計判断は design.md を参照。
 ---
 
-# rules for coding
-
-- Easy ではなく Simple な設計・実装を優先的に採用すること
+# rules for implementation
 
 ## コード内コメント
 
