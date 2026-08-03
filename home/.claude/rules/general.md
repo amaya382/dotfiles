@@ -1,3 +1,7 @@
+---
+description: Applies to every task — ambiguous requests, delegation to subagents, explanatory writing, and pacing after the user interrupts. / すべての作業に適用する。曖昧な依頼、subagent への委譲、説明の書き方、ユーザーの割り込み後の進め方が対象。
+---
+
 # general rules
 
 - 曖昧性や不確実性がある場合は想像で進めずに必ず AskUserQuestion で確認すること

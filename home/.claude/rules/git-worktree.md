@@ -1,3 +1,7 @@
+---
+description: Applies in a baretree repository (`bt status` succeeds), before the first state-mutating action of a task. / baretree リポジトリ（`bt status` が成功する環境）で、タスク中最初に状態を変える操作の前に適用する。
+---
+
 # baretree Worktree Rule
 
 Applies only when `bt status` succeeds. Otherwise skip this rule entirely.
