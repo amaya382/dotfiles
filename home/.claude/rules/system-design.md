@@ -5,5 +5,4 @@ description: Applies when choosing a system design or architecture, before writi
 # rules for design
 
 - Easy ではなく Simple な設計・実装を優先的に採用すること
-  - Simple は関心事が絡み合っていないこと、Easy は手近で書く量が少ないことを指す
-  - 迷ったら、記述量が増えても関心事が分離される方を選ぶこと
+  - Simple の組み合わせで Easy を表現すること
