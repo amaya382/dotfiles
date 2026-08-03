@@ -30,3 +30,24 @@ login_shell = "/bin/zsh"
 # ---------------------------------------------------------------------------
 [dotfiles]
 "~/Brewfile" = "~/.config/mise/../home/Brewfile"
+
+# ---------------------------------------------------------------------------
+# mise-managed tools (macOS only)
+# ---------------------------------------------------------------------------
+[tools]
+# Rust/C++ build cache. Distributed via the kunobi-ninja/kunobi tap, a personal
+# tap without Homebrew API metadata, so ubi pulls the same release binary the
+# formula would install (as with baretree / ftgrep in config.toml).
+"github:kunobi-ninja/kache" = "latest"
+
+# ---------------------------------------------------------------------------
+# Bootstrap task
+# `mise bootstrap` runs a task named `bootstrap` as its last declarative step,
+# after [tools] are installed and on PATH.
+# ---------------------------------------------------------------------------
+[tasks.bootstrap]
+description = "macOS-only post-install setup"
+# Points ~/.cargo/config.toml at kache as the rustc-wrapper and installs the
+# daemon as a launchd login service. Idempotent, so every bootstrap re-run
+# doubles as a config repair.
+run = "kache init -y"
