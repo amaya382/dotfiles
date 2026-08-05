@@ -85,6 +85,25 @@ set -g mouse on
 bind -n MouseDrag1Pane if -F '#{||:#{pane_in_mode},#{alternate_on}}' { send -M } { copy-mode -M }
 bind -n WheelUpPane    if -F '#{||:#{pane_in_mode},#{alternate_on}}' { send -M } { copy-mode -e }
 
+### keyboard selection
+## Shift+arrow is the keyboard counterpart of the drag above: it opens
+## copy-mode, anchors the selection at the cursor and extends it one cell,
+## so text can be selected without reaching for the mouse. Full-screen
+## programs keep the keys, gated on the same #{alternate_on} as the drag.
+bind -n S-Left  if -F '#{alternate_on}' { send S-Left }  { copy-mode ; send -X begin-selection ; send -X cursor-left }
+bind -n S-Right if -F '#{alternate_on}' { send S-Right } { copy-mode ; send -X begin-selection ; send -X cursor-right }
+bind -n S-Up    if -F '#{alternate_on}' { send S-Up }    { copy-mode ; send -X begin-selection ; send -X cursor-up }
+bind -n S-Down  if -F '#{alternate_on}' { send S-Down }  { copy-mode ; send -X begin-selection ; send -X cursor-down }
+
+## Once the pane is in copy-mode the root table no longer sees these keys, so
+## copy-mode-vi repeats them to keep extending the selection. The
+## #{selection_present} branch anchors one first, for copy-mode entered by
+## another route such as the f binding.
+bind -T copy-mode-vi S-Left  if -F '#{selection_present}' { send -X cursor-left }  { send -X begin-selection ; send -X cursor-left }
+bind -T copy-mode-vi S-Right if -F '#{selection_present}' { send -X cursor-right } { send -X begin-selection ; send -X cursor-right }
+bind -T copy-mode-vi S-Up    if -F '#{selection_present}' { send -X cursor-up }    { send -X begin-selection ; send -X cursor-up }
+bind -T copy-mode-vi S-Down  if -F '#{selection_present}' { send -X cursor-down }  { send -X begin-selection ; send -X cursor-down }
+
 # enable plugins
 set -g @tpm_plugins '           \
   jimeh/tmux-themepack          \
