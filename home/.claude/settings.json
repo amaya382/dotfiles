@@ -56,7 +56,7 @@
       "Bash(npx vitest run:*)"
     ]
   },
-  "model": "claude-opus-5[1m]",
+  "model": "opus",
   "hooks": {},
   "enabledPlugins": {
     "skill-creator@claude-plugins-official": true
