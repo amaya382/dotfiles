@@ -9,15 +9,7 @@ if-shell '[ -z "${ANYRC_HOME}" ]' \
 ## disable detach
 unbind -T root C-d
 
-## shell
-#if-shell '[ -z "${ANYRC_HOME}" ]' \
-#  'set -g default-shell /usr/bin/zsh; \
-#   set -g default-command /usr/bin/zsh' \
-#  'set -g default-shell /usr/bin/zsh; \
-#   set -g default-command ${ANYRC_HOME}/.sshrc'
-if-shell '[ $(which zsh) ]' \
-  'set -g default-shell /usr/bin/zsh' \
-  'set -g default-shell /bin/bash'
+## shell: set in the per-OS section below, since zsh's path differs by OS.
 set -g default-terminal "screen-256color"
 #set -ga terminal-overrides ",*xterm*:Tc"
 
@@ -98,6 +90,11 @@ if-shell '[ -z "${ANYRC_HOME}" ]' \
 ### .tmux.conf for linux ###
 
 # general
+## shell: zsh lives at /usr/bin/zsh here; fall back to bash when it is absent.
+if-shell '[ -x /usr/bin/zsh ]' \
+  'set -g default-shell /usr/bin/zsh' \
+  'set -g default-shell /bin/bash'
+
 ## copy-paste
 if-shell '[ "$(uname -a | grep -i Microsoft)" != "" ]' \
   'bind-key -T copy-mode-vi Enter send -X copy-pipe-and-cancel "win32yank.exe -i"' \
@@ -108,8 +105,11 @@ if-shell '[ "$(uname -a | grep -i Microsoft)" != "" ]' \
 ### .tmux.conf for osx ###
 
 # general
-## shell
+## shell: macOS ships zsh at /bin/zsh. default-command is left empty so that
+## default-shell is the value tmux uses for new windows, which also drops the
+## dependency on reattach-to-user-namespace being on the server's PATH. tmux
+## has reattached to the per-user bootstrap namespace itself since 2.6, so the
+## wrapper only duplicates what the server already does.
 set-option -g default-shell /bin/zsh
-set-option -g default-command "reattach-to-user-namespace -l /bin/zsh"
 
 {%- endif %}

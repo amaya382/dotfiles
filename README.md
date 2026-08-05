@@ -53,7 +53,7 @@ mise bootstrap --yes
 
 `mise bootstrap` runs these phases declaratively, in order:
 
-1. **`bootstrap.packages`** — reconciles apt (build-essential, ...) and brew (tmux, vim, gh, uv, custom taps, ...). Brew formulae are installed by mise's built-in bottle installer, so Homebrew itself is not required. On macOS, `config.macos.toml` adds `reattach-to-user-namespace` and the GNU coreutils variants (`gawk` / `grep` / `gnu-sed`).
+1. **`bootstrap.packages`** — reconciles apt (build-essential, ...) and brew (tmux, vim, gh, uv, custom taps, ...). Brew formulae are installed by mise's built-in bottle installer, so Homebrew itself is not required. On macOS, `config.macos.toml` adds the GNU coreutils variants (`gawk` / `grep` / `gnu-sed`).
 2. **`post-packages` hook** — runs `bootstrap/install-3rdparty.sh` to install anyrc and dein.vim. On macOS it also runs `brew bundle` against `~/Brewfile` (symlinked from `home/Brewfile`) to install GUI casks such as Docker Desktop, DBeaver, and AltTab. Requires Homebrew; missing brew emits a warning and skips. zplug is installed as a Homebrew formula in the previous phase.
 3. **`pre-dotfiles` hook** — creates `~/.anyrc.d/` so subsequent symlink entries have a parent to land in.
 4. **`dotfiles`** — applies `[dotfiles]` entries, symlinking or templating from `home/` into `~/`. `.claude/{rules,references,skills}` use `symlink-each`, so machine-local files dropped into those dirs stay outside mise's management.
