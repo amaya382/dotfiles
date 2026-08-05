@@ -49,9 +49,14 @@ For each perspective, provide:
 - **Flow**: the middle steps in causal order — each a `file:line` pointer plus one sentence. The reader should follow the chain top-to-bottom without re-reading; if a step does not follow from the previous one, either the order is wrong or a step is missing.
 - **Exit / effect**: what the flow produces or changes — the observable effect or the downstream contract, with a pointer.
 - **Tests**: which tests exercise this perspective — pointers only. Do not describe what each verifies unless the reviewer asks. Skip the line when there are none (and let that absence stand — the reviewer will notice).
+- **Diagram** (optional): a Mermaid figure when the flow crosses 3+ actors, branches, or changes state. One figure, one claim. Skip for straight chains.
 - **Watch for** (optional): a specific thing worth extra attention — a subtle invariant, a case the flow does not cover, an API contract that changed. One sentence. Omit when nothing stands out; do not fabricate concerns to fill the slot. This names *what to look at*, not *what is wrong* — evaluation is the reviewer's job.
 
 When a perspective touches only 1-2 files, collapse the above into 2-3 total bullets. The template is a ceiling, not a floor.
+
+## Output
+
+Emit the guide as chat text. If it contains any Mermaid, also write the same content to a Markdown file in the scratchpad and report the path.
 
 ## Judgment
 
