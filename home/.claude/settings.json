@@ -1,17 +1,8 @@
 {
-  "model": "claude-opus-5[1m]",
-  "effortLevel": "high",
-  "language": "japanese",
-  "tui": "fullscreen",
-  "showClearContextOnPlanAccept": true,
-  "remoteControlAtStartup": true,
-  "agentPushNotifEnabled": true,
   "attribution": {
     "commit": "",
     "pr": ""
   },
-  "hooks": {},
-  "enabledPlugins": {},
   "permissions": {
     "allow": [
       "Read(//tmp)",
@@ -64,5 +55,16 @@
       "Bash(npx tsc:*)",
       "Bash(npx vitest run:*)"
     ]
-  }
+  },
+  "model": "claude-opus-5[1m]",
+  "hooks": {},
+  "enabledPlugins": {
+    "skill-creator@claude-plugins-official": true
+  },
+  "language": "japanese",
+  "effortLevel": "high",
+  "showClearContextOnPlanAccept": true,
+  "tui": "fullscreen",
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true
 }
