@@ -75,6 +75,16 @@ set -g @themepack 'powerline/block/cyan'
 ### mouse
 set -g mouse on
 
+## The zsh line editor keeps mouse reporting on at the prompt (see
+## ~/.zsh-mouse.zsh), which raises #{mouse_any_flag} and makes the default
+## bindings forward drags and the wheel to zsh. Swapping that condition for
+## #{alternate_on} keeps both with tmux at the prompt, so a plain drag still
+## opens copy-mode and the wheel still scrolls, while full-screen programs
+## such as vim keep receiving mouse events. A click is a separate event
+## (MouseDown1Pane) and stays forwarded, which is what moves the cursor.
+bind -n MouseDrag1Pane if -F '#{||:#{pane_in_mode},#{alternate_on}}' { send -M } { copy-mode -M }
+bind -n WheelUpPane    if -F '#{||:#{pane_in_mode},#{alternate_on}}' { send -M } { copy-mode -e }
+
 # enable plugins
 set -g @tpm_plugins '           \
   jimeh/tmux-themepack          \

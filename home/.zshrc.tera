@@ -282,6 +282,10 @@ export PATH=$PATH:/usr/local/opt/unzip/bin:$GOPATH/bin
 [ -n "${HOMEBREW_PREFIX}" ] && [ -d "${HOMEBREW_PREFIX}/opt/libpq/bin" ] \
   && export PATH="${HOMEBREW_PREFIX}/opt/libpq/bin:$PATH"
 
+# mouse: left click positions the cursor within the current command line.
+# Sourced after zplug so its widgets wrap around the plugins' ones.
+[ -f ${ANYRC_HOME:-${HOME}}/.zsh-mouse.zsh ] && . ${ANYRC_HOME:-${HOME}}/.zsh-mouse.zsh
+
 # local conf if exists
 [ -f ${ANYRC_HOME:-${HOME}}/.zshrc.local ] && . ${ANYRC_HOME:-${HOME}}/.zshrc.local
 

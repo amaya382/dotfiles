@@ -86,6 +86,9 @@ login_shell = "/usr/bin/zsh"
 "~/.zshrc"     = { source = "~/.config/mise/../home/.zshrc.tera",     mode = "template" }
 "~/.tmux.conf" = { source = "~/.config/mise/../home/.tmux.conf.tera", mode = "template" }
 
+# zle mouse support, sourced from .zshrc
+"~/.zsh-mouse.zsh" = "~/.config/mise/../home/.zsh-mouse.zsh"
+
 # editor
 "~/.vimrc"     = "~/.config/mise/../home/.vimrc"
 
@@ -100,6 +103,7 @@ login_shell = "/usr/bin/zsh"
 "~/.anyrc.d/.vimrc"            = "~/.config/mise/../home/.vimrc"
 "~/.anyrc.d/.gitconfig"        = "~/.config/mise/../home/.gitconfig"
 "~/.anyrc.d/.gitignore_global" = "~/.config/mise/../home/.gitignore_global"
+"~/.anyrc.d/.zsh-mouse.zsh"    = "~/.config/mise/../home/.zsh-mouse.zsh"
 
 # Claude Code config.
 # rules / references / skills use symlink-each: the directory itself is a real
