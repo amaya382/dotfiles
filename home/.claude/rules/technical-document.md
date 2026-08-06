@@ -9,7 +9,7 @@ Pair them with the appropriate language-specific ruleset for vocabulary, punctua
 
 **Scope.** Any text whose job is to convey technical content falls under these rules: specifications, design docs, ADRs, RFCs, README and other repository documentation, pull request descriptions, git commit messages, code comments and docstrings, technical blog posts and explainers, postmortems, issue and ticket writeups, design review and meeting notes.
 
-Short forms take only the sections that have room to apply. A one-line commit message has no paragraph structure (§2), no ink to allocate (§3), and no figure to draw (§15-1), but the claim it makes still needs to be precise (§5), unadorned (§7), and stated once (§10). Do not stretch a section to fit a form that cannot hold it, and do not inflate a form to satisfy a section.
+Short forms take only the sections that have room to apply. A one-line commit message has no paragraph structure (§2), no ink to allocate (§3), and no figure to draw (§13-1), but the claim it makes still needs to be precise (§5), unadorned (§7), and stated once (§10). Do not stretch a section to fit a form that cannot hold it, and do not inflate a form to satisfy a section.
 
 **Load on demand.** The language-specific rulesets and the quick-checks references are not auto-loaded. When writing, revising, or polishing a technical document, Read the file matching the document's language before applying its rules. These rules apply to technical prose only; do not apply the language-specific rules to general conversational output.
 
@@ -17,7 +17,7 @@ Short forms take only the sections that have room to apply. A one-line commit me
 - English: `~/.claude/references/technical-document-en.md`
 - Quick-checks (language-independent and language-specific): `~/.claude/references/technical-document-quick-checks*.md`
 
-Figures: §4-5 decides whether the content wants a figure; §15-1 covers quality and notation, including the Mermaid mapping.
+Figures: §4-5 decides whether the content wants a figure; §13-1 covers quality and notation, including the Mermaid mapping.
 
 ---
 
@@ -62,19 +62,27 @@ Paragraphs are the unit of argument. Readers must be able to follow the logic on
 
 ## 3. Information Weighting
 
-Readers infer importance from paragraph length and detail density. When every paragraph is uniform in length and density, readers cannot tell which one carries the section, and the document reads as flat regardless of how much the writer cares about the central claim. The remaining rules in this section are additive: they govern what to keep and how much weight to give it, not what to cut.
+Readers infer importance from paragraph length and detail density. When every paragraph is uniform in length and density, readers cannot tell which one carries the section, and the document reads as flat regardless of how much the writer cares about the central claim.
 
-Cutting happens before weighting: drop candidates the reader will not act on or decide with (§4-3's deletion rung, applied before drafting instead of after). Having material is not a reason to include it. Research notes, background the writer happens to know, and edge cases noticed along the way are inputs to select from, not entitlements to ink.
+**Cutting is the default; retention bears the burden.** Drop any candidate you cannot justify in one sentence as "the reader acts or decides differently because of this." Coverage — the wish to include everything you know or researched — is not justification. A reader who is missing something they need will say so; a reader drowning in premises they did not need has no such feedback and stops reading. Preserving the central line matters more than preserving completeness, and information loss is recoverable when the user or a downstream review flags it.
 
-Fix each unit's role before drafting it: center (the claim the section exists to make), support (evidence or mechanism the center cannot stand without), or background (orientation that argues nothing). The role dictates the ink. Deciding roles after drafting means recovering them from a flat draft in which every paragraph already looks equally important.
+Fix each unit's role before drafting it: center (the claim the section exists to make), support (evidence or mechanism the center cannot stand without), or background (orientation that argues nothing). Center earns ink unconditionally; support earns ink only where the center would fall without it; background earns ink only where the reader cannot enter the center without orientation.
 
 - Allocate ink in proportion to a claim's importance. The central claim deserves more words than the premises that support it. If a background paragraph matches the main argument in length, the reader has no signal for which one to weight.
 - Concentrate concrete detail (numbers, proper names, mechanism explanations, worked examples) at the argument's climax. Keep introductions and background at the summary level.
 - Vary paragraph length, detail density, and level of specificity across a section. A uniform rhythm hides the writer's judgment.
 - Make the central paragraph distinguishable from those around it. Compress it, place it right after the heading, or mark it with emphasis. The means do not matter, but the contrast should be visible to a reader scanning the section.
-- Distinguish the main argument from its support structurally, not just lexically. Position, length, and density carry more signal than phrases like "the key point is" (which §7 forbids anyway).
-- When a support or background paragraph outweighs its section's center in length or detail, cut the support down first. Inflating the center to win back the ratio lengthens every paragraph and flattens the section again.
-- Background and premises remain in the document. Match their length and detail to their secondary role, not to zero. Removing them when they are load-bearing produces a different failure mode (unsupported assertion) and does not improve weighting.
+- When a support or background paragraph outweighs its section's center in length or detail, the fix is to cut the support, not to inflate the center. Inflating lengthens every paragraph and flattens the section again.
+- Prefer deletion to demotion. §4-3's ladder (clause, footnote, appendix) is for material the reader would lose something by not seeing; anything softer than that goes to zero.
+- When in doubt, cut and re-read. If the paragraphs on either side connect without the removed span, the removal was correct. If they no longer connect, the removed span was carrying a hidden claim — restore it, or write the missing claim explicitly.
+
+**Asymmetric treatment of parallel items.** Listing N parallel items (three axes, four options, five causes) with equal ink asserts they are equal. If the text names one as "most important," "primary," or "dominant," that item earns depth in prose (mechanism, worked example, hesitation and resolution) while the rest collapse to a table row or a single subordinate clause. The failure mode: writing one paragraph per item at similar length so that the "most important" claim is stated and then immediately undone by the shape of the section. This shape hits three-axis and three-option sections hardest because the writer feels an obligation to "cover" each.
+
+**Cutting is not shortening.** When a section reads flat because it lists too much, the fix is not to trim each paragraph to fewer words. Ten items at half-length is still ten items, and the ten-way weighting is still flat. Drop items so what remains can carry real depth. If every item survives every triage pass, either every item is genuinely load-bearing (rare) or the triage is not cutting hard enough (usual). Test: could the section still function as an argument if half the items were reduced to a single row in a table? If yes, that is the target shape, not the current one.
+
+**Strengthen the center by dropping support, not by adding to it.** When a center paragraph reads thin, the instinct is to add another support paragraph explaining why. The result is a section where the center is still thin but now surrounded by more surface — the ratio worsens. The correction is the opposite: drop one of the existing support paragraphs and rewrite the center itself to absorb what it lost. A center paragraph is thin because the writer did not commit to the mechanism at the climax; more support cannot fix that.
+
+**Do not restate what a table or figure already carries.** When a section holds a table or figure, the prose spends its ink on what the table cannot show — the reason the primary item is primary, the mechanism behind a row, the condition under which a value changes — not on walking through the rows in words. Prose that could be reconstructed by reading the table alone is a duplicate; delete it, and let the paragraph the table serves keep the ink instead.
 
 ## 4. Hierarchy and Placement
 
@@ -126,7 +134,7 @@ Lists carry the same weighting problem as paragraphs. When one sibling bullet na
 - Prose carries reasoning. Causation, concession, and inference need the connectives that bullets amputate; if the items only make sense read in order with logic between them, they are a paragraph wearing list formatting.
 - A list implies siblings that share a role. Using one for a sequence of unrelated remarks is a formatting shortcut that misleads the reader.
 - A table carries comparison along two axes: each row a case, each column a property. Keep cells to short facts; put interpretation in the surrounding prose.
-- A figure carries structure the reader must hold at once rather than read in sequence. Prefer one whenever the content has two or more dimensions, is a state machine, turns on ordering or concurrency, or claims a boundary — leaving that structure in prose charges the reader (§6) to rebuild it. The tell is a sentence chaining three or more actors. Quality and notation are in §15-1.
+- A figure carries structure the reader must hold at once rather than read in sequence. Prefer one whenever the content has two or more dimensions, is a state machine, turns on ordering or concurrency, or claims a boundary — leaving that structure in prose charges the reader (§6) to rebuild it. The tell is a sentence chaining three or more actors. Quality and notation are in §13-1.
 
 A strictly linear flow is the exception: a numbered list reads faster and costs less to maintain.
 
@@ -151,8 +159,11 @@ After drafting, check:
 
 ## 6. Reader Load
 
-Treat the reader's memory and attention as finite resources.
+Treat the reader's memory and attention as finite resources. Every premise, term definition, and orientation paragraph the reader must hold to follow the argument is a debit against a fixed budget; nothing is free because it "provides context."
 
+- **Cut premise blocks to what changes the reader's next decision.** Prior work, historical background, related tools, definitions the audience already knows — none of these earn ink unless the reader would misread the central claim without them. Fear of missing context is not evidence that context is missing.
+- **Do not front-load out of unease.** Writers stack premises when they are unsure the reader will trust the claim. Trust comes from the mechanism at the climax, not from more setup before it. If the opening keeps growing, the fix is in the center, not in more prelude.
+- **Cap independent facts per section.** A section that carries more than three independent facts (facts a reader could learn separately, each in its own sentence) forces the reader to hold a growing list while following the argument. Combine facts under one mechanism, demote the weakest to a subordinate clause, or drop them. This is a soft ceiling — a section that genuinely turns on four coordinated facts is legitimate — but a section stacking five or six loosely-related facts almost always has candidates to cut. The count applies to independent facts; a single fact broken across two sentences for rhythm (§14-2) counts once.
 - Do not introduce proper names (file names, function names, identifiers) that the reader will not need to reference later. Use a general description instead.
 - When an abstract phrase could refer to more than one thing, disambiguate it immediately with a parenthetical.
 - Before adding a new example, state how it differs from the previous one and why another is needed.
@@ -161,26 +172,18 @@ Treat the reader's memory and attention as finite resources.
 
 ## 7. Restraint in Rhetoric
 
-Use rhetorical devices in moderation, only where they earn their keep.
+Rhetorical devices earn their keep once per section at most.
 
-- Reserve buildup and rhetorical questions for moments where tension serves the argument.
-- Do not overuse short punchline sentences as standalone paragraphs. Short fragments within a paragraph should appear only at a genuine climax.
-- Limit bold emphasis to logical pivot points, one or two per section at most.
-- Do not overdramatize turning points. A single factual sentence is often enough.
-- Do not pile up consequences to alarm the reader.
-- Do not preview a claim with "what matters is..." or "the key point is...". State the claim directly.
-- Do not overuse the "not A but B" punchline pattern.
-- Avoid twisted idioms and metaphors whose referent is ambiguous. Use plain verbs.
-- Do not use dramatic fragmentation ("Simple. That's it. That's the whole thing.").
+- Reserve buildup, rhetorical questions, and short standalone punchline paragraphs for genuine climaxes. Dramatic fragmentation ("Simple. That's it.") is the same failure mode as the standalone punchline.
+- Limit bold emphasis to one or two per section.
+- State the turning point once in a factual sentence. Piled-up consequences and repeated alarms weaken the same claim.
+- Avoid metaphors whose referent is ambiguous; use plain verbs.
 
 ## 8. Structural AI Tells
 
 - **Avoid thesis-statement headings.** Headings should name a topic (noun phrase), not assert a conclusion ("X is Y").
-- **State B directly.** "Not A but B" and "more than just A, it's B" should become "B." Drop the negation.
-- **Vary texture.** Deliberately vary paragraph length, tone, density, and sentence endings. Uniform texture reads as generated.
+- **State B directly.** "Not A but B" and "more than just A, it's B" become "B." Drop the negation. This also covers negative-listing runways ("Not a framework... Not a methodology... A mindset.") — collapse to the positive claim.
 - **Question three-item lists.** "Three key points" or "three pillars" should be trimmed to two or one when possible.
-- Check whether the introduction follows a setup-then-reversal template.
-- Check whether the experience → quotation → abstraction template repeats for three or more consecutive sections.
 
 ## 9. Intensity and Stance
 
@@ -191,20 +194,13 @@ Use rhetorical devices in moderation, only where they earn their keep.
 
 ## 10. Redundancy
 
-- State each claim once. Do not rephrase it and state it again.
-- If adjacent sections make the same point from different angles, absorb one into the other.
-- Do not summarize a scene immediately after describing it. One sentence of interpretation is enough.
-- Merge parallel facts that play the same logical role into one sentence.
-- Omit intermediate steps the reader can infer on their own.
-- If a multi-sentence argument compresses to one sentence without losing meaning, keep only the compressed version.
-- Do not write sentences whose only function is connection or evaluation.
-- Apply the update-target test to every short assertion and every paragraph-opening sentence (see §10-1).
-- Do not name the devices this rulebook uses in the running text. If the prose contains phrases like "unresolved tension," "return the answer in halves," "let me draw the line once more," or "I will place the answer first," the writer has announced the device instead of executing it. Delete the announcement and let the next paragraph carry the device by its content alone. The reader should not be able to name the technique that produced their reading experience.
-- Do not use imaginary reader Q&A as a rhetorical device. State claims directly. Handle concessions in running prose.
-- Do not introduce an idea through meta-framing ("There is a natural continuation of this line of thought"). Write the idea itself.
-- Do not write disclaimers about the author's position. State facts.
-- Do not default to weak predicates out of hesitation. Assert firmly what the evidence supports. Preserve weak predicates only where genuine uncertainty exists.
-- Connectives that create rhythm are not redundancy.
+- **Delete first, restore on demand.** When a paragraph, sentence, or premise is on the edge of earning its place, cut it and read the result. If the argument still runs, the cut was right. Restore only if a reviewer flags the missing piece; do not preemptively insert out of anxiety.
+- **Treat "the reader might not understand" as a signal to try deletion, not addition.** A comprehension gap has three responses, in order: (1) delete the surrounding scaffolding so the gap disappears, (2) rewrite the central line to remove the leap, (3) add a targeted sentence. Reach for (3) only when (1) and (2) both fail.
+- State each claim once. If adjacent sections make the same point from different angles, absorb one into the other. Do not summarize a scene immediately after describing it.
+- Merge parallel facts that play the same logical role into one sentence. Omit intermediate steps the reader can infer.
+- Do not write sentences whose only function is connection, evaluation, meta-framing ("There is a natural continuation…"), author disclaimer, or imaginary reader Q&A. Handle concessions in running prose.
+- Do not default to weak predicates out of hesitation. Preserve them only for genuine uncertainty.
+- Apply the update-target test (see §10-1) to every short assertion and every paragraph opener; short cadence does not exempt a sentence from the test.
 
 ### 10-1. Update-Target Test
 
@@ -233,34 +229,13 @@ Vague sentences like "do not misunderstand me" or "this section covers X" do not
 - Do not write headings that deliver the section's conclusion as a slogan.
 - Choose between a question form and a noun-phrase form based on the tone of the surrounding text.
 
-## 12. Negative Listing
-
-Listing what something is _not_ before revealing what it _is_ is a rhetorical runway the reader does not need.
-
-"Not a framework... Not a methodology... A mindset."
-
-State the positive claim directly. The reader does not need the buildup.
-
-## 13. Rhetorical Setups
-
-These announce insight rather than deliver it.
-
-| Pattern               | Problem                |
-| --------------------- | ---------------------- |
-| "What if [reframe]?"  | Socratic posturing     |
-| "Here's what I mean:" | Redundant preview      |
-| "Think about it:"     | Condescending prompt   |
-| "And that's okay."    | Unnecessary permission |
-
-Make the point. Let readers draw their own conclusions.
-
-## 14. Honesty Toward Readers
+## 12. Honesty Toward Readers
 
 - When an example could look contrived, do not hide it. Acknowledge the reader's likely skepticism and briefly ground the example in a plausible real-world occurrence.
 - Ground that justification in common experience or conventional wisdom, not in the author's assertion.
 - Do not write smoothly about things you have not verified.
 
-## 15. Examples, Code, and Figures
+## 13. Examples, Code, and Figures
 
 An example exists to make one claim concrete. Its quality is measured against that claim, not by realism or completeness.
 
@@ -269,7 +244,7 @@ An example exists to make one claim concrete. Its quality is measured against th
 - State in prose which claim the example supports, before or immediately after it. An unanchored example reads as decoration.
 - Code samples must run as shown, or say what was cut: mark elisions explicitly (`...` or a comment), name the language and version assumptions that matter, and show output when the output is the point.
 
-### 15-1. Figures
+### 13-1. Figures
 
 §4-5 decides whether the content wants a figure; these rules govern the one you commit to.
 
@@ -289,18 +264,63 @@ Pick the figure kind by content shape. Notate as Mermaid in a fenced ` ```mermai
 | Duration and overlap                      | Gantt          | `gantt`                     |
 | Class or type structure                   | Class          | `classDiagram`              |
 
+## 14. Cognitive Rhythm
+
+Dense prose reads as flat not because the writer added too much information, but because every sentence puts the reader in the same cognitive mode. Readers stay awake when their mode shifts — observing a fact, doubting a claim, accepting a conclusion, revisiting the observation with new eyes. This section governs the rhythm those shifts create. It applies once §3 (weighting, including asymmetric treatment of parallel items) and §10 (redundancy) have done their cutting; rhythm layered onto uncut, evenly-weighted prose is decoration on the wrong shape.
+
+### 14-1. Modes and Their Alternation
+
+- **The four modes.** *Observation* states what is (data, event, protocol behavior). *Hesitation* voices a doubt, a naive expectation, or a suspended judgment ("this looks fine, but..." "one would expect X"). *Assertion* delivers the conclusion the evidence lands. *Re-observation* revisits the earlier fact through the new conclusion, so the reader sees the same object differently. Not every section needs all four; the rule is that **consecutive paragraphs must not sit in the same mode**.
+- **Common failure: all-assertion.** Technical prose defaults to stringing assertions ("A is X. B is Y. C is Z."). Three assertions in a row read flat regardless of how good each one is. Break the string with a hesitation the assertions then answer, an observation the assertions then interpret, or a re-observation that closes the section.
+- **Deliberate hesitation as setup.** A hesitation is not weakness — it is a setup that lets an assertion land. "One would expect the second option to win; the numbers say otherwise" gives the assertion a shape the reader remembers. Bare assertion ("the numbers favor the first option") does not.
+
+### 14-2. The Beat: 立てる → 流す → 止める
+
+Within a paragraph or across a few paragraphs, prose has a beat:
+
+- **立てる (Plant).** A short sentence sets the scene or names the question. It is short because the reader has to hold it while the next sentences unfold.
+- **流す (Flow).** A longer, denser sentence carries the mechanism, the evidence, the qualifications.
+- **止める (Stop).** A short sentence lands the conclusion, or leaves a question hanging for the next paragraph to pick up.
+
+A section that is all "flow" (uniform medium-length sentences) or all "stop" (staccato short sentences) reads flat. Plant-flow-stop is one pattern; observe-hesitate-assert-reobserve is another. Both work by refusing to keep the reader in the same posture.
+
+### 14-3. Tension
+
+- **One tension always open.** From the opening through the last few paragraphs, the reader should always be holding at least one question that has been raised but not yet answered. When every open question closes, the reader can put the document down without loss.
+- **Cheap way to open a tension:** state a naive expectation, then delay its resolution ("the second option seems obviously better — the axis that decides it is not the one that first comes to mind"). The resolution goes in the next paragraph or the next section, not the same sentence.
+- **Track tensions.** During Polishing, list each raised question and where it discharges. A tension raised and never closed is a broken promise; a tension closed inside the same paragraph is not a tension.
+
+### 14-4. Prohibitions
+
+- **Implement devices; do not announce them.** A device works by shaping the reader's experience, not by naming itself. "I will state the answer in two halves" fails as a device — write the first half as content and let the second half arrive later. Phrases like "let me draw the line," "the tension resolves here," "I place the answer first" name a technique the reader was supposed to feel without seeing. Cut such sentences.
+- **The topic test governs short punchy sentences too.** §10-1's update-target test flags document-only sentences. The most common bypass is compressing such a sentence into a short, well-cadenced declarative that reads like a climax — "So it comes to this." "That is the whole story." Good rhythm is not a pass; apply the test regardless of length or cadence.
+- **No tail-end previews between sections.** A section closing with "next we look at X" (already forbidden by §2) also breaks rhythm: the reader has no reason to keep the previous section's tension open, and no reason to start the next section with fresh attention. Put the bridge at the head of the receiving section, in the form of the question or hesitation that section takes up.
+- **Rhythm from content, not from form.** A short paragraph earns its brevity from the situation it updates (a decisive event, a compressed conclusion after long reasoning), not from a decision to insert a short paragraph for rhythm. Rhythm forced by form without content behind it is what makes AI prose sound artificially punchy.
+
+### 14-5. Diagnostic Symptoms
+
+When a section reads flat despite following §1-§14, run these checks in order:
+
+1. **Uniform paragraph size.** Every paragraph within ±30% length of its neighbors? Likely uniform mode.
+2. **All-assertion sequence.** Three or more consecutive paragraphs whose first sentence is a bare assertion? Break with hesitation or observation.
+3. **N parallel items at equal depth.** Section develops N sub-topics at similar length and structure? Apply §3's asymmetric treatment: promote one, demote the rest.
+4. **No open tension at midpoint.** Every question raised in the first third resolved before the midpoint? Add one that carries into the second half.
+5. **Every paragraph opens with a topic sentence.** Consistent "topic sentence + support" template? Alternate: start some paragraphs with the naive expectation, the observation, or the qualification, and let the topic emerge in the second or third sentence (still consistent with §2 as long as the paragraph's topic is unambiguous after 2-3 sentences).
+
 ---
 
 ## Quick Checks
 
-The full checklist covering §1-§15 lives in `~/.claude/references/technical-document-quick-checks.md`. Load it during Polishing 1-1 Rule Check.
+The full checklist covering §1-§14 lives in `~/.claude/references/technical-document-quick-checks.md`. Load it during Polishing 1-1 Rule Check.
 
 ## Revision Priority
 
-When time is limited, work top to bottom. Fixing surface wording (sections 8–10) without fixing authorial presence (section 1), paragraph structure (section 2), information weighting (section 3), and hierarchy and placement (section 4) leaves AI slop intact.
+When time is limited, work top to bottom. Cutting comes before smoothing; smoothing prose that should not exist wastes both passes.
 
-1. **Authorial presence:** falsifiable claims and named actors
-2. **Information weighting and hierarchy:** ink allocated to importance, central paragraphs distinguishable from background, secondary facts demoted down the ladder (clause, footnote, appendix) instead of standing in the main line, list hierarchy matches idea hierarchy, structural content carried by a figure rather than reconstructed by the reader
-3. **Structural tells:** thesis-statement headings, setup-then-reversal openings, uniform texture
-4. **Redundancy:** repeated claims, unnecessary framing, weak predicates
-5. **Rhetoric and rhythm:** punchline overuse, dramatic fragmentation, negative listing
+1. **Aggressive cutting (§3, §6, §10):** every paragraph, premise, and orientation sentence deleted unless the reader acts or decides differently because it is there. Try deletion first; restore only if the argument breaks. Comprehension gaps are answered by cutting scaffolding or rewriting the center before adding.
+2. **Authorial presence (§1):** falsifiable claims and named actors.
+3. **Information weighting and hierarchy (§3, §4):** ink allocated to importance, central paragraphs distinguishable from background, secondary facts demoted down the ladder (clause, footnote, appendix) instead of standing in the main line, list hierarchy matches idea hierarchy, structural content carried by a figure rather than reconstructed by the reader.
+4. **Cognitive rhythm (§14):** cognitive modes alternate, at least one tension stays unresolved across each section boundary, devices work from content rather than being announced.
+5. **Structural tells (§8):** thesis-statement headings, setup-then-reversal openings, uniform texture.
+6. **Redundancy (§10):** repeated claims, unnecessary framing, weak predicates.
+7. **Rhetoric and rhythm (§7, §12, §13):** punchline overuse, dramatic fragmentation, negative listing.

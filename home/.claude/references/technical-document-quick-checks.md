@@ -2,12 +2,10 @@
 
 Companion checklist for `technical-document.md`. Run through after drafting. See the corresponding section of the rule file for details.
 
-The checklist is two-tiered. Priority 1 covers the high-miss-rate failures that drive most rewrites; run it every time. Priority 2 covers the remaining norms; run it when Polishing has iterations to spare or the target document warrants a full pass.
+Twenty-six high-yield checks covering the failures that drive most rewrites.
 
-## Priority 1
-
-Sixteen high-yield checks. If time is limited, this list is the run.
-
+- [ ] **Excess premise (§3, §6).** Every orientation, background, and related-work sentence justified in one line as changing the reader's decision? Cut candidates first; restore only if the argument breaks.
+- [ ] **Deletion-first test (§10).** Every borderline paragraph or sentence deleted and re-read? Restored only when the argument no longer connects without it?
 - [ ] **False agency (§1).** Any inanimate subject performing a human verb ("the data tells us," "the decision emerges")?
 - [ ] **Falsifiable claim (§1).** Every load-bearing claim descends to a specific proposition someone could argue against?
 - [ ] **Named actor (§1).** Generalities backed by a person, a failure, a number, or a proper noun?
@@ -23,137 +21,13 @@ Sixteen high-yield checks. If time is limited, this list is the run.
 - [ ] **Update-target test (§10-1).** Every short assertion and paragraph opener updates the situation, not the document? Check compressed punchline-style sentences with extra care.
 - [ ] **Redundant repetition (§10).** Each claim stated once; no adjacent sections making the same point from different angles?
 - [ ] **Weak predicates (§10).** Weak predicates reserved for genuine uncertainty, not defaulted to out of hesitation?
-- [ ] **Rulebook devices named (§10).** No phrases like "unresolved tension," "return the answer in halves," "let me place the answer first" in the running text?
+- [ ] **Rulebook devices named (§10, §14).** No phrases like "unresolved tension," "return the answer in halves," "let me place the answer first" in the running text?
+- [ ] **Cognitive-mode monotony (§14).** No three-plus consecutive paragraphs in the same cognitive mode (all assertion, all qualification, all summary)?
+- [ ] **Unresolved tension (§14).** From opening through the last few paragraphs, at least one raised question stays open at any given point?
+- [ ] **Parallel-item symmetry (§3).** Sections listing N parallel items (three axes, four options, five causes) treated asymmetrically? Most important one gets depth, rest collapse to a table row or subordinate clause?
+- [ ] **Cutting confused with shortening (§3).** Flat lists of similar-length paragraphs not "solved" by trimming each? Items dropped so what remains carries real depth?
+- [ ] **Fact count per section (§6).** Each section carries at most three independent facts, or turns on coordinated facts under one mechanism? Loose stacks of 5-6 loosely-related facts have candidates cut?
+- [ ] **Table/figure duplication (§3).** No prose paragraph reconstructible from a nearby table or figure alone? Prose spends ink on why the primary is primary, mechanism, and conditions — not on walking through rows?
+- [ ] **Uniform paragraph size (§14).** Not every paragraph within ±30% length of its neighbors? Length variance from content, not from decoration?
+- [ ] **All-assertion sequence (§14).** No three-plus consecutive paragraphs whose first sentence is a bare assertion?
 
-## Priority 2
-
-Remaining checks by section. See the corresponding section of the rule file for details.
-
-### 1. Authorial presence
-
-- [ ] All-sides affirmation that dodges judgment?
-- [ ] Referent blurred by a broad term when a narrower one exists?
-- [ ] Narrating from a distance ("People tend to...")?
-- [ ] Fictional persona attached without argumentative purpose?
-
-### 2. Paragraph structure
-
-- [ ] Paragraph openings signal their relationship, without a connective bolted onto every one?
-- [ ] Argument moves in one direction (no conclude → object → re-conclude)?
-- [ ] Caveats about examples not inserted at the climax?
-- [ ] Wrong inferences negated explicitly before giving the real reason?
-- [ ] "Not A but B" backed by one sentence of justification when used?
-- [ ] Concessions do not assert causation in the author's voice?
-- [ ] Climax information not previewed in earlier paragraphs?
-- [ ] Negated propositions written out precisely?
-- [ ] Forward references not embedded mid-argument?
-- [ ] No section closes with a preview of the next section ("next we look at...")?
-
-### 3. Information weighting
-
-- [ ] Facts no reader will act on or decide with cut, not just demoted?
-- [ ] Concrete detail concentrated at the climax, not spread evenly?
-- [ ] Paragraph length and density varied within a section?
-- [ ] Background paragraphs trimmed to their secondary role, not deleted when load-bearing?
-
-### 4. Hierarchy and placement
-
-- [ ] Lead states scope: coverage, exclusions, and what the reader can do after?
-- [ ] Heading levels express subordination, with no lone sub-heading and no fourth level?
-- [ ] Same-level sections comparable in scope?
-- [ ] No parenthetical longer than its host sentence, no load-bearing footnote?
-- [ ] Sibling bullets at comparable granularity?
-- [ ] Sibling bullets semantically parallel (same kind of thing along the same dimension), not just same-sized?
-- [ ] Concrete details nested under the parent they qualify?
-- [ ] Siblings ordered by importance or content sequence, not drafting order?
-- [ ] Flat lists beyond ~7 items regrouped?
-- [ ] Nesting stays within three or four levels?
-- [ ] Parent bullets name what their children share?
-- [ ] Prose, list, table, or figure chosen by the shape of the content?
-- [ ] Figure kind matches the content shape (§4-5's table)?
-- [ ] Linear no-branch flows left as numbered lists?
-
-### 5. Logical rigor
-
-- [ ] Distinct things not collapsed under one label?
-- [ ] Multi-causal events not reduced to a single cause?
-- [ ] Concept treatment consistent across sections?
-- [ ] No false certainty about detection, guarantees, or resolution?
-- [ ] Examples support the full scope of the claim?
-- [ ] Deferred points actually covered where promised?
-- [ ] Argument advances after every concession?
-- [ ] Key terms defined before they bear argumentative weight?
-- [ ] Umbrella terms justified before naming?
-
-### 6. Reader load
-
-- [ ] No unnecessary proper names?
-- [ ] Ambiguous abstractions disambiguated in-place?
-- [ ] New examples prefaced with how they differ from previous ones?
-- [ ] No irrelevant detail in openings?
-- [ ] Example sections trimmed to what the argument needs?
-
-### 7. Restraint in rhetoric
-
-- [ ] Buildup and rhetorical questions used sparingly?
-- [ ] Punchline paragraphs not overused?
-- [ ] Bold emphasis within one or two per section?
-- [ ] Turning points not overdramatized?
-- [ ] Consequences not piled up to alarm?
-- [ ] No "what matters is..." previews?
-- [ ] "Not A but B" punchline not overused?
-- [ ] No ambiguous metaphors or twisted idioms?
-- [ ] No dramatic fragmentation?
-
-### 8. Structural AI tells
-
-- [ ] Paragraph length, tone, and endings varied?
-- [ ] Three-item lists examined for trimming to two or one?
-- [ ] Introduction not following setup-then-reversal template?
-- [ ] Experience → quotation → abstraction not repeating 3+ sections?
-
-### 9. Intensity and stance
-
-- [ ] Intensity lowered one notch with mid-temperature language?
-- [ ] Researched facts hedged appropriately?
-- [ ] Judgment committed, not dodged with "it depends"?
-
-### 10. Redundancy
-
-- [ ] Scenes not summarized right after being described?
-- [ ] Parallel facts merged?
-- [ ] Inferable intermediate steps omitted?
-- [ ] Multi-sentence arguments compressed where possible?
-- [ ] No connection-only or evaluation-only sentences?
-- [ ] No imaginary reader Q&A as rhetoric?
-- [ ] No meta-framing?
-- [ ] No author disclaimers?
-
-### 11. Headings
-
-- [ ] Heading names the question or subject concretely?
-- [ ] Heading carries information (not a procedural step)?
-
-### 12–13. Negative listing and rhetorical setups
-
-- [ ] No negative listing runway?
-- [ ] No rhetorical setup before a point?
-
-### 14. Honesty
-
-- [ ] Contrived-looking examples acknowledged and grounded?
-- [ ] Justification grounded in common experience, not author assertion?
-- [ ] Nothing written smoothly that has not been verified?
-
-### 15. Examples, code, and figures
-
-- [ ] Every element of each example load-bearing for its claim?
-- [ ] Main examples typical, edge cases labeled as such?
-- [ ] Each example anchored in prose to the claim it supports?
-- [ ] Code samples runnable as shown, elisions marked, output shown where it matters?
-
-#### 15-1. Figures
-
-- [ ] One claim per figure, statable in one sentence (overview figures excepted)?
-- [ ] Prose not re-narrating the figure node by node?
-- [ ] Edges labeled, node names matching the prose's terms?
