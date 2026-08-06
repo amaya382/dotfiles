@@ -25,7 +25,37 @@ fi
 # and cleanup would remove them since they are not listed in Brewfile.
 if [ "$(uname -s)" = "Darwin" ] && [ -f ~/Brewfile ]; then
   if command -v brew >/dev/null; then
-    brew bundle --file=~/Brewfile
+    # --no-upgrade keeps this call to installing what is missing; `brew bundle`
+    # otherwise upgrades every outdated cask, turning a re-run of `mise
+    # bootstrap` into an unasked-for GUI app update. Upgrades are handled below.
+    brew bundle --file=~/Brewfile --no-upgrade
+
+    outdated_casks=$(comm -12 \
+      <(brew bundle list --cask --file=~/Brewfile | sort) \
+      <(brew outdated --cask --quiet | sort))
+
+    if [ -n "$outdated_casks" ]; then
+      # A controlling terminal is what makes the prompt answerable; stdin alone
+      # is not, since mise runs this hook with its own stdin. MISE_YES (mise's
+      # `yes` setting) means the caller already opted out of being asked.
+      if [ -z "${MISE_YES:-}" ] && [ -c /dev/tty ] && : 2>/dev/null >/dev/tty; then
+        selected_casks=""
+        for cask in $outdated_casks; do
+          printf 'install-3rdparty: upgrade %s? [y/N]: ' "$cask" >/dev/tty
+          read -r reply </dev/tty || reply=""
+          case "$reply" in
+            [yY]*) selected_casks="$selected_casks $cask" ;;
+          esac
+        done
+        if [ -n "$selected_casks" ]; then
+          # shellcheck disable=SC2086  # intentional word splitting into args
+          brew upgrade --cask $selected_casks
+        fi
+      else
+        # shellcheck disable=SC2086  # intentional word splitting into args
+        brew upgrade --cask $outdated_casks
+      fi
+    fi
   else
     echo "install-3rdparty: Homebrew not installed; skipping cask bundle." >&2
     echo "install-3rdparty: install it from https://brew.sh then re-run 'mise bootstrap'." >&2
