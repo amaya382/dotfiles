@@ -156,6 +156,7 @@ if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
   zplug "plugins/git", from:oh-my-zsh
   zplug "junegunn/fzf", as:command
   zplug "amaya382/zsh-fzf-widgets"
+  zplug "amaya382/zsh-mouse", use:"zsh-mouse.zsh", defer:3
   zplug "mollifier/cd-gitroot"
   zplug "momo-lab/zsh-abbrev-alias", defer:3
   zplug "romkatv/powerlevel10k", use:"powerlevel10k.zsh-theme", from:github, as:theme
@@ -281,10 +282,6 @@ export PATH=$PATH:/usr/local/opt/unzip/bin:$GOPATH/bin
   && export PATH="${HOMEBREW_PREFIX}/opt/rustup/bin:$PATH"
 [ -n "${HOMEBREW_PREFIX}" ] && [ -d "${HOMEBREW_PREFIX}/opt/libpq/bin" ] \
   && export PATH="${HOMEBREW_PREFIX}/opt/libpq/bin:$PATH"
-
-# mouse: left click positions the cursor within the current command line.
-# Sourced after zplug so its widgets wrap around the plugins' ones.
-[ -f ${ANYRC_HOME:-${HOME}}/.zsh-mouse.zsh ] && . ${ANYRC_HOME:-${HOME}}/.zsh-mouse.zsh
 
 # local conf if exists
 [ -f ${ANYRC_HOME:-${HOME}}/.zshrc.local ] && . ${ANYRC_HOME:-${HOME}}/.zshrc.local
