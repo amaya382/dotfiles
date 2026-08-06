@@ -1,0 +1,1 @@
+{{ exec(command='bash "$(readlink -f ~/.config/mise/..)/bootstrap/render-claude-settings.sh"') }}
