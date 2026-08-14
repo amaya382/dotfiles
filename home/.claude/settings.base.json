@@ -58,7 +58,19 @@
     ]
   },
   "model": "opus",
-  "hooks": {},
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 $HOME/.claude/hooks/render-response-preview.py",
+            "timeout": 20
+          }
+        ]
+      }
+    ]
+  },
   "enabledPlugins": {
     "skill-creator@claude-plugins-official": true
   },
