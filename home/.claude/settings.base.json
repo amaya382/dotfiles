@@ -57,7 +57,7 @@
       "Bash(npx vitest run *)"
     ]
   },
-  "model": "opus",
+  "model": "claude-opus-5",
   "hooks": {
     "Stop": [
       {
