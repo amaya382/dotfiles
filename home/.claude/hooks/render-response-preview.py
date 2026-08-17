@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-"""Stop hook: mirror the fenced code blocks of each response into a VS Code
-markdown preview tab, one document per session.
+"""Stop hook: mirror each response that carries a code block or a formula into a
+VS Code markdown preview tab, one document per session.
 
-The Claude Code VS Code extension prints code blocks unhighlighted and does not
-draw mermaid at all. Re-emitting the blocks into a markdown file that VS Code
-opens as a preview restores both: mermaid becomes a diagram (built in since VS
-Code 1.121) and every other block gets syntax highlighting.
+The Claude Code VS Code extension prints fenced blocks unhighlighted and leaves
+`$$…$$` as literal text. Re-emitting the response as markdown that VS Code opens
+as a preview restores both: blocks get syntax highlighting and mermaid ones turn
+into diagrams (built in since VS Code 1.121), and math goes through the
+preview's KaTeX pass (`markdown.math.enabled`, on by default).
 
-Each response is prepended, so the newest diagram sits at the top of the tab and
+The response body is copied verbatim, so prose, tables, and lists around the
+blocks keep the shape they had in the chat. Responses with nothing to render are
+skipped, so a one-line acknowledgement does not open a tab.
+
+Each response is prepended, so the newest one sits at the top of the tab and
 earlier ones stay reachable below. A turn already carrying its uuid marker in the
 document is skipped, which keeps a re-fired hook from duplicating a section.
 
@@ -31,6 +36,7 @@ OUT_DIR = os.path.join(os.path.expanduser("~"), ".claude", "response-preview")
 LOG_FILE = os.path.join(OUT_DIR, "debug.log")
 DOC_TTL = 7 * 24 * 60 * 60
 FENCE_OPEN = re.compile(r"^(?P<indent> {0,3})(?P<fence>`{3,}|~{3,})(?P<info>[^`]*)$")
+MATH_BLOCK = re.compile(r"\$\$.+?\$\$", re.DOTALL)
 
 Response = collections.namedtuple("Response", "text uuid timestamp title")
 
@@ -118,33 +124,39 @@ def await_final_response(transcript_path, timeout=10.0, interval=0.2):
         time.sleep(interval)
 
 
-def code_blocks(text):
-    """Fenced blocks as (info string, body, fence) triples, in order of appearance.
+def renderables(text):
+    """Labels for the parts of `text` the chat pane cannot draw, in order.
 
-    Scanning line by line rather than with one regex keeps blocks that quote a
-    shorter fence inside a longer one intact: the closing fence must repeat the
-    opening character at least as many times.
+    Fenced blocks are scanned line by line rather than with one regex so that a
+    block quoting a shorter fence inside a longer one counts once: the closing
+    fence must repeat the opening character at least as many times. Math is
+    searched only in what is left after the fences are removed, so a `$$` in a
+    shell sample does not pass for a formula.
     """
-    blocks = []
+    labels = []
+    prose = []
     lines = text.split("\n")
     i = 0
     while i < len(lines):
-        opening = FENCE_OPEN.match(lines[i])
+        line = lines[i]
         i += 1
+        opening = FENCE_OPEN.match(line)
         if not opening:
+            prose.append(line)
             continue
         fence = opening.group("fence")
-        indent = len(opening.group("indent"))
         closing = re.compile(r"^ {0,3}%s{%d,}[ \t]*$" % (re.escape(fence[0]), len(fence)))
         body = []
         while i < len(lines) and not closing.match(lines[i]):
-            line = lines[i]
-            body.append(line[indent:] if line[:indent].isspace() else line)
+            body.append(lines[i])
             i += 1
         i += 1
         if any(line.strip() for line in body):
-            blocks.append((opening.group("info").strip(), "\n".join(body).strip("\n"), fence))
-    return blocks
+            info = opening.group("info").strip()
+            labels.append(info.split()[0] if info else "code")
+    if MATH_BLOCK.search("\n".join(prose)):
+        labels.append("math")
+    return labels
 
 
 def local_time(stamp):
@@ -155,11 +167,9 @@ def local_time(stamp):
     return parsed.astimezone().strftime("%m-%d %H:%M")
 
 
-def section_for(response, blocks):
-    rendered = "\n\n".join(
-        "%s%s\n%s\n%s" % (fence, info, body, fence) for info, body, fence in blocks
-    )
-    return "<!-- turn:%s -->\n## %s\n\n%s" % (response.uuid, local_time(response.timestamp), rendered)
+def section_for(response):
+    return "<!-- turn:%s -->\n## %s\n\n%s" % (response.uuid, local_time(response.timestamp),
+                                              response.text.strip("\n"))
 
 
 def document_path(session_id):
@@ -214,21 +224,22 @@ def main():
     if response is None:
         log("skip: response text never reached the transcript")
         return
-    blocks = code_blocks(response.text)
-    if not blocks:
-        log("skip: no code block (last message %d chars, %s)" % (len(response.text), waited))
+    labels = renderables(response.text)
+    if not labels:
+        log("skip: nothing to render (last message %d chars, %s)" % (len(response.text), waited))
         return
+    summary = "%d chars, %s" % (len(response.text), ", ".join(labels))
 
     os.makedirs(OUT_DIR, exist_ok=True)
     path = document_path(payload.get("session_id") or "")
     name = os.path.basename(path)
     is_new = not os.path.exists(path)
-    if not prepend_section(path, response, section_for(response, blocks)):
+    if not prepend_section(path, response, section_for(response)):
         log("skip: turn already in %s (%s)" % (name, waited))
         return
     prune_documents(keep=path)
     if not is_new:
-        log("prepended %d block(s) to %s (%s)" % (len(blocks), name, waited))
+        log("prepended response to %s (%s, %s)" % (name, summary, waited))
         return
 
     code = shutil.which("code") or "/opt/homebrew/bin/code"
@@ -241,7 +252,7 @@ def main():
     except (OSError, subprocess.SubprocessError) as err:
         log("wrote %s but `code` failed: %s" % (name, err))
         return
-    log("wrote %d block(s) and opened %s (%s)" % (len(blocks), name, waited))
+    log("wrote response and opened %s (%s, %s)" % (name, summary, waited))
 
 
 if __name__ == "__main__":
