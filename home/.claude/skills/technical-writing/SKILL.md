@@ -1,219 +1,161 @@
 ---
 name: technical-writing
-description: Write, revise, or polish technical documents through structured phases (Bootstrap → Polishing). Use for general technical writing or systematic refinement of existing documents. Trigger when the user says "write a technical document," "polish this text," or "improve this document," including Japanese equivalents — 執筆: 「技術文書書いて」「設計書作って」「ブログ書いて」「解説記事作って」「ADR書いて」「RFC作って」「README書いて」「仕様書作成」; 推敲・リライト: 「推敲して」「リライトして」「文章を締めて」「誤字直して」; 改善: 「もっと良くして」「読みやすくして」「ブラッシュアップ」「磨いて」「文章を良くして」.
+description: Write, revise, or polish technical documents. Picks the document's purpose (explain / procedure / argue / record / long-form), fixes the skeleton with the user, writes only what that skeleton carries, then runs a delete-only guard pass. Use for general technical writing or systematic refinement of existing documents. Trigger when the user says "write a technical document," "polish this text," or "improve this document," including Japanese equivalents — 執筆: 「技術文書書いて」「設計書作って」「ブログ書いて」「解説記事作って」「ADR書いて」「RFC作って」「README書いて」「仕様書作成」; 推敲・リライト: 「推敲して」「リライトして」「文章を締めて」「誤字直して」; 改善: 「もっと良くして」「読みやすくして」「ブラッシュアップ」「磨いて」「文章を良くして」.
 ---
 
-# Technical Writing Skill
+# Technical Writing
 
-## Execution Model
+## この skill が最適化するもの
 
-Claude executes this skill. The user intervenes only at Confirm gates: Bootstrap Step 1 (Theme/Purpose/Audience), Step 2 (Outline), Step 3-2 (Draft), the Preparation audience-check gate, and the Final Confirm at the end of Polishing. The three ExitPlanMode gates (Step 2, Step 3-2, Final Confirm) follow the shared structure in **Review Gates**.
+文書は、その中のすべての文が書き手の言いたかったことを運んでいるときに完成する。書き手が言いたくなかった内容は、どれだけうまく書けていても埋草であり、推敲では救済されない。削るのが既定で、残す側が理由を負う。目的と規則が衝突したら目的が勝つ。規則は目的に仕えるために存在する。
 
-The procedure is mandatory in every mode. Auto Mode or "make it simple" tunes how much is asked at each gate, not whether the skill runs.
+## 参照ファイル
 
-At each Confirm, report only what the user needs to accept, reject, or redirect. Diagnostic detail stays in working memory and is produced on request.
+すべて `~/.claude/skills/technical-writing/references/` にある。プロジェクト側に同名の規約があればそちらが優先する。
 
-**Stance: preserve the line, not the coverage.** A document that keeps its central line under a small amount of dropped context is worth more than a document that keeps every fact under a flattened line. When cutting and inclusion are in tension, cut. The user's review at the Final Confirm gate catches anything the reader actually needed back; it is a strictly cheaper repair path than diagnosing why the finished document feels flat.
+| ファイル | 内容 | 読む条件 |
+|---|---|---|
+| `purpose-playbooks.md` | 5つの目的型 | 常に (該当する型のみ参照) |
+| `prose-common.md` | 言語非依存の文章規範 | 常に |
+| `prose-ja.md` | 日本語固有の規範 | 日本語の文書 |
+| `prose-en.md` | 英語固有の規範 | 英語の文書 |
 
-**Cutting means dropping items, not shortening each one.** When a section reads flat because it develops too many parallel items at equal depth, the fix is to drop items and let the survivors carry depth — not to trim every item to a smaller version of the same flatness. Ten items at half-length is still ten items in flat symmetry. This applies especially to three-axis, three-option, and N-component sections that read as reference tables written out as prose.
+規範ファイルの中で、評価語・演出・比喩を扱う節は 主張 と 解説 で効く。事実だけを並べる 説明・手順・記録 では出番がないので、照合に時間をかけない。
 
-**Shortness is a goal.** Between two versions that preserve the same central line and cognitive rhythm, prefer the one built from fewer facts. Fewer facts is achieved by dropping information units, not by rewriting the same information into shorter sentences. Compressing sentences without reducing information content trades clarity for terseness and typically fails both.
+## Step 0 — 入口の判定と目的の選択
 
-## Prerequisites
+| 入口 | 条件 | Frame の取得 |
+|---|---|---|
+| 新規 | 文書がまだない | 提案する |
+| 部分修正 | 既存文書の一部を変更・追記 | 対象節とその隣接に限定して提案する |
+| 全面書き直し | 既存文書の全体品質を上げる | 既存文書から逆抽出し「この文書は現状こうである」として提示する |
 
-- `technical-document.md`: **language-independent rules** (includes figure notation in §13-1)
-- `technical-document-<lang>.md`: **language-specific rules** (currently `ja`, `en`)
+3経路とも Step 1 から 4 をすべて通る。違いは Frame の取得方法と範囲だけ。
 
-**Resolution.** `technical-document.md` lives under `.claude/rules/` (project or user; project wins). `technical-document-<lang>.md` and quick-checks live under `.claude/references/` (not auto-loaded; project wins). If a needed file is missing at both locations, locate by name and warn. §numbers refer to sections in the resolved language-independent file.
+続いて目的を `purpose-playbooks.md` の5型から選ぶ。文書全体で一つが既定。節ごとに方向性が明確に分かれる文書では節に型を割り当ててよい (条件は playbook 冒頭にある)。言語は既存文書に合わせ、新規で不明なら確認する。
 
-**Language.** Match the document's existing language, or confirm via AskUserQuestion for new documents.
+該当 playbook・`prose-common.md`・該当言語の prose ファイルを読む。
 
-Do not write from vague guesses. Look up missing information; if still unclear, confirm via AskUserQuestion.
+プロジェクトに文書規約 (命名、frontmatter、配置、図の記法) があれば、それがこの skill の既定より優先する。
 
-## Mode Selection
+## Step 1 — Frame [GATE 1]
 
-Determine mode from user input; confirm via AskUserQuestion if uncertain.
+ExitPlanMode で提示し、承認を得るまで進まない。提示する内容:
 
-| Mode   | Condition                                        | Flow                  |
-| ------ | ------------------------------------------------ | --------------------- |
-| New    | Document does not exist yet                      | Bootstrap → Polishing |
-| Revise | Modify or expand parts of an existing document   | Revise Mode           |
-| Refine | Improve overall quality of an existing document  | Polishing only        |
+1. **目的型と一文の仕事** — 「説明: 読者が X の仕組みを理解する」+ 読者像1行 (水準・前提知識・読後の行動)
+2. **軸** — 文書の中心的な主張または筋を1〜2文で
+3. **骨組み** — 各節につき、見出し・**一文の主張**・**事実リスト**。事実リストは、その節が運ぶ事実・例・数値を裸で並べたもの。散文にしない
+4. **停止条件** — playbook の停止条件を、この文書向けに具体化したもの
+5. **意図的に書かないこと** — 読者が期待しうるが扱わない範囲。比較対象になりうるもの (競合するツール、別のやり方、以前の方式) は、扱わないなら必ずここに挙げる。これは説明のためだけの項目ではなく、Step 2 で埋草を止めるための入力である
 
-## Review Gates
+節が4つ以下なら、骨組みを表1枚に畳んでよい。提示物が完成文書より長くなると、ユーザーは Frame を読むより完成品を直す方が速いと感じる。
 
-Three gates present work to the user via ExitPlanMode (enter plan mode first if not already). Each gate asks one question and defers the rest; the questions do not overlap.
+gate の問いは1つだけ: **この骨組みは、書きたいことを運んでいて、書きたくないものを含んでいないか**。
 
-- **Step 2 (Outline).** Are the sections the reader needs all present, each earning its place, ordered and nested to match the hierarchy of ideas (§4-2, §4-4), assigned the right role (§3), and carrying a figure wherever the section's claim is structural (§4-5)?
-- **Step 3-2 (Draft).** Is each section's central claim the right one, backed by the evidence the audience needs, free of material that changes nothing for the reader (§3, §6), with terms defined where the Step 1 boundary puts them, and with each planned figure's claim and prose division settled?
-- **Final Confirm.** Does the argument run in one direction (§2), with ink allocated to importance (§3), cognitive modes shifting across consecutive paragraphs and at least one tension staying open across section boundaries (§14), claims carrying their mechanisms and conditions (§5), and a surface that reads as a situated author wrote it (§1, §8-§10)? Deleted material the user needs restored is caught here.
+**事実リストの書き方:**
 
-Structure every gate's plan file in this order:
+- 数に目安を置かない。1つで足りる節があってよく、8つ必要な節があってよい。**節ごとに数を揃えようとしない。** 揃った時点で、揃えるために何かを足した疑いがある
+- 節の中で一つの事実が中心なら、それに印を付ける。残りはその中心を支える位置づけになる。中心が決まらない節は、主張が一つに定まっていない。ただし手順型の節では事実の粒度が揃っていて重み付けの余地がないため、印は省いてよい
+- 節ごとに型が違う文書では、その節がどの型かも記録する
 
-1. **Review perspective** — the gate's question, in the terms above, narrowed to what this document actually puts at stake. One sentence.
-2. **Review target** — the full artifact under review: the outline (Step 2), the bullet draft (Step 3-2), or the document's full prose (Final Confirm). Present it inline, not as a file path; the user must be able to review without opening the file.
-3. **Supplementary context** — anything the user needs to judge the target, omitted when there is nothing to add. Content varies by gate; see each gate's section.
+これらの印が Step 2 の重み付けと Step 3 の Slot Test の判断材料になる。印がなければ、どちらも即興の判断になって Frame と照合できない。
 
-Do not proceed until the current gate is confirmed. The plan UI carries inline feedback per item; AskUserQuestion does not. Background information may be accepted at any point and feeds Step 2 triage, not the document directly.
+承認された Frame は保持する。Step 2 と Step 3 の両方がこれと照合する。
 
-## Preparation (all modes)
+## Step 2 — Write
 
-- Follow document convention files under `.claude/rules/` if present (naming, frontmatter, placement). For diagram notation, a project convention wins over §13-1's Mermaid mapping; absent one, match the format the repository's existing documents use.
-- If a project-specific documentation skill fits the request, suggest it via AskUserQuestion.
-- **Audience check (Refine and Revise only).** Bootstrap fixes the audience at Step 1. Otherwise, check whether an audience is available (user-supplied definition, Bootstrap Step 1 record, or project convention). If none, ask via AskUserQuestion to (a) define one now, or (b) skip Persona Reader Review (1-3), noting that (b) degrades review to structure and rules only.
+gate なし。承認された Frame を散文にする。
 
-## Bootstrap (New mode)
+構成と流れは playbook に、文章規範は `prose-common.md` と該当言語のファイルに従う。それに加えて:
 
-Two user-facing Confirms: **Outline** (Step 2) and **Draft** (Step 3-2), both following **Review Gates**. Prose generation runs internally; the user next sees the document at the **Final Confirm** in Polishing.
+### 何を書くか
 
-Supplementary context at both gates: Claude's understanding of audience and theme, per-section role weighting — Center / Support / Background (§3), with any deliberate misalignment noted — and the figure plan (Step 2: which sections carry a figure and of what kind; Step 3-2: each figure's claim and what the prose keeps).
+**承認された Frame にある節だけを書き、各節ではその事実リストにある事実だけを書く。** 節・見出し・箇条書き・図・事実のいずれも、生成中に足してはならない。文書の形がそれを求めているように見えるかどうかは理由にならない。文書が持つべき節などというものは存在しない。「背景」節は、それなしに読者が主張を追えない場合にのみ存在する。「まとめ」節は、本文が言っていないことを言う場合にのみ存在する。
 
-### Step 1: Confirm Theme, Purpose, and Audience
+図も Frame の制約下にある。図に描いてよいのは、その節の事実リストにある事物だけ。図を描くために第三の登場人物を足したくなったら、それは Frame に足りない事実である。
 
-Confirm via AskUserQuestion:
+書いている途中で Frame に足りないものを見つけたら、**書くのを止める**。判断は飛躍の種類で決める。
 
-1. Audience: technical level, assumed knowledge, use case, perspective, team
-2. Theme and purpose
-3. Document type: specification, architecture, interface design, ADR, procedure, design doc, etc. (use project-defined types if available)
-4. Related documents: prerequisites (their defined terms need not be redefined) and siblings whose terminology this document must match. List the terms each owns, or "none".
+- **論理の飛躍** (前の主張から次の主張へ繋がらない。読者は先を読めない) — 中断し、ユーザーに確認して Frame を更新してから再開する
+- **情報の飛躍** (読者が知らない事実が補われないだけで、筋は追える) — 補わずにそのまま進み、どこを通過させたかを記録する。Step 4 で報告する
 
-Record a term boundary for the audience: for each technical term, decide whether the document defines it, references a prerequisite, or leaves it as persona base knowledge. The boundary drives term placement in Step 3 and Persona Reader Review in Polishing.
+中断して Frame に戻るときは、ExitPlanMode を呼び直さず AskUserQuestion で飛躍箇所と必要な事実の候補だけを尋ねる。承認済みの Frame 全体を提案し直さない。
 
-### Step 2: Confirm Outline
+### どう書くか
 
-Propose an outline, then confirm via ExitPlanMode following **Review Gates**. The gate asks whether the structural components are right, so the outline carries section titles, their order, nesting, and roles — not the content each section will hold. Before proposing:
+**既定は書かないこと。** 書く側が理由を負う。すべての文が2つの条件を満たすこと。片方だけでは足りない。
 
-- **Triage.** Keep a section only if it contributes to what the reader can do or decide after reading (§3). Move dropped candidates into the lead's scope exclusions (§4-1) and list them so the user can promote one back.
-- **Annotate roles.** Mark each section Center, Support, or Background (§3).
-- **Assign figures.** Where a section's claim is structural (§4-5), mark it with the figure kind from §13-1's table. A Center section with a structural claim and no figure needs a stated reason. Assigning here rather than in Polishing avoids prose that has already spent its ink on the structure.
-- **Flag parallel-item sections.** For each Center section whose content is inherently a list of parallel items (N axes, N options, N causes, N components with the same role), mark it as a *parallel-item section* and identify — even provisionally — which item is primary. If none is primary, either the section is a table with no prose (mark it) or it is not one section but N (split it, or reconsider whether the parallel form is right at all). This decision drives Step 3's Draft.
+1. **運ぶ事実** — その文が Frame のどの事実を運んでいるかを言える
+2. **持ち込む事物** — その文が言及している事物 (比較対象、別の方式、第三の登場人物、外部の事例) が、すべて Frame に名前を持っている
 
-### Step 3: Write Sections
+2つ目が要るのは、Frame にない事物が「既存の事実の理由付け」という形で入り込むから。「A は B である。C のような方式ではこうはならない」という文は、A と B が Frame にあるかぎり1つ目のテストを通ってしまうが、C は Frame のどこにもない。この形が埋草の主要な侵入経路である。理由付けや対比が書きたくなったら、その対比対象が Frame にあるか確かめる。なければ書かない。
 
-Expand the approved Outline into a bullet Draft, confirm the Draft, then generate prose internally.
+**分量の目安は持たない。** 一つの事実が仕組みの説明と実例を要するなら何段落使ってもよく、別の事実が一文で済むなら一文で終える。節ごとの密度が揃う必要はなく、揃っているならたいてい、揃えるために何かが足されている。
 
-1. **Draft.** For each section, open with the central claim in one sentence, then list terms on the needs-definition side of the Step 1 boundary and pin where each is defined before its first use. Fill with concise bullets (sub-claims, evidence, examples, qualifications, transitions), one line each. Center carries more bullets than Support, Support more than Background.
+**すべての段落は、その前に読者が持っていなかったものを少なくとも1つ導入する。** 事実、仕組み、条件、名指しされた帰結、書き手の判断の変化のいずれか。言い換え、強調の繰り返し、これから来ることの準備だけの段落は該当しない。読者を準備させるのは、前の段落の最後の文の仕事である。
 
-   **Parallel-item plan (§3 asymmetric treatment).** Whenever a section will develop N sub-items (three axes, four options, five causes, a comparison table with axes to interpret), mark exactly one bullet as *primary* — the one the prose will develop in depth. The rest are *collapse*: to a table row, a single subordinate clause, or a compressed sentence. If you cannot pick one as primary, either (a) the items are genuinely equal and prose treatment is inappropriate (use only a table), or (b) the section has no center and should be split or merged. Do not leave the decision to prose generation; it defaults to symmetric coverage.
+**重み付け.** Frame で中心と印を付けた事実に、それを支える事実より多くの語を割く。支える側が上回ったら、中心を膨らませるのではなく支えを削る。並列する N 項目のうち一つが中心なら、それだけを深く展開し、残りは表の行か従属節に畳む。同じ深さで N 個並べると、どれが中心かという主張が形によって打ち消される。
 
-   Do not draw the figures marked in Step 2; specify each in four lines — **kind**, **elements**, **claim** in one sentence (the caption), and **prose division**: what the prose keeps (the why and the conditions). Skipping the fourth line lets prose generation re-narrate the figure (§10). Tables get a direction note only.
-2. **Confirm Draft via ExitPlanMode following Review Gates.** The gate asks whether the information the document will carry is the expected set, so keep bullets at note density; do not pre-polish them into finished sentences. Adjust claims, bullets, sections, and roles.
-3. **Prose (internal).** Convert the approved Draft into prose and render the specified figures per §13-1. Allocate ink along three axes:
-   - **Between sections (role-driven).** Default Center > Support > Background. Center carries mechanism, evidence, qualifications; Support carries connecting reasoning; Background carries orientation only. Support and Background earn ink only where cutting them would break the Center's argument — write the minimum, not the maximum, of each.
-   - **Within a section (climax-driven).** Keep the opening summary-level; concentrate concrete detail at the paragraph carrying the central claim (§3).
-   - **Between prose and figure.** Hold to the Draft's prose division: the ink the prose would have spent naming the structure goes to why and under what conditions.
-   - **Cognitive rhythm (§14).** Vary cognitive mode across consecutive paragraphs; do not chain three assertions. Insert deliberate hesitations (naive expectation, suspended judgment) as setups for assertions rather than treating them as weakness. Use the 立てる→流す→止める beat (short setup, longer flow, short landing) as a default paragraph shape when the content admits it. Keep at least one raised question open at each section boundary. Do not open every paragraph with a bare topic sentence.
-   - **Parallel-item execution (§3).** Honor the Draft's *primary* / *collapse* marking. The primary sub-item gets a full paragraph (mechanism, worked example, hesitation-then-assertion); the *collapse* sub-items get a table row, a subordinate clause, or a single sentence — not a paragraph each. Symmetric N-paragraph development of N items is the failure mode this rule exists to prevent.
-   - **Deliberate misalignment.** A compressed Center or enlarged Background is legitimate when reader care requires it. Record the reason so Polishing does not flag it.
-   - **Guard against over-carry.** Do not fill absent ink. Support prose recovering the Center's mechanism, Background asserting its own qualifications, Center openings at climax density, or prose re-narrating a figure are all writing past the assigned load — cut, don't smooth.
-   - **Guard against defensive premises.** Existing ink also gets cut when it does not change the reader's next decision. Related-work paragraphs, prior-context recaps, and definitions the audience already carries all read as flat regardless of writing quality. If a Support or Background paragraph cannot be justified in one sentence as "the reader acts or decides differently because of this," delete it — the Final Confirm redirect is the safety net for the rare case a cut removed something the user needed.
-4. **Write to file and proceed to Polishing.**
+**リズム.** 断定を3つ続けない。観察・逡巡・既出事実の読み直しで崩す。段落の長さは内容が変わるから変わるのであって、変化をつけるために変えるのではない。
 
-All sections follow the language-independent rules, the language-specific rules, and project conventions.
+書き終えたらファイルに書き出す。
 
-## Revise Mode
+## Step 3 — Guard Pass
 
-Revisions break the surroundings: a locally fine edit can drift the document's register, terminology, or weight. Before editing, record the section's role, established terms, and the register the document uses; edit within those constraints. Prefer folding new material into existing sentences over appending — appending stacks equal-weight claims and flattens the section. Then run Polishing scoped to the revised sections plus immediate neighbors (typically a Small target). If Polishing surfaces a §2-§4 finding a local edit cannot resolve, escalate rather than absorbing it into Polishing.
+**subagent を1つ、fresh context で走らせる。** 渡すのは、書き上がった文書・承認された Frame・`prose-common.md`・該当言語の prose ファイルだけ。並列の複数 reviewer にはしない。複数の findings 集合を merge する行為自体が rewrite になる。
 
-## Polishing
+subagent に守らせる制約:
 
-Improve text written in Bootstrap (New) or existing text (Revise, Refine).
+- **削除のみ.** 範囲を削るか、放置するか。削除と、高々接続の修復 (助詞、接続詞、文の切れ目) で表現できない修正は範囲外である。`flag` か `report` として報告し、本文には触れない
+- **滑らかにしない.** 何にも違反していない範囲に触れない。自分なら違う書き方をしたであろう文は findings ではない。読んで気づいたところを改善していく行為こそが、文書を劣化させる
+- **Frame は凍結されている.** 節を足せず、事実を足せず、再構成できない。構造上の問題は Frame の問題である。flag せよ、直すな
+- **単一パス.** 2回目は存在しない。findings がなければそう述べて Step 4 へ直行する
 
-**Iteration budget.** One iteration in every mode. Exit early on zero findings.
+### 検査する順序
 
-**Small targets.** Judge by structural scope, not word count: one or two sections, a single Center, no Support the reader could not reconstruct from the Center. For Small targets, skip subagents — run 1-1, 1-2, 1-3 sequentially in the main session, then Edit. Inherit any Bootstrap compression choice.
+1. **Slot Test (節)** — その節が運んでいて他のどの節も運んでいない事実を挙げる。挙げられないなら穴埋めである。**flag のみ**
+2. **新事実テスト (段落)** — 読者が前に持っていなかったものを導入していない段落を削除する。Frame の事実を運んでいるなら flag に留める
+3. **カットテスト (文)** — 範囲を削除して段落を読み直す。短くなっただけなら削除を採り、事実・条件・書き手の立場の変化を失うなら戻す。対象は、予告の空文・言い直し・根拠のない緩和・新事実のない敷衍・重要性の宣言
+4. **禁止語彙** — prose ファイルの表に従って削除または置換する。置換を許すのは、置き換え先が生成ではなく表引きだから
 
-**Escalation on structural findings.** A §2-§4 finding crossing a paragraph boundary (splitting a section, promoting a footnote, reordering siblings, revisiting the Bootstrap outline, converting a structural passage into a figure) is not a Polishing edit. Stop and confirm via AskUserQuestion; in Revise mode, re-scope the revision before proceeding.
+**存在しないもの:** persona reader review、structural review。
 
-Converting prose to a figure moves the paragraph's ink with it (§13-1), so present the figure and the rewritten prose together at the confirmation.
+**リズムは検出するが直さない.** 断定が3つ以上続く、同じ文末が3つ以上続く、段落の長さが揃っているといった違反は、削除では修復できない。見つけたら `report` として報告し、本文には触れない。Step 4 でユーザーが判断し、書き直しが要ると判断されたら Step 2 に戻る。guard 自身が書き直そうとする行為が、まさに劣化の経路である。
 
-### Full Review
+### 返り値
 
-Run 1-1, 1-2, and 1-3 in parallel as subagents (a fast mid-tier model suffices). Give each only its listed inputs.
+subagent は各 finding を `(範囲, 発火したテスト, 種別, 内容)` で返す。種別は3つ。
 
-#### 1-1. Rule Check
+| 種別 | 意味 | main session の動作 |
+|---|---|---|
+| `delete` | 削除を提案する | 適用する |
+| `flag` | 構造の問題。削除では直せない | 適用しない。Step 4 に渡す |
+| `report` | リズムの問題。書き直しが要る | 適用しない。Step 4 に渡す |
 
-Inputs: the document, the language-independent rules, the language-specific rules, and the quick checks (`~/.claude/references/technical-document-quick-checks.md` and `-<lang>.md`). Load the quick-checks explicitly; they are not part of the Prerequisites auto-load.
+依存関係のある findings には、どの finding に依存しているかを書かせる。main session は subagent の文脈を持たないため、依存が書かれていない限り再構成できない。
 
-Run the language-independent quick checks in full; language-specific quick checks run in full as well.
+### 適用
 
-Report zero as zero. On zero findings, output "no violations detected" and stop.
+main session が `delete` を適用し、1件ずつログを取る。**findings が3件以下なら、順序も統合も自明なのでそのまま適用する。**
 
-#### 1-2. Structural Review
+4件以上のときだけ、**削る → 構造 → 表層** の順で適用する。削除が下位の findings の対象範囲ごと消すため、この順序になる。同じ範囲に複数の findings が付いたら統合する。上位のテスト (1, 2) が下位 (3, 4) に優先する。上位の修正が下位の違反を必要としていた場合、下位を却下して理由を記録する。
 
-Inputs: the document, and §2-§4, §6, §10, §13-1, and §14 of the language-independent rules.
+## Step 4 — Final Confirm [GATE 2]
 
-Two phases in one run; complete Phase 1 before starting Phase 2. Do not rewrite.
+ExitPlanMode で提示する。**完成文書の全文を inline で示す**。diff でもファイルパスでもない。guard 前のテキストはユーザーが承認したものではない。
 
-**Phase 1 (annotate).** For each paragraph, output: topic, logical relationship to the previous paragraph, dimensions served (hierarchical, parallel, comparative, temporal, causal), claims supported, role read from the text (§3), and cognitive mode (observation, hesitation, assertion, re-observation — §14). When a Step 2 role assignment is available (Bootstrap or Revise with the record preserved), record it alongside and mark divergences as candidate findings. On external documents (Refine), note "no reference assignment".
+補足情報 (該当なしなら省略):
 
-Mark paragraphs carrying structural content (§4-5) with the figure kind the content fits.
+1. **Frame からの逸脱** — Gate 1 以降に追加・削除・並べ替えた節や事実
+2. **Guard ログ** — 適用した削除を1行ずつ (範囲・発火したテスト・削ったもの)
+3. **構造の指摘** (`flag`) — 削除では直せなかった範囲
+4. **リズムの指摘** (`report`) — 書き直しが要る箇所
+5. **補わなかった情報** — Step 2 で情報の飛躍として通過させた箇所。読者が知らないまま進む事実を、ユーザーが点検できるようにする
 
-**Phase 2 (detect).** Flag:
+ファイルパスは inline テキストと並べて示す。置き換えない。
 
-- Paragraphs serving no dimension or claim (redundancy — candidates for cut before rewrite)
-- Premise or orientation paragraphs the reader would not act or decide differently for (§3, §6 — candidates for cut)
-- Claims lacking supporting paragraphs
-- Weighting inversions and indistinguishable center paragraphs (§3-§4)
-- Over-carry as defined in the Step 3-3 Guard
-- **Parallel-item symmetry:** sections listing N sub-items (three axes, four options, five causes) at similar paragraph length and structure when the text names one as most important. Propose promoting the named one to depth and collapsing the rest to a table row or subordinate clause (§3 asymmetric treatment). This is a **candidate-drop**, not a candidate-shorten: the fix is fewer items with real depth, not smaller items evenly.
-- Three-plus consecutive paragraphs in the same cognitive mode (§14-1); three-plus consecutive paragraphs whose first sentence is a bare assertion (§14-5)
-- Uniform paragraph size across a section (every paragraph within ±30% of neighbors — §14-5)
-- Sections closing with tail-end previews (§2, §14-4)
-- Sections where no open tension crosses into the next section (§14-3)
-- Tensions raised and discharged inside the same paragraph (§14-3)
-- Every paragraph opening with a bare topic sentence, section-wide (§14-5)
+承認されたら終了する。差し戻しの戻り先は、修正の種類で決める。
 
-Do not flag declared deliberate misalignment.
-
-For candidate-cut and candidate-drop findings, propose the cut (which items to drop, which item to promote, what would be lost); Edit decides whether to take the cut or preserve the paragraph.
-
-Figure findings, from Phase 1's marks and the document's existing figures (§4-5, §13-1): structural paragraphs left for the reader to diagram (report span and figure kind; this escalates); prose re-narrating an existing figure; figures carrying two unrelated claims (overviews excepted).
-
-When Phase 1 recorded "no reference assignment", weighting-inversion findings are **advisory**: Edit does not apply them directly, but asks the user via AskUserQuestion whether the flagged section's center matches their intent. Redundancy and missing-support findings remain actionable.
-
-#### 1-3. Persona Reader Review
-
-Inputs: the document, the audience definition, and the related-documents list with the terms each owns. Do not load the rule files.
-
-Read as the audience; find comprehension gaps: undefined terms, assumed background, logical leaps, drift of terms owned by prerequisites, weighting that misses the writer's intent, and passages where the persona had to hold several relationships at once or re-read to recover an ordering (a missing figure). If the audience check recorded a skip, 1-3 does not run this invocation.
-
-**Scope.** 1-2 finds gaps against the argument. 1-3 finds gaps against the audience. Do not duplicate 1-2.
-
-**Findings are candidates for triage, not repair orders.** A gap flagged here does not automatically add prose. Edit chooses between three responses in order (§10 delete-first): (a) cut the scaffolding around the gap so the gap disappears, (b) rewrite the central line so the leap is not there, (c) add a targeted sentence. This review does not decide which; it surfaces the gap and Edit picks the response. The user's final review at the Final Confirm gate is the last catch — a gap that survived (a) and (b) but was not repaired by (c) will be caught there and can be fixed then. Optimize this review for surfacing, not for pre-writing fixes.
-
-**Tasks.**
-
-1. Read paragraph by paragraph as the persona. For each gap, output: **Span**, **Unclear term or leap**, **Missing knowledge**, **Suggested response** (one of: cut-scaffolding, rewrite-center, add-sentence, defer-to-final).
-2. Scan at reading speed and record which paragraph felt like each section's central claim. Report mismatches with the writer's intended center as §3 findings.
-
-Discard impressions without span, missing knowledge, and suggested response. A **Suggested response** of *defer-to-final* is legitimate for low-risk gaps where the persona could still follow the argument — surface it and let the user decide at Final Confirm.
-
-### Edit (main session, after each review)
-
-- Apply fixes in Revision Priority order: cutting first, then structure, then surface. A cut often eliminates the span a structural or surface finding points at; a structural fix often deletes the span a surface finding points at.
-- **Try deletion before addition.** For any finding whose fix could be either "add clarifying prose" or "remove surrounding scaffolding," delete first and read the result. If the argument still runs, take the deletion. If it does not, then rewrite the center; addition of new prose is the third option, not the first.
-- For 1-3 findings with **Suggested response** of *cut-scaffolding* or *rewrite-center*, take that action; the response tag is a shortcut past the delete-first trial. For *add-sentence*, still run the trial — the reviewer's suggestion may have missed a possible cut.
-- For *defer-to-final*, do nothing this iteration. Log it in the Edit list as a deferred item; it surfaces at Final Confirm as supplementary context so the user can catch what the persona review chose not to repair.
-- Merge findings on the same span. Upper-tier rules (§1, §3, §4, §5, §14) take precedence over lower-tier (§8-§10); apply lower-tier only when it does not undo the upper-tier fix. If an upper-tier rule required the lower-tier violation (e.g., a §10 exception (1) rebuttal), reject the lower-tier finding and log the reason.
-- Keep fixes local. Do not smooth sentences that violate no rule.
-- Run project convention validation if available.
-
-**Bias toward loss over inflation.** Preserving the central line matters more than covering every corner. If a cut removes a fact the user later says they wanted, the Final Confirm redirect (or the user's own edit) restores it — a single-pass loss. If a preemptive addition flattens the section, the flatness has to be diagnosed and undone across every paragraph it touched — a multi-pass loss.
-
-**Edit list.** Records each applied fix (span, motivating rule, one-line note) and deferred 1-3 items (span, gap). Final Confirm uses it as the change summary.
-
-### Final Confirm
-
-Runs in all modes, including Small targets. Present via ExitPlanMode following **Review Gates**. The review target is the **final document in full, inline**. The user reviews the finished prose, not a diff: the pre-Polishing text was never theirs to accept.
-
-Supplementary context, in this order, each omitted when it has nothing to report:
-
-1. **Structural divergence from the approved Draft** — sections added, dropped, reordered, or re-roled since Step 3-2, and figures added, dropped, or changed in kind against the Step 2 assignment. Report only divergence; a document matching its Draft has none. In Refine mode there is no approved Draft, so report structural edits against the document as received.
-2. **Change summary** — the Edit list, grouped by rule tier (cutting §3/§6/§10, structure §2/§4/§5, rhythm §14, surface §8-§10, seams). For each: section or span, motivating rule, one-line note. Include mid-Polishing escalations.
-3. **Deferred 1-3 items** — persona-review gaps tagged *defer-to-final* and not repaired this pass. For each: span, gap, why deferred. The user decides at this gate whether to add prose or leave the gap.
-4. **Persona and mode** — audience definition used in 1-3 (or skip reason), and the mode.
-
-The file path appears alongside the inline text, not in place of it.
-
-On approval, the skill ends. On redirect: local fixes stay within one additional Polishing iteration; a broader re-review escalates to a fresh Revise Mode pass on the affected sections.
+- **削除で済む** — Step 3 をもう一度だけ通す
+- **書き直しが要る** (リズム、語順、段落の分割や統合) — 該当箇所だけ Step 2 に戻して書き直す。Frame は変えない
+- **構造に関わる** (節が違う、事実が足りない) — Step 1 に戻る
