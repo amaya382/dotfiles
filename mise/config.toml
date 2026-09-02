@@ -103,10 +103,11 @@ login_shell = "/usr/bin/zsh"
 "~/.anyrc.d/.gitignore_global" = "~/.config/mise/../home/.gitignore_global"
 
 # Claude Code config.
-# rules / references / skills / hooks use symlink-each: the directory itself is
-# a real dir and only the repo-tracked children are symlinked, so machine-local
-# skills / rules / hooks dropped into ~/.claude/*/ stay outside mise's
-# management.
+# rules / skills / hooks use symlink-each: mise walks the source tree, recreates
+# each directory as a real dir, and symlinks only the leaf files. Machine-local
+# skills / rules / hooks dropped into ~/.claude/*/ therefore stay outside mise's
+# management, and nested dirs such as skills/<name>/references/ deploy without
+# any extra entry.
 #
 # settings.json has no such per-file escape hatch — Claude Code reads exactly
 # one user-scope settings file — so it is rendered instead: the template runs
@@ -117,7 +118,6 @@ login_shell = "/usr/bin/zsh"
 "~/.claude/CLAUDE.md"     = "~/.config/mise/../home/.claude/CLAUDE.md"
 "~/.claude/settings.json" = { source = "~/.config/mise/../home/.claude/settings.json.tera", mode = "template" }
 "~/.claude/rules"         = { source = "~/.config/mise/../home/.claude/rules",      mode = "symlink-each" }
-"~/.claude/references"    = { source = "~/.config/mise/../home/.claude/references", mode = "symlink-each" }
 "~/.claude/skills"        = { source = "~/.config/mise/../home/.claude/skills",     mode = "symlink-each" }
 "~/.claude/hooks"         = { source = "~/.config/mise/../home/.claude/hooks",      mode = "symlink-each" }
 

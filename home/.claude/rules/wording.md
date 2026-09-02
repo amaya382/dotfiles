@@ -1,10 +1,10 @@
 ---
-description: Applies to all text output — conversation, documents, code comments — not just technical prose. Derived from technical-document.md's vocabulary and orthography axes, scope widened beyond technical writing. / 対話・ドキュメント・コードコメントなど、すべてのテキスト出力に適用する。technical-document.md の語彙・表記の判断軸を、技術文書に限らない範囲に広げたもの。
+description: Applies to all text output — conversation, documents, code comments — not just technical prose. Covers vocabulary and orthography choices in Japanese. / 対話・ドキュメント・コードコメントなど、すべてのテキスト出力に適用する。日本語の語彙と表記の判断軸を定める。
 ---
 
 # rules for wording
 
-技術文書としての構成・論証の規範は `technical-document.md` と `~/.claude/references/technical-document-ja.md` を参照すること
+技術文書を書くときは technical-writing skill を使うこと。文書の構成・論証・文体の規範はその skill が持つ。
 
 ## 無理な日本語訳をしない
 
