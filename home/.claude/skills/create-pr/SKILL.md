@@ -1,6 +1,7 @@
 ---
 name: create-pr
 description: Use whenever the user asks to create, open, draft, or write a pull request (PR), or to write/update a PR description / body / summary. ALSO use whenever the user pushes commits to a branch that already has an open PR (the description must be refreshed). Triggers on `gh pr create`, `git push` to an existing PR branch, "PR を作って", "PR description 書いて", "プルリク作成", "open a PR", "update the PR", and similar phrasings.
+model: sonnet
 ---
 
 # create-pr

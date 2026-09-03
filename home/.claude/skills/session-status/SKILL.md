@@ -1,6 +1,7 @@
 ---
 name: session-status
 description: Print the current Claude Code session's status — version, session ID, cwd, API provider, model, IDE, MCP servers — as a plain aligned table, the way the built-in `/status` screen shows it. Use when the user asks for session status or one of its fields, e.g. "status 出して", "セッション情報教えて", "今どのモデル/プロバイダ使ってる", "MCP どうなってる", "show session status", "what model am I on".
+model: sonnet
 ---
 
 # session-status
