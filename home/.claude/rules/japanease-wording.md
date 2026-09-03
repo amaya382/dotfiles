@@ -2,7 +2,7 @@
 description: Applies to all text output — conversation, documents, code comments — not just technical prose. Covers vocabulary and orthography choices in Japanese. / 対話・ドキュメント・コードコメントなど、すべてのテキスト出力に適用する。日本語の語彙と表記の判断軸を定める。
 ---
 
-# rules for wording
+# rules for Japanease wording
 
 技術文書を書くときは technical-writing skill を使うこと。文書の構成・論証・文体の規範はその skill が持つ。
 
@@ -13,6 +13,7 @@ description: Applies to all text output — conversation, documents, code commen
   - カタカナ表現もまだ定着していない場合は、日本語文中でも英単語のまま書いてよい
 - 無生物主語を人間のように例えた表現は日本語では多用しない
   - 例: 「このデータが物語る」「システムが教えてくれる」のような擬人化表現は避け、行為者や仕組みを主語にする
+- 動詞や表現に関しても英語を直訳せずに日本語として一般的な表現に言い換える
 
 ## 表記
 
