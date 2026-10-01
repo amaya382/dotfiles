@@ -48,7 +48,6 @@
       "Bash(gh run *)",
       "Bash(kustomize *)",
       "mcp__serena",
-      "mcp__atlassian",
       "WebFetch",
       "WebSearch",
       "Bash(rm /tmp/* *)",
