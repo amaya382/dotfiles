@@ -73,9 +73,6 @@
       }
     ]
   },
-  "enabledPlugins": {
-    "skill-creator@claude-plugins-official": true
-  },
   "language": "japanese",
   "model": "opusplan",
   "effortLevel": "high",

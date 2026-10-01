@@ -35,3 +35,7 @@ description: Applies when writing or editing comments in source code — decides
 - 基本的に英語としつつ、明らかに日本語で進行しているリポジトリに限り日本語で書くこと
 - justification は最大 1 文に収めること
 - 長い注釈が必要になったら、まず設計を見直すサインとして扱うこと
+
+## 参考
+
+- コードには How を、テストコードには What を、コミットコメントには Why を、コードコメントには Why not を書く
