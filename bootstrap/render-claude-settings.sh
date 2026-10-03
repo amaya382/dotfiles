@@ -31,6 +31,19 @@ live="$HOME/.claude/settings.json"
 overlay="$HOME/.claude/settings.local.json"
 snapshot="$HOME/.claude/.settings.rendered.json"
 
+# mise's brew: backend installs jq into the brew prefix without putting it on PATH.
+export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/opt/homebrew/bin:/usr/local/bin"
+
+# mise renders templates while planning, before jq is installed; with nothing rendered yet the base alone is the result.
+if ! command -v jq >/dev/null; then
+  if [ -e "$snapshot" ] || { [ -e "$overlay" ] && [ "$(tr -d ' \t\n' <"$overlay")" != "{}" ]; }; then
+    echo "render-claude-settings: jq not found" >&2
+    exit 1
+  fi
+  cat "$base"
+  exit 0
+fi
+
 jq_lib='
 def union(a; b): a + (b - a);
 def merge(a; b):
@@ -61,6 +74,9 @@ die() { echo "render-claude-settings: $1" >&2; exit 1; }
 # Bail out before rendering rather than after: overwriting the snapshot while
 # the overlay is stale would drop whatever Claude Code wrote since last time.
 write_overlay() { mv "$overlay.tmp" "$overlay" 2>/dev/null || die "cannot write $overlay"; }
+
+# Without ~/.claude the probe below would misreport a fresh machine as a Claude Code sandbox.
+mkdir -p "$(dirname "$overlay")"
 
 touch "$overlay.tmp" 2>/dev/null ||
   die "cannot write $overlay — run this from a plain terminal, not from inside a Claude Code session"

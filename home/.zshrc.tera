@@ -144,6 +144,10 @@ if [ -z "${ANYRC_HOME:+_}" ]; then # not sshrc
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
   elif [ -x /opt/homebrew/bin/brew ]; then
     eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+  elif [ -d /opt/homebrew/bin ]; then
+    # mise's brew: backend pours formulae without brew itself, which macOS installs by hand.
+    export HOMEBREW_PREFIX=/opt/homebrew
+    export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:$PATH"
   fi
   export ZPLUG_HOME=${HOMEBREW_PREFIX}/opt/zplug
   source ${ZPLUG_HOME}/init.zsh

@@ -1,22 +1,33 @@
 #!/bin/bash
 # Invoked from the mise bootstrap post-packages hook.
-# Installs user tools that no system package manager carries (anyrc / dein.vim)
-# and, on macOS, applies Homebrew casks from ~/Brewfile.
+# Installs user tools that no system package manager carries (Homebrew on
+# Linux / anyrc / dein.vim) and, on macOS, applies Homebrew casks from ~/Brewfile.
 # Idempotent: exits silently when everything is already present.
 set -eu
 
 mkdir -p ~/.local/bin
 
+# Homebrew itself (Linux)
+# mise's brew: backend pours formulae into the prefix without installing brew.
+if [ "$(uname -s)" = "Linux" ] && [ ! -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  NONINTERACTIVE=1 bash -c \
+    "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
 # anyrc
+# The installer's example ~/.anyrc would block the [dotfiles] symlink applied after this hook.
 if [ ! -x ~/.local/bin/anyrc ]; then
+  had_anyrc=$([ -e ~/.anyrc ] || [ -L ~/.anyrc ] && echo 1 || true)
   curl -sSL https://raw.githubusercontent.com/amaya382/anyrc/master/install.sh \
     | DIR=~/.local/bin bash
+  [ -n "$had_anyrc" ] || rm -f ~/.anyrc
 fi
 
 # dein.vim
+# Not via dein-installer.vim, which prompts interactively and overwrites ~/.vimrc.
 if [ ! -d ~/.cache/dein/repos/github.com/Shougo/dein.vim ]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Shougo/dein-installer.vim/master/installer.sh)" \
-    -- --use-vim-config -y
+  git clone --depth=1 https://github.com/Shougo/dein.vim \
+    ~/.cache/dein/repos/github.com/Shougo/dein.vim
 fi
 
 # Homebrew casks (macOS). `brew bundle` reads ~/Brewfile, which is symlinked
