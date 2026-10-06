@@ -85,11 +85,6 @@ set -g mouse on
 bind -n MouseDrag1Pane if -F '#{||:#{pane_in_mode},#{alternate_on}}' { send -M } { copy-mode -M }
 bind -n WheelUpPane    if -F '#{||:#{pane_in_mode},#{alternate_on}}' { send -M } { copy-mode -e }
 
-## A click that moves the pointer by a hair counts as a drag and would copy the
-## single cell under it, overwriting the clipboard, so a one-cell selection is
-## discarded instead of copied.
-bind -T copy-mode-vi MouseDragEnd1Pane if -F '#{&&:#{==:#{selection_start_x},#{selection_end_x}},#{==:#{selection_start_y},#{selection_end_y}}}' { send -X cancel } { send -X copy-pipe-and-cancel }
-
 ### keyboard selection
 ## Shift+arrow is the keyboard counterpart of the drag above: it opens
 ## copy-mode, anchors the selection at the cursor and extends it one cell,
@@ -117,7 +112,7 @@ set -g @tpm_plugins '           \
 '
 
 if-shell '[ -z "${ANYRC_HOME}" ]' \
-  "run 'tpack init'" ''
+  "run 'PATH=/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:$PATH tpack init'" ''
 
 {%- if os() == "linux" %}
 
