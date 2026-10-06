@@ -85,6 +85,12 @@ set -g mouse on
 bind -n MouseDrag1Pane if -F '#{||:#{pane_in_mode},#{alternate_on}}' { send -M } { copy-mode -M }
 bind -n WheelUpPane    if -F '#{||:#{pane_in_mode},#{alternate_on}}' { send -M } { copy-mode -e }
 
+## A click that moves the pointer by a hair counts as a drag and would copy the
+## single character under it, overwriting the clipboard. The selection is
+## piped out instead of copied, and only text longer than one character is
+## loaded into the buffer and the clipboard.
+bind -T copy-mode-vi MouseDragEnd1Pane send -X pipe-and-cancel 'f=$(mktemp); cat > "$f"; [ $(LC_ALL=en_US.UTF-8 wc -m < "$f") -gt 1 ] && tmux load-buffer -w "$f"; rm -f "$f"'
+
 ### keyboard selection
 ## Shift+arrow is the keyboard counterpart of the drag above: it opens
 ## copy-mode, anchors the selection at the cursor and extends it one cell,
@@ -111,8 +117,12 @@ set -g @tpm_plugins '           \
   tmux-plugins/tmux-continuum   \
 '
 
+## The server inherits PATH from whichever terminal started it (e.g. VS Code),
+## which may lack the brew prefix; tmux expands $PATH here, so it may contain spaces.
+set-environment -g PATH "/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:$PATH"
+
 if-shell '[ -z "${ANYRC_HOME}" ]' \
-  "run 'PATH=/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:$PATH tpack init'" ''
+  "run 'tpack init'" ''
 
 {%- if os() == "linux" %}
 
