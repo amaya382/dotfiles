@@ -73,7 +73,7 @@
     ]
   },
   "language": "japanese",
-  "model": "opusplan",
+  "model": "opus",
   "effortLevel": "high",
   "showClearContextOnPlanAccept": true,
   "tui": "fullscreen",
