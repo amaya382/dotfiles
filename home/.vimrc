@@ -93,11 +93,7 @@ function! Osc52Yank()
   let encoded=substitute(encoded, "'", "'\\\\''", "g")
   let executeCmd="echo -n '".encoded."' | base64 | tr -d '\\n'"
   let encoded=system(executeCmd)
-  if $TMUX != ""
-    let executeCmd='echo -en "\x1bPtmux;\x1b\x1b]52;;'.encoded.'\x1b\x1b\\\\\x1b\\" > /dev/tty'
-  else
-    let executeCmd='echo -en "\x1b]52;;'.encoded.'\x1b\\" > /dev/tty'
-  endif
+  let executeCmd='echo -en "\x1b]52;c;'.encoded.'\x1b\\" > /dev/tty'
   call system(executeCmd)
   redraw!
 endfunction

@@ -21,6 +21,9 @@ if-shell '[ -z "${ANYRC_HOME}" ]' \
 ## copy-paste
 bind f copy-mode
 setw -g mode-keys vi
+## Lets programs in a pane such as vim set the clipboard with OSC 52; tmux
+## stores it as a buffer and forwards it to the outer terminal.
+set -s set-clipboard on
 
 ## delay
 set -sg escape-time 0
