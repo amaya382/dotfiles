@@ -147,9 +147,9 @@ run = 'mkdir -p ~/.anyrc.d'
 # mise-managed tools (language runtimes + CLI binaries from GitHub Releases)
 # ---------------------------------------------------------------------------
 [tools]
-node   = "26.5.0"
+node   = "26.12.1"
 python = "3.13.14"
-go     = "1.26.5"
+go     = "1.26.10"
 java   = "openjdk-21"
 
 "github:amaya382/baretree" = "latest"
