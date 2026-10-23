@@ -148,7 +148,7 @@ run = 'mkdir -p ~/.anyrc.d'
 # ---------------------------------------------------------------------------
 [tools]
 node   = "26.12.1"
-python = "3.13.14"
+python = { version = "3.13.14", postinstall = "python -m pip install --upgrade pip" }
 go     = "1.26.10"
 java   = "openjdk-21"
 
