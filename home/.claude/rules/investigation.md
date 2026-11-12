@@ -9,3 +9,4 @@ description: Applies when investigating a codebase — reading a repository to u
   - checkout 中のブランチや worktree の内容は未完成の変更を含むため、既定の参照先にしない
 - 調査対象に関連する未マージの変更がある場合は、default branch の内容を把握したうえで差分として追加確認すること
   - 報告では default branch の内容と未マージ差分を区別して書くこと
+- ADR はあくまである時点での技術的意思決定のスナップショットであり、他の意思決定や ADR 化されていない修正で変更されている可能性を常に意識すること
