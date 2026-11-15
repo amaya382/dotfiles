@@ -128,11 +128,6 @@ login_shell = "/usr/bin/zsh"
 # Shared defaults merge with local overrides; capture and record only on apply.
 "~/.codex/config.toml" = { source = "~/.config/mise/../home/.codex/config.toml.tera", mode = "template", permissions = "600" }
 
-# Share reviewed skills from tracked sources only; keep local skills separate.
-"~/.agents/skills/create-pr/SKILL.md" = { source = "~/.config/mise/../home/.codex/skills/create-pr/SKILL.md.tera", mode = "template" }
-"~/.agents/skills/technical-writing/SKILL.md" = { source = "~/.config/mise/../home/.codex/skills/technical-writing/SKILL.md.tera", mode = "template" }
-"~/.agents/skills/technical-writing/references" = { source = "~/.config/mise/../home/.claude/skills/technical-writing/references", mode = "symlink-each" }
-
 # config.macos.toml is discovered directly through the ~/.config/mise symlink,
 # no explicit dotfiles entry needed.
 
@@ -154,12 +149,19 @@ run = 'bash "$(readlink -f ~/.config/mise/..)/bootstrap/install-3rdparty.sh"'
 # mise's dotfiles apply doesn't auto-create parent directories for plain
 # symlink entries, so seed any nested target dirs first.
 run = [
-  'mkdir -p ~/.anyrc.d ~/.codex ~/.agents/skills/create-pr ~/.agents/skills/technical-writing',
+  'mkdir -p ~/.anyrc.d ~/.codex',
   'python3 "$(readlink -f ~/.config/mise/..)/bootstrap/render-codex-config.py" --capture',
 ]
 
 [bootstrap.hooks.post-dotfiles]
-run = 'python3 "$(readlink -f ~/.config/mise/..)/bootstrap/render-codex-config.py" --record'
+run = [
+  'python3 "$(readlink -f ~/.config/mise/..)/bootstrap/render-codex-config.py" --record',
+  'python3 "$(readlink -f ~/.config/mise/..)/bootstrap/sync-codex-skills.py"',
+]
+
+[tasks."codex:sync-skills"]
+description = "Sync repository-managed Claude skills to Codex"
+run = 'python3 "$(readlink -f ~/.config/mise/..)/bootstrap/sync-codex-skills.py"'
 
 # ---------------------------------------------------------------------------
 # mise-managed tools (language runtimes + CLI binaries from GitHub Releases)

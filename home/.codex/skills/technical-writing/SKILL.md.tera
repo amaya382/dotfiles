@@ -1,1 +1,0 @@
-{{ exec(command='python3 "$(readlink -f ~/.config/mise/..)/bootstrap/render-codex-skill.py" technical-writing') }}
