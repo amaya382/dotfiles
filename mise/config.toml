@@ -121,6 +121,18 @@ login_shell = "/usr/bin/zsh"
 "~/.claude/skills"        = { source = "~/.config/mise/../home/.claude/skills",     mode = "symlink-each" }
 "~/.claude/hooks"         = { source = "~/.config/mise/../home/.claude/hooks",      mode = "symlink-each" }
 
+# Codex instructions are rendered only from repository-managed Claude rules.
+# Machine-local ~/.claude/rules and merged settings are never imported.
+"~/.codex/AGENTS.md" = { source = "~/.config/mise/../home/.codex/AGENTS.md.tera", mode = "template" }
+
+# Shared defaults merge with local overrides; capture and record only on apply.
+"~/.codex/config.toml" = { source = "~/.config/mise/../home/.codex/config.toml.tera", mode = "template", permissions = "600" }
+
+# Share reviewed skills from tracked sources only; keep local skills separate.
+"~/.agents/skills/create-pr/SKILL.md" = { source = "~/.config/mise/../home/.codex/skills/create-pr/SKILL.md.tera", mode = "template" }
+"~/.agents/skills/technical-writing/SKILL.md" = { source = "~/.config/mise/../home/.codex/skills/technical-writing/SKILL.md.tera", mode = "template" }
+"~/.agents/skills/technical-writing/references" = { source = "~/.config/mise/../home/.claude/skills/technical-writing/references", mode = "symlink-each" }
+
 # config.macos.toml is discovered directly through the ~/.config/mise symlink,
 # no explicit dotfiles entry needed.
 
@@ -141,7 +153,13 @@ run = 'bash "$(readlink -f ~/.config/mise/..)/bootstrap/install-3rdparty.sh"'
 [bootstrap.hooks.pre-dotfiles]
 # mise's dotfiles apply doesn't auto-create parent directories for plain
 # symlink entries, so seed any nested target dirs first.
-run = 'mkdir -p ~/.anyrc.d'
+run = [
+  'mkdir -p ~/.anyrc.d ~/.codex ~/.agents/skills/create-pr ~/.agents/skills/technical-writing',
+  'python3 "$(readlink -f ~/.config/mise/..)/bootstrap/render-codex-config.py" --capture',
+]
+
+[bootstrap.hooks.post-dotfiles]
+run = 'python3 "$(readlink -f ~/.config/mise/..)/bootstrap/render-codex-config.py" --record'
 
 # ---------------------------------------------------------------------------
 # mise-managed tools (language runtimes + CLI binaries from GitHub Releases)
