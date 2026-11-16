@@ -6,10 +6,6 @@ description: Applies to every task — ambiguous requests, delegation to subagen
 
 - 曖昧性や不確実性がある場合は想像で進めずに必ず AskUserQuestion で確認すること
   - 曖昧さ、承認が要る操作、目的の不明があるときの質問は正当な手段である
-- Use of Agents
-  - 独立した調査は Explore subagent に委譲すること
-  - 独立した並列作業は Agent tool でファンアウトすること
-  - 委譲判断で迷ったら委譲する側に倒すこと
 
 ## 対話と進め方
 
