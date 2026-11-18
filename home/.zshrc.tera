@@ -1,5 +1,8 @@
 ### .zshrc for all ###
 
+# A pane restored by tmux-resurrect can start in a deleted directory, which breaks brew, zplug and mise below.
+[[ "$PWD" == /* && -d "$PWD" ]] || builtin cd -q ~
+
 # general
 setopt no_beep
 setopt correct
