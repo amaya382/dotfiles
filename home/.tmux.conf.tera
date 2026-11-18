@@ -67,6 +67,8 @@ set -g renumber-windows on
 set -g @resurrect-save 'S'
 set -g @resurrect-restore 'R'
 set -g @resurrect-capture-pane-contents 'on'
+if-shell '[ -z "${ANYRC_HOME}" ]' \
+  "set -g @resurrect-hook-post-save-layout '$HOME/.tmux/resurrect-drop-missing-dirs.sh'" ''
 
 ### continuum
 set -g @continuum-restore 'on'

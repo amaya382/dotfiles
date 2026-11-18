@@ -86,6 +86,7 @@ login_shell = "/usr/bin/zsh"
 # shell / terminal
 "~/.zshrc"     = { source = "~/.config/mise/../home/.zshrc.tera",     mode = "template" }
 "~/.tmux.conf" = { source = "~/.config/mise/../home/.tmux.conf.tera", mode = "template" }
+"~/.tmux/resurrect-drop-missing-dirs.sh" = "~/.config/mise/../home/.tmux/resurrect-drop-missing-dirs.sh"
 
 # editor
 "~/.vimrc"     = "~/.config/mise/../home/.vimrc"
