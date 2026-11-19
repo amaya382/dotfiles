@@ -17,4 +17,4 @@ description: Applies to all text output — conversation, documents, code commen
 
 ## 表記
 
-- 無理に漢字を使わず日本語的に一般的な表記を使う（例: 「Option C を採る」→「Option C をとる」）
+- 無理に漢字を使わず日本語的に一般的な表記を使う（例: 「Option C を採る」→「Option C をとる」、「要る」→「いる」・「必要である」）

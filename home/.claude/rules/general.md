@@ -13,3 +13,5 @@ description: Applies to every task — ambiguous requests, delegation to subagen
 - 複数の案を出す時は、推奨とその理由を先に書き、続けて判断を左右する軸と案ごとの評価を示すこと
 - 会話中の例はそのまま成果物に転用せず、意図を読み取るための参考材料としてのみ使うこと
 - この環境で表示されるのはターン末尾の本文だけである。伝える内容はすべてターン末尾に置くこと
+  - 特に AskUserQuestion の回答時には注意すること
+- ユーザーにレビューや意見を求めるとき、crit が利用できる場合は AskUserQestion だけでなく crit も利用すること。特に選択肢が複雑な場合や文章の評価が必要な場合は crit を使うこと
