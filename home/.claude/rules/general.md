@@ -15,3 +15,4 @@ description: Applies to every task — ambiguous requests, delegation to subagen
 - この環境で表示されるのはターン末尾の本文だけである。伝える内容はすべてターン末尾に置くこと
   - 特に AskUserQuestion の回答時には注意すること
 - ユーザーにレビューや意見を求めるとき、crit が利用できる場合は AskUserQestion だけでなく crit も利用すること。特に選択肢が複雑な場合や文章の評価が必要な場合は crit を使うこと
+- 対話の中でファイルへのリンクを示す場合は、ユーザーの開いている環境からアクセスできるパスを示すこと
