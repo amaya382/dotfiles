@@ -5,5 +5,5 @@ description: Applies when choosing a system design or architecture, before writi
 # rules for design
 
 - Easy ではなく Simple な設計・実装を優先的に採用すること
-  - Simple の組み合わせで Easy を表現すること
-- 使い回せる実装、ライブラリや仕組みを優先的に探し、可能な限り実装量を抑えた設計・実装にすること
+  - Simple なものを組み合わせて Easy を実現すること
+- 再利用できる既存の実装・ライブラリ・仕組みを優先して探し、実装量をできるだけ抑えた設計・実装にすること
