@@ -36,7 +36,11 @@ AskUserQuestion を使う場面:
 crit で聞くときは、ユーザーの明示的な指示を待たずに必ずレビューを開始する。コメントを置くだけで終わらせず、`--no-open` も付けない。コマンドの詳細は `crit:crit` と `crit:crit-cli` skill に従う。
 
 1. 対象ファイルを書き終えてから `crit <file>...` を `run_in_background: true`、`timeout: 86400000` で起動し、表示された URL をユーザーに伝える
+    - crit はコメントのパスを起動時の cwd からの相対パスで照合する。起動とコメントは同じ cwd で行い、ファイルは相対パスで渡す。リポジトリ外のファイル (scratchpad など) は、そのファイルのディレクトリに `cd` してから起動する
+    - 起動時の出力 `Started crit daemon at ... (session <id>, ...)` の session ID を控え、以降の `crit comment` には `--session <id>` を付ける。複数のセッションが動いていると、付けない限りコメントを置けない
 2. `crit comment --author 'Claude Code'` で質問を置く。特定の箇所に関する質問は行コメント、ファイル全体や複数ファイルにまたがる質問はファイルコメントかレビューコメントにする。3 件以上は `--json --file` でまとめて置く
+    - `--json` の各要素は `{"file": "<相対パス>", "line": "41-49", "body": "..."}` の形にする。`path` や `start_line` / `end_line` は受け付けられても行に紐づかず、ファイルコメントになる
+    - 置いたあとに `crit comments --session <id> --json` を実行し、各コメントの `scope` が意図どおり (`line` なら `start_line` が 0 でない) であることを確かめてからユーザーに伝える
 3. ユーザーが Finish Review を押して `crit` が終了するまで待つ。終了したら stdout を読む
 4. 返信に応じて成果物を直し、各コメントに `--reply-to` で対応内容を返す。`--resolve` は付けない
 5. `crit` を再度起動して次の round を待つ。コメントがないまま Finish Review が押されたら合意とみなして先へ進む。返信のない質問コメントが残っている場合は、その質問の推奨案で合意したとみなす
