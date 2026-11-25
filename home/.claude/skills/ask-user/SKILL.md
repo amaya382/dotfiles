@@ -33,10 +33,10 @@ AskUserQuestion を使う場面:
 
 ## crit での手順
 
-この skill に従う場合、ユーザーの明示的な指示を待たずに crit のレビューを開始してよい。コマンドの詳細は `crit:crit` と `crit:crit-cli` skill に従う。
+crit で聞くときは、ユーザーの明示的な指示を待たずに必ずレビューを開始する。コメントを置くだけで終わらせず、`--no-open` も付けない。コマンドの詳細は `crit:crit` と `crit:crit-cli` skill に従う。
 
 1. 対象ファイルを書き終えてから `crit <file>...` を `run_in_background: true`、`timeout: 86400000` で起動し、表示された URL をユーザーに伝える
 2. `crit comment --author 'Claude Code'` で質問を置く。特定の箇所に関する質問は行コメント、ファイル全体や複数ファイルにまたがる質問はファイルコメントかレビューコメントにする。3 件以上は `--json --file` でまとめて置く
 3. ユーザーが Finish Review を押して `crit` が終了するまで待つ。終了したら stdout を読む
 4. 返信に応じて成果物を直し、各コメントに `--reply-to` で対応内容を返す。`--resolve` は付けない
-5. `crit` を再度起動して次の round を待つ。コメントがないまま Finish Review が押されたら合意とみなして先へ進む
+5. `crit` を再度起動して次の round を待つ。コメントがないまま Finish Review が押されたら合意とみなして先へ進む。返信のない質問コメントが残っている場合は、その質問の推奨案で合意したとみなす
