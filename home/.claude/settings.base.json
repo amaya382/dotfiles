@@ -72,6 +72,17 @@
       }
     ]
   },
+  "extraKnownMarketplaces": {
+    "crit": {
+      "source": {
+        "source": "github",
+        "repo": "tomasz-tomczyk/crit"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "crit@crit": true
+  },
   "language": "japanese",
   "model": "opus",
   "effortLevel": "high",
