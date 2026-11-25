@@ -3,8 +3,6 @@
 English-specific rules for technical prose.
 Language-independent rules (authorial stance, paragraphs, rigor, hierarchy, figures, examples, honesty) live in `prose-common.md` and are not repeated here.
 
----
-
 ## 1. Voice and Stance
 
 **Default to active voice.** Passive hides the actor when one exists; name who did it.

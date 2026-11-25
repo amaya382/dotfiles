@@ -2,7 +2,7 @@
 description: Applies to all text output — conversation, documents, code comments — not just technical prose. Covers vocabulary and orthography choices in Japanese. / 対話・ドキュメント・コードコメントなど、すべてのテキスト出力に適用する。日本語の語彙と表記の判断軸を定める。
 ---
 
-# rules for Japanease wording
+# rules for Japanese wording
 
 技術文書を書くときは technical-writing skill を使うこと。文書の構成・論証・文体の規範はその skill が持つ。
 
