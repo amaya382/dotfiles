@@ -18,3 +18,4 @@ description: Applies to all text output — conversation, documents, code commen
 ## 表記
 
 - 無理に漢字を使わず日本語的に一般的な表記を使う（例: 「Option C を採る」→「Option C をとる」、「要る」→「いる」・「必要である」）
+- 箇条書きの項目末尾の句点はリスト単位で揃え、すべての項目が1文なら付けず、2文以上の項目が1つでもあればすべての項目に付ける
