@@ -4,7 +4,8 @@ description: Applies to every task — ambiguous requests, delegation to subagen
 
 # general rules
 
-- 曖昧性や不確実性がある場合は想像で進めずに必ず AskUserQuestion で確認すること
+- 曖昧性や不確実性がある場合は想像で進めずに必ずユーザーに確認すること
+  - 確認やレビューを求めるときは、手段を決める前に ask-user skill を使うこと
   - 曖昧さがあるとき、承認が必要な操作をするとき、目的がわからないときに質問するのは正当な手段である
 
 ## 対話と進め方
@@ -14,5 +15,4 @@ description: Applies to every task — ambiguous requests, delegation to subagen
 - 会話中の例はそのまま成果物に転用せず、意図を読み取るための参考材料としてのみ使うこと
 - この環境で表示されるのはターン末尾の本文だけである。伝える内容はすべてターン末尾に置くこと
   - 特に AskUserQuestion の回答時には注意すること
-- ユーザーにレビューや意見を求めるとき、crit が利用できる場合は AskUserQuestion だけでなく crit も利用すること。特に選択肢が複雑な場合や文章の評価が必要な場合は crit を使うこと
 - 対話の中でファイルへのリンクを示す場合は、ユーザーの開いている環境からアクセスできるパスを示すこと
