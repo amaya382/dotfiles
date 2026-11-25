@@ -58,7 +58,7 @@ Example (flat list with mixed granularity):
 - Renamed `parseOrder` to `deserializeOrder`
 ```
 
-Rewrite (grouped by outcome, siblings at the same altitude):
+Rewrite (grouped by outcome, siblings at the same granularity):
 
 ```
 ## Outcome
