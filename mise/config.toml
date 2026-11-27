@@ -96,6 +96,9 @@ login_shell = "/usr/bin/zsh"
 "~/.gitconfig"        = "~/.config/mise/../home/.gitconfig"
 "~/.gitignore_global" = "~/.config/mise/../home/.gitignore_global"
 
+# crit
+"~/.crit.config.json" = "~/.config/mise/../home/.crit.config.json"
+
 # anyrc: main file plus the .anyrc.d/ copies used when re-running under tmux/ssh.
 "~/.anyrc"                     = "~/.config/mise/../home/.anyrc"
 "~/.anyrc.d/.zshrc"            = "~/.config/mise/../home/.zshrc.tera"      # ideally the rendered form, but anyrc re-runs it inside tmux anyway
